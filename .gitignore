@@ -20,5 +20,6 @@ gragle.properties
 ./local.properties
 ./settings.gradle
 ./gradle/wrapper
+./app/proguard-rules.pro
 
 
