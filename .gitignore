@@ -14,12 +14,6 @@
 .cxx
 local.properties
 ./.idea
-gragle.properties
-./gradlew
-./gradlew.bat
-./local.properties
-./settings.gradle
-./gradle/wrapper
-./app/proguard-rules.pro
+
 
 
