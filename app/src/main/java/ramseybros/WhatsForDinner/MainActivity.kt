@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+
 import ramseybros.WhatsForDinner.ui.screens.LoadingScreen
 import ramseybros.WhatsForDinner.ui.theme.WhatsForDinnerTheme
 
@@ -23,7 +24,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                   LoadingScreen()
+//                    HomeScreen(
+//                        recentRecipesList = recentRecipesList,
+//                        recommendedIngredientsList = recommendedIngredientsList,
+//                        recommendedRecipesList = recommendedRecipesList,
+//                        onSelectRecipe = {},
+//                        onSelectIngredient = {}
+//                    )
                 }
             }
         }

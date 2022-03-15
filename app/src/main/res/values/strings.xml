@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WhatsForDinner</string>
+    <string name="placeholder_recent_recipe">Rack of Lamb with Mint Jelly</string>
+    <string name="placeholder_recommended_ingredient">Linguine</string>
+    <string name="placeholder_recommended_recipe">Eggplant Parmesan</string>
+    <string name="recent_recipes_header">Recent Recipes (Scrollable)</string>
+    <string name="recommended_recipes_header">Recommended Recipes (Scrollable)</string>
+    <string name="recommended_ingredients_header">Recommended Ingredients (Scrollable)</string>
 </resources>

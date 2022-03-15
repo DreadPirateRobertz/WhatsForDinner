@@ -10,8 +10,15 @@ color teal_700
 color white
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable pot_image
 drawable utensils
 mipmap ic_launcher
 mipmap ic_launcher_round
 string app_name
+string placeholder_recent_recipe
+string placeholder_recommended_ingredient
+string placeholder_recommended_recipe
+string recent_recipes_header
+string recommended_ingredients_header
+string recommended_recipes_header
 style Theme.WhatsForDinner

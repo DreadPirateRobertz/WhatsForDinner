@@ -7,6 +7,7 @@ INJECTED from /home/darklord/AndroidStudioProjects/WhatsForDinner/app/src/main/A
 MERGED from [androidx.compose.ui:ui-tooling:1.0.1] /home/darklord/.gradle/caches/transforms-3/b4646c2dd819c026eb508bda68089eed/transformed/ui-tooling-1.0.1/AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.compose.material:material:1.0.1] /home/darklord/.gradle/caches/transforms-3/4c20b2874c35322f52c0e538f2a38fd2/transformed/material-1.0.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity-compose:1.3.1] /home/darklord/.gradle/caches/transforms-3/6b3e446c609100ddf084c292a0344e02/transformed/activity-compose-1.3.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.compose.runtime:runtime-livedata:1.0.1] /home/darklord/.gradle/caches/transforms-3/1280c0de9c1b1131d13d247045ff72e2/transformed/runtime-livedata-1.0.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.compose.ui:ui-tooling-data:1.0.1] /home/darklord/.gradle/caches/transforms-3/2f362d4e5a87272774a7f106eeefb898/transformed/ui-tooling-data-1.0.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.compose.material:material-ripple:1.0.1] /home/darklord/.gradle/caches/transforms-3/5012d576293bdad26f6b853bdc5264fe/transformed/material-ripple-1.0.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.compose.foundation:foundation:1.0.1] /home/darklord/.gradle/caches/transforms-3/71b22cd999bf92ff681639a87439b6df/transformed/foundation-1.0.1/AndroidManifest.xml:17:1-24:12
@@ -37,6 +38,7 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.0.1] /home/darklord/.g
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /home/darklord/.gradle/caches/transforms-3/087fac845ff4f6a9071eeba8d6b33543/transformed/lifecycle-runtime-2.3.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darklord/.gradle/caches/transforms-3/e4fdede7ecd3c9f482c80e0efa2132c8/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.startup:startup-runtime:1.0.0] /home/darklord/.gradle/caches/transforms-3/de9ebd301128f34c152542cced2d7549/transformed/startup-runtime-1.0.0/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.2.0] /home/darklord/.gradle/caches/transforms-3/e4d0bf72509ce05f5cf550d750a0c478/transformed/lifecycle-livedata-2.2.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] /home/darklord/.gradle/caches/transforms-3/7bb88fd63cda125058dc8d81670e3373/transformed/lifecycle-livedata-core-2.3.1/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/darklord/.gradle/caches/transforms-3/f7d7ac480afee8dc3c1674ace13dfda5/transformed/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.tracing:tracing:1.0.0] /home/darklord/.gradle/caches/transforms-3/fa3b6834b2ee6942bdbb3ed8070fefa5/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
@@ -115,6 +117,8 @@ MERGED from [androidx.compose.material:material:1.0.1] /home/darklord/.gradle/ca
 MERGED from [androidx.compose.material:material:1.0.1] /home/darklord/.gradle/caches/transforms-3/4c20b2874c35322f52c0e538f2a38fd2/transformed/material-1.0.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity-compose:1.3.1] /home/darklord/.gradle/caches/transforms-3/6b3e446c609100ddf084c292a0344e02/transformed/activity-compose-1.3.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity-compose:1.3.1] /home/darklord/.gradle/caches/transforms-3/6b3e446c609100ddf084c292a0344e02/transformed/activity-compose-1.3.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.runtime:runtime-livedata:1.0.1] /home/darklord/.gradle/caches/transforms-3/1280c0de9c1b1131d13d247045ff72e2/transformed/runtime-livedata-1.0.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.runtime:runtime-livedata:1.0.1] /home/darklord/.gradle/caches/transforms-3/1280c0de9c1b1131d13d247045ff72e2/transformed/runtime-livedata-1.0.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.compose.ui:ui-tooling-data:1.0.1] /home/darklord/.gradle/caches/transforms-3/2f362d4e5a87272774a7f106eeefb898/transformed/ui-tooling-data-1.0.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.compose.ui:ui-tooling-data:1.0.1] /home/darklord/.gradle/caches/transforms-3/2f362d4e5a87272774a7f106eeefb898/transformed/ui-tooling-data-1.0.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.compose.material:material-ripple:1.0.1] /home/darklord/.gradle/caches/transforms-3/5012d576293bdad26f6b853bdc5264fe/transformed/material-ripple-1.0.1/AndroidManifest.xml:20:5-22:41
@@ -175,6 +179,8 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darkl
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/darklord/.gradle/caches/transforms-3/e4fdede7ecd3c9f482c80e0efa2132c8/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.startup:startup-runtime:1.0.0] /home/darklord/.gradle/caches/transforms-3/de9ebd301128f34c152542cced2d7549/transformed/startup-runtime-1.0.0/AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.startup:startup-runtime:1.0.0] /home/darklord/.gradle/caches/transforms-3/de9ebd301128f34c152542cced2d7549/transformed/startup-runtime-1.0.0/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.2.0] /home/darklord/.gradle/caches/transforms-3/e4d0bf72509ce05f5cf550d750a0c478/transformed/lifecycle-livedata-2.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.2.0] /home/darklord/.gradle/caches/transforms-3/e4d0bf72509ce05f5cf550d750a0c478/transformed/lifecycle-livedata-2.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] /home/darklord/.gradle/caches/transforms-3/7bb88fd63cda125058dc8d81670e3373/transformed/lifecycle-livedata-core-2.3.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.3.1] /home/darklord/.gradle/caches/transforms-3/7bb88fd63cda125058dc8d81670e3373/transformed/lifecycle-livedata-core-2.3.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/darklord/.gradle/caches/transforms-3/f7d7ac480afee8dc3c1674ace13dfda5/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41

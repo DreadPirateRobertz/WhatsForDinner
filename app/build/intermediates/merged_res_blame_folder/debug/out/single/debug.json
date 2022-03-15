@@ -4,12 +4,12 @@
         "source": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/merged_res/debug/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/src/main/res/mipmap-xhdpi/ic_launcher.webp"
-    },
-    {
         "merged": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/merged_res/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",
         "source": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/merged_res/debug/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/src/main/res/mipmap-xhdpi/ic_launcher.webp"
     },
     {
         "merged": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/merged_res/debug/drawable_ic_launcher_background.xml.flat",
@@ -50,6 +50,10 @@
     {
         "merged": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/merged_res/debug/mipmap-xhdpi_ic_launcher_round.webp.flat",
         "source": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/merged_res/debug/drawable_pot_image.png.flat",
+        "source": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/src/main/res/drawable/pot_image.png"
     },
     {
         "merged": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/merged_res/debug/drawable-v24_ic_launcher_foreground.xml.flat",

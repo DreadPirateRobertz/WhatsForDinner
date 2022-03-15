@@ -64,6 +64,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable pot_image
 drawable utensils
 id accessibility_action_clickable_span
 id accessibility_custom_action_0
@@ -172,6 +173,12 @@ string navigation_menu
 string not_selected
 string off
 string on
+string placeholder_recent_recipe
+string placeholder_recommended_ingredient
+string placeholder_recommended_recipe
+string recent_recipes_header
+string recommended_ingredients_header
+string recommended_recipes_header
 string selected
 string status_bar_notification_info_overflow
 string tab
