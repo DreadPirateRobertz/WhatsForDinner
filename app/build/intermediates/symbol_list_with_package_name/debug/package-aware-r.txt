@@ -179,6 +179,7 @@ string placeholder_recommended_recipe
 string recent_recipes_header
 string recommended_ingredients_header
 string recommended_recipes_header
+string saved_recipes_header
 string selected
 string status_bar_notification_info_overflow
 string tab

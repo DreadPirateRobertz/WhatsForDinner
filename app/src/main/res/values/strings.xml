@@ -6,4 +6,5 @@
     <string name="recent_recipes_header">Recent Recipes (Scrollable)</string>
     <string name="recommended_recipes_header">Recommended Recipes (Scrollable)</string>
     <string name="recommended_ingredients_header">Recommended Ingredients (Scrollable)</string>
+    <string name="saved_recipes_header">Saved Recipes (Scrollable)</string>
 </resources>

@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\amfun\\AndroidStudioProjects\\WhatsForDinner\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-lv\\values-lv.xml",
+            "outputFile": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-lv/values-lv.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\32f3ce476e64e3162faee6c732518b4e\\transformed\\ui-1.0.1\\res\\values-lv\\values-lv.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,203,292,388,474,577,670,754,824,894,967,1035",
-                        "endColumns": "97,88,95,85,102,92,83,69,69,72,67,121",
-                        "endOffsets": "198,287,383,469,572,665,749,819,889,962,1030,1152"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,203,292,388,474,577,670,754,824,894,1068,1136",
-                        "endColumns": "97,88,95,85,102,92,83,69,69,72,67,121",
-                        "endOffsets": "198,287,383,469,572,665,749,819,889,962,1131,1253"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\29e98caed0017daee01261dd5eef1d13\\transformed\\core-1.7.0\\res\\values-lv\\values-lv.xml",
+                    "source": "/home/darklord/.gradle/caches/transforms-3/29e98caed0017daee01261dd5eef1d13/transformed/core-1.7.0/res/values-lv/values-lv.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -35,6 +18,23 @@
                         "startOffsets": "967",
                         "endColumns": "100",
                         "endOffsets": "1063"
+                    }
+                },
+                {
+                    "source": "/home/darklord/.gradle/caches/transforms-3/32f3ce476e64e3162faee6c732518b4e/transformed/ui-1.0.1/res/values-lv/values-lv.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,203,292,388,474,577,670,754,824,894,967,1035",
+                        "endColumns": "97,88,95,85,102,92,83,69,69,72,67,121",
+                        "endOffsets": "198,287,383,469,572,665,749,819,889,962,1030,1152"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,203,292,388,474,577,670,754,824,894,1068,1136",
+                        "endColumns": "97,88,95,85,102,92,83,69,69,72,67,121",
+                        "endOffsets": "198,287,383,469,572,665,749,819,889,962,1131,1253"
                     }
                 }
             ]

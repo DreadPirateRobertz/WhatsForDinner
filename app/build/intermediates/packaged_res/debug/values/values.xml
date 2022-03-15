@@ -13,8 +13,9 @@
     <string name="placeholder_recommended_ingredient">Linguine</string>
     <string name="placeholder_recommended_recipe">Eggplant Parmesan</string>
     <string name="recent_recipes_header">Recent Recipes (Scrollable)</string>
-    <string name="recommended_ingredients_header">Recommended Ingredients Scrollable</string>
+    <string name="recommended_ingredients_header">Recommended Ingredients (Scrollable)</string>
     <string name="recommended_recipes_header">Recommended Recipes (Scrollable)</string>
+    <string name="saved_recipes_header">Saved Recipes (Scrollable)</string>
     <style name="Theme.WhatsForDinner" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
     </style>

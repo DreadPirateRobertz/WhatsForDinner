@@ -21,4 +21,5 @@ string placeholder_recommended_recipe
 string recent_recipes_header
 string recommended_ingredients_header
 string recommended_recipes_header
+string saved_recipes_header
 style Theme.WhatsForDinner

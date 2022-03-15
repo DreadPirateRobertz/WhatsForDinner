@@ -178,10 +178,11 @@ int string placeholder_recommended_recipe 0x7f0a000d
 int string recent_recipes_header 0x7f0a000e
 int string recommended_ingredients_header 0x7f0a000f
 int string recommended_recipes_header 0x7f0a0010
-int string selected 0x7f0a0011
-int string status_bar_notification_info_overflow 0x7f0a0012
-int string tab 0x7f0a0013
-int string template_percent 0x7f0a0014
+int string saved_recipes_header 0x7f0a0011
+int string selected 0x7f0a0012
+int string status_bar_notification_info_overflow 0x7f0a0013
+int string tab 0x7f0a0014
+int string template_percent 0x7f0a0015
 int style DialogWindowTheme 0x7f0b0000
 int style TextAppearance_Compat_Notification 0x7f0b0001
 int style TextAppearance_Compat_Notification_Info 0x7f0b0002
