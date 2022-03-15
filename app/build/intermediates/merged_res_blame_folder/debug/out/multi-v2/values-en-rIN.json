@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "C:\\Users\\amfun\\AndroidStudioProjects\\WhatsForDinner\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-en-rIN\\values-en-rIN.xml",
             "map": [
                 {
-                    "source": "/home/darklord/.gradle/caches/transforms-3/32f3ce476e64e3162faee6c732518b4e/transformed/ui-1.0.1/res/values-en-rIN/values-en-rIN.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,197,279,373,455,555,644,728,793,857,930,996",
-                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
-                        "endOffsets": "192,274,368,450,550,639,723,788,852,925,991,1112"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,197,279,373,455,555,644,728,793,857,1031,1097",
-                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
-                        "endOffsets": "192,274,368,450,550,639,723,788,852,925,1092,1213"
-                    }
-                },
-                {
-                    "source": "/home/darklord/.gradle/caches/transforms-3/29e98caed0017daee01261dd5eef1d13/transformed/core-1.7.0/res/values-en-rIN/values-en-rIN.xml",
+                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\29e98caed0017daee01261dd5eef1d13\\transformed\\core-1.7.0\\res\\values-en-rIN\\values-en-rIN.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -35,6 +18,23 @@
                         "startOffsets": "930",
                         "endColumns": "100",
                         "endOffsets": "1026"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\32f3ce476e64e3162faee6c732518b4e\\transformed\\ui-1.0.1\\res\\values-en-rIN\\values-en-rIN.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,197,279,373,455,555,644,728,793,857,930,996",
+                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
+                        "endOffsets": "192,274,368,450,550,639,723,788,852,925,991,1112"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,197,279,373,455,555,644,728,793,857,1031,1097",
+                        "endColumns": "91,81,93,81,99,88,83,64,63,72,65,120",
+                        "endOffsets": "192,274,368,450,550,639,723,788,852,925,1092,1213"
                     }
                 }
             ]
