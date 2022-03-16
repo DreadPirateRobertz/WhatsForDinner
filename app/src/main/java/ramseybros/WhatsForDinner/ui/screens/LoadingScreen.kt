@@ -52,7 +52,7 @@ private fun CustomLinearProgressBar(){
 
 
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(onLoad : () -> Any) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -72,5 +72,5 @@ fun LoadingScreen() {
 @Preview
 @Composable
 private fun LoadingScreenPreview(){
-    LoadingScreen()
+    LoadingScreen(){}
 }
