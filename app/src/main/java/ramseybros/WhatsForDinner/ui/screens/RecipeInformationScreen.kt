@@ -20,10 +20,10 @@ fun ListItems(recipe: Recipe, inKitchenList: List<String>) {
     Row(Modifier.border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(5))) {
         LazyColumn(Modifier.weight(1.0f).padding(4.dp)) {
             items(recipe.ingredientList.size) {
-                if(recipe.ingredientList[it].toString() in inKitchenList) {
-                    Text(recipe.ingredientList[it].toString())
+                if(recipe.ingredientList[it].name in inKitchenList) {
+                    Text(recipe.ingredientList[it].name)
                 } else {
-                    Text(recipe.ingredientList[it].toString(),color = Color.Red)
+                    Text(recipe.ingredientList[it].name,color = Color.Red)
                 }
             }
         }
