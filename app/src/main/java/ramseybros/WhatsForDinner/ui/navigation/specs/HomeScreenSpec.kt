@@ -12,8 +12,8 @@ import java.util.jar.Attributes
 
 
 object HomeScreenSpec: IScreenSpec {
-    override val route: String
-        get() = "home"
+    override val route: String = "home"
+
     override val arguments: List<String> = emptyList()
 
     @Composable

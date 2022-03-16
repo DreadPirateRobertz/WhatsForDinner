@@ -1,4 +1,5 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.*
@@ -19,13 +20,11 @@ object LoadingScreenSpec: IScreenSpec {
     override fun content(
         navController: NavHostController,
         backStackEntry: NavBackStackEntry) {
-        val recentRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
-        val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
-        val recommendedIngredientsList: List<Ingredient> =
-            listOf(RecipeGenerator.placeHolderIngredients())
+        Log.d("route", "we're here1")
         LoadingScreen(
             onLoad =
-                 fun (){
+                 {
+                     Log.d("route", "we're here2")
                     navController.navigate(HomeScreenSpec.navigateTo())},
         )
 

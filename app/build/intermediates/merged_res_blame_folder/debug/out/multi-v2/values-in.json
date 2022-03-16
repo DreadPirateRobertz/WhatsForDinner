@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\amfun\\AndroidStudioProjects\\WhatsForDinner\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-in\\values-in.xml",
+            "outputFile": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-in/values-in.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\40b09bd692ceb55ac644a23f7abc728b\\transformed\\core-1.7.0\\res\\values-in\\values-in.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "12",
-                        "startColumns": "4",
-                        "startOffsets": "951",
-                        "endColumns": "100",
-                        "endOffsets": "1047"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\9505ec858d7f16b12ef252ee2558df52\\transformed\\ui-1.0.1\\res\\values-in\\values-in.xml",
+                    "source": "/home/darklord/.gradle/caches/transforms-3/9505ec858d7f16b12ef252ee2558df52/transformed/ui-1.0.1/res/values-in/values-in.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
@@ -35,6 +18,23 @@
                         "startOffsets": "105,195,277,375,458,570,657,742,812,879,1052,1118",
                         "endColumns": "89,81,97,82,111,86,84,69,66,71,65,118",
                         "endOffsets": "190,272,370,453,565,652,737,807,874,946,1113,1232"
+                    }
+                },
+                {
+                    "source": "/home/darklord/.gradle/caches/transforms-3/40b09bd692ceb55ac644a23f7abc728b/transformed/core-1.7.0/res/values-in/values-in.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "12",
+                        "startColumns": "4",
+                        "startOffsets": "951",
+                        "endColumns": "100",
+                        "endOffsets": "1047"
                     }
                 }
             ]

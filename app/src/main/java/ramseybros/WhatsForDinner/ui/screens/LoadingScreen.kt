@@ -5,16 +5,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.scale
@@ -51,23 +50,25 @@ private fun CustomLinearProgressBar(){
 
 
 
+
 @Composable
 fun LoadingScreen(onLoad : () -> Any) {
+    Card(Modifier.clickable {onLoad()} ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    )    {
+    ) {
         val image: Painter = painterResource(id = R.drawable.utensils)
         Image(
             painter = image,
             contentDescription = "utensils",
-            contentScale = ContentScale.Fit)
+            contentScale = ContentScale.Fit
+        )
         Spacer(modifier = Modifier.height(16.dp))
         CustomLinearProgressBar()
     }
 }
-
-
+}
 
 @Preview
 @Composable
