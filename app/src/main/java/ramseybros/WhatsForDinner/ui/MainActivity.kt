@@ -1,4 +1,4 @@
-package ramseybros.WhatsForDinner
+package ramseybros.WhatsForDinner.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
