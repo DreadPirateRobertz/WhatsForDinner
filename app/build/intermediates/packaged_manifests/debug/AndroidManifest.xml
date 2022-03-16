@@ -20,7 +20,7 @@
         android:testOnly="true"
         android:theme="@style/Theme.WhatsForDinner" >
         <activity
-            android:name="ramseybros.WhatsForDinner.MainActivity"
+            android:name="ramseybros.WhatsForDinner.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.WhatsForDinner" >

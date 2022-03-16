@@ -164,6 +164,7 @@ menu example_menu
 menu example_menu2
 mipmap ic_launcher
 mipmap ic_launcher_round
+string add_recipe_label
 string androidx_startup
 string app_name
 string close_drawer
@@ -171,6 +172,7 @@ string close_sheet
 string default_error_message
 string in_progress
 string indeterminate
+string my_kitchen_nav_button
 string navigation_menu
 string not_selected
 string off
@@ -179,10 +181,15 @@ string placeholder_recent_recipe
 string placeholder_recommended_ingredient
 string placeholder_recommended_recipe
 string recent_recipes_header
+string recipe_search_nav_button
 string recommended_ingredients_header
 string recommended_recipes_header
+string return_to_recipe_list_label
+string save_recipe_label
 string saved_recipes_header
+string saved_recipes_nav_button
 string selected
+string shopping_list_nav_button
 string status_bar_notification_info_overflow
 string tab
 string template_percent
