@@ -15,7 +15,7 @@
 12        android:allowBackup="true"
 12-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:6:9-35
 13        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-13-->[androidx.core:core:1.7.0] C:\Users\amfun\.gradle\caches\transforms-3\29e98caed0017daee01261dd5eef1d13\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
+13-->[androidx.core:core:1.7.0] C:\Users\amfun\.gradle\caches\transforms-3\40b09bd692ceb55ac644a23f7abc728b\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
 14        android:debuggable="true"
 15        android:extractNativeLibs="false"
 16        android:icon="@mipmap/ic_launcher"
@@ -26,71 +26,72 @@
 18-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:9:9-54
 19        android:supportsRtl="true"
 19-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:10:9-35
-20        android:theme="@style/Theme.WhatsForDinner" >
-20-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:11:9-52
-21        <activity
-21-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:12:9-22:20
-22            android:name="ramseybros.WhatsForDinner.ui.MainActivity"
-22-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:13:13-44
-23            android:exported="true"
-23-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:14:13-36
-24            android:label="@string/app_name"
-24-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:15:13-45
-25            android:theme="@style/Theme.WhatsForDinner" >
-25-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:16:13-56
-26            <intent-filter>
-26-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:17:13-21:29
-27                <action android:name="android.intent.action.MAIN" />
-27-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:18:17-69
-27-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:18:25-66
-28
-29                <category android:name="android.intent.category.LAUNCHER" />
-29-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:20:17-77
-29-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:20:27-74
-30            </intent-filter>
-31        </activity>
-32        <activity
-32-->[androidx.compose.ui:ui-tooling:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\b4646c2dd819c026eb508bda68089eed\transformed\ui-tooling-1.0.1\AndroidManifest.xml:25:9-27:39
-33            android:name="androidx.compose.ui.tooling.PreviewActivity"
-33-->[androidx.compose.ui:ui-tooling:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\b4646c2dd819c026eb508bda68089eed\transformed\ui-tooling-1.0.1\AndroidManifest.xml:26:13-71
-34            android:exported="true" />
-34-->[androidx.compose.ui:ui-tooling:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\b4646c2dd819c026eb508bda68089eed\transformed\ui-tooling-1.0.1\AndroidManifest.xml:27:13-36
-35
-36        <provider
-36-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:26:9-34:20
-37            android:name="androidx.startup.InitializationProvider"
-37-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:27:13-67
-38            android:authorities="ramseybros.WhatsForDinner.androidx-startup"
-38-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:28:13-68
-39            android:exported="false" >
-39-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:29:13-37
-40            <meta-data
-40-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:31:13-33:52
-41                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-41-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:32:17-85
-42                android:value="androidx.startup" />
-42-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:33:17-49
-43        </provider>
-44
-45        <receiver
-45-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:36:9-45:20
-46            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-46-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:37:13-76
-47            android:directBootAware="false"
-47-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:38:13-44
-48            android:enabled="true"
-48-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:39:13-35
-49            android:exported="true"
-49-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:40:13-36
-50            android:permission="android.permission.DUMP" >
-50-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:41:13-57
-51            <intent-filter>
-51-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:42:13-44:29
-52                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-52-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:43:17-91
-52-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\1d3539831db10e011a919532d3d7b826\transformed\profileinstaller-1.0.1\AndroidManifest.xml:43:25-88
-53            </intent-filter>
-54        </receiver>
-55    </application>
-56
-57</manifest>
+20        android:testOnly="true"
+21        android:theme="@style/Theme.WhatsForDinner" >
+21-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:11:9-52
+22        <activity
+22-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:12:9-22:20
+23            android:name="ramseybros.WhatsForDinner.ui.MainActivity"
+23-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:13:13-44
+24            android:exported="true"
+24-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:14:13-36
+25            android:label="@string/app_name"
+25-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:15:13-45
+26            android:theme="@style/Theme.WhatsForDinner" >
+26-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:16:13-56
+27            <intent-filter>
+27-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:17:13-21:29
+28                <action android:name="android.intent.action.MAIN" />
+28-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:18:17-69
+28-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:18:25-66
+29
+30                <category android:name="android.intent.category.LAUNCHER" />
+30-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:20:17-77
+30-->C:\Users\amfun\AndroidStudioProjects\WhatsForDinner\app\src\main\AndroidManifest.xml:20:27-74
+31            </intent-filter>
+32        </activity>
+33        <activity
+33-->[androidx.compose.ui:ui-tooling:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\3e9dfe640592ea5444d113eef217e08e\transformed\ui-tooling-1.0.1\AndroidManifest.xml:25:9-27:39
+34            android:name="androidx.compose.ui.tooling.PreviewActivity"
+34-->[androidx.compose.ui:ui-tooling:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\3e9dfe640592ea5444d113eef217e08e\transformed\ui-tooling-1.0.1\AndroidManifest.xml:26:13-71
+35            android:exported="true" />
+35-->[androidx.compose.ui:ui-tooling:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\3e9dfe640592ea5444d113eef217e08e\transformed\ui-tooling-1.0.1\AndroidManifest.xml:27:13-36
+36
+37        <provider
+37-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:26:9-34:20
+38            android:name="androidx.startup.InitializationProvider"
+38-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:27:13-67
+39            android:authorities="ramseybros.WhatsForDinner.androidx-startup"
+39-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:28:13-68
+40            android:exported="false" >
+40-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:29:13-37
+41            <meta-data
+41-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:31:13-33:52
+42                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+42-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:32:17-85
+43                android:value="androidx.startup" />
+43-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:33:17-49
+44        </provider>
+45
+46        <receiver
+46-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:36:9-45:20
+47            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+47-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:37:13-76
+48            android:directBootAware="false"
+48-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:38:13-44
+49            android:enabled="true"
+49-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:39:13-35
+50            android:exported="true"
+50-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:40:13-36
+51            android:permission="android.permission.DUMP" >
+51-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:41:13-57
+52            <intent-filter>
+52-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:42:13-44:29
+53                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+53-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:43:17-91
+53-->[androidx.profileinstaller:profileinstaller:1.0.1] C:\Users\amfun\.gradle\caches\transforms-3\a6ebc344a36352be44e1c000eb3c4427\transformed\profileinstaller-1.0.1\AndroidManifest.xml:43:25-88
+54            </intent-filter>
+55        </receiver>
+56    </application>
+57
+58</manifest>

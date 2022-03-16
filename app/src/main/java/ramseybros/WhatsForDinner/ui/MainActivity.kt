@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
 
 import ramseybros.WhatsForDinner.ui.screens.LoadingScreen
 import ramseybros.WhatsForDinner.ui.screens.MyKitchen
@@ -25,14 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MyKitchen {}
-//                    HomeScreen(
-//                        recentRecipesList = recentRecipesList,
-//                        recommendedIngredientsList = recommendedIngredientsList,
-//                        recommendedRecipesList = recommendedRecipesList,
-//                        onSelectRecipe = {},
-//                        onSelectIngredient = {}
-//                    )
+                    val navController = rememberNavController()
+                    WhatsForDinnerNavHost(navController = navController)
                 }
             }
         }

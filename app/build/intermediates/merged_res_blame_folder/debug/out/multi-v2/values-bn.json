@@ -4,24 +4,7 @@
             "outputFile": "C:\\Users\\amfun\\AndroidStudioProjects\\WhatsForDinner\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-bn\\values-bn.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\32f3ce476e64e3162faee6c732518b4e\\transformed\\ui-1.0.1\\res\\values-bn\\values-bn.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,199,283,373,452,564,651,740,810,880,963,1031",
-                        "endColumns": "93,83,89,78,111,86,88,69,69,82,67,117",
-                        "endOffsets": "194,278,368,447,559,646,735,805,875,958,1026,1144"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,199,283,373,452,564,651,740,810,880,1064,1132",
-                        "endColumns": "93,83,89,78,111,86,88,69,69,82,67,117",
-                        "endOffsets": "194,278,368,447,559,646,735,805,875,958,1127,1245"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\29e98caed0017daee01261dd5eef1d13\\transformed\\core-1.7.0\\res\\values-bn\\values-bn.xml",
+                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\40b09bd692ceb55ac644a23f7abc728b\\transformed\\core-1.7.0\\res\\values-bn\\values-bn.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -35,6 +18,23 @@
                         "startOffsets": "963",
                         "endColumns": "100",
                         "endOffsets": "1059"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\9505ec858d7f16b12ef252ee2558df52\\transformed\\ui-1.0.1\\res\\values-bn\\values-bn.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,199,283,373,452,564,651,740,810,880,963,1031",
+                        "endColumns": "93,83,89,78,111,86,88,69,69,82,67,117",
+                        "endOffsets": "194,278,368,447,559,646,735,805,875,958,1026,1144"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,199,283,373,452,564,651,740,810,880,1064,1132",
+                        "endColumns": "93,83,89,78,111,86,88,69,69,82,67,117",
+                        "endOffsets": "194,278,368,447,559,646,735,805,875,958,1127,1245"
                     }
                 }
             ]
