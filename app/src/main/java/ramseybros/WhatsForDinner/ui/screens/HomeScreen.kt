@@ -139,10 +139,6 @@ private fun SavedRecipesButton(
         }
 
         Spacer(Modifier.width(22.dp))
-//        Text(fontSize = 16.sp, text = stringResource(R.string.my_kitchen_nav_button))
-//        Spacer(Modifier.width(22.dp))
-//        Text(fontSize = 16.sp, text = stringResource(R.string.recipe_search_nav_button))
-
 }
 
 @Composable
