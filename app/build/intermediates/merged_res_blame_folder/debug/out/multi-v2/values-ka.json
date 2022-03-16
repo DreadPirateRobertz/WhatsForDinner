@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/darklord/AndroidStudioProjects/WhatsForDinner/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ka/values-ka.xml",
+            "outputFile": "C:\\Users\\amfun\\AndroidStudioProjects\\WhatsForDinner\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ka\\values-ka.xml",
             "map": [
                 {
-                    "source": "/home/darklord/.gradle/caches/transforms-3/32f3ce476e64e3162faee6c732518b4e/transformed/ui-1.0.1/res/values-ka/values-ka.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,201,287,386,466,571,661,748,819,888,960,1030",
-                        "endColumns": "95,85,98,79,104,89,86,70,68,71,69,120",
-                        "endOffsets": "196,282,381,461,566,656,743,814,883,955,1025,1146"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,201,287,386,466,571,661,748,819,888,1061,1131",
-                        "endColumns": "95,85,98,79,104,89,86,70,68,71,69,120",
-                        "endOffsets": "196,282,381,461,566,656,743,814,883,955,1126,1247"
-                    }
-                },
-                {
-                    "source": "/home/darklord/.gradle/caches/transforms-3/29e98caed0017daee01261dd5eef1d13/transformed/core-1.7.0/res/values-ka/values-ka.xml",
+                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\29e98caed0017daee01261dd5eef1d13\\transformed\\core-1.7.0\\res\\values-ka\\values-ka.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -35,6 +18,23 @@
                         "startOffsets": "960",
                         "endColumns": "100",
                         "endOffsets": "1056"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\amfun\\.gradle\\caches\\transforms-3\\32f3ce476e64e3162faee6c732518b4e\\transformed\\ui-1.0.1\\res\\values-ka\\values-ka.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,201,287,386,466,571,661,748,819,888,960,1030",
+                        "endColumns": "95,85,98,79,104,89,86,70,68,71,69,120",
+                        "endOffsets": "196,282,381,461,566,656,743,814,883,955,1025,1146"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,201,287,386,466,571,661,748,819,888,1061,1131",
+                        "endColumns": "95,85,98,79,104,89,86,70,68,71,69,120",
+                        "endOffsets": "196,282,381,461,566,656,743,814,883,955,1126,1247"
                     }
                 }
             ]

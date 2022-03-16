@@ -50,8 +50,10 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+drawable butter
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable milk
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low

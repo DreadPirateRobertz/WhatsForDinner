@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.util
 
 import ramseybros.WhatsForDinner.data.Ingredient
+import ramseybros.WhatsForDinner.data.IngredientType
 import ramseybros.WhatsForDinner.data.Recipe
 
 object RecipeGenerator {
@@ -10,5 +11,5 @@ object RecipeGenerator {
 
 
     fun placeHolderRecipe() = Recipe("Generating Recipe...")
-    fun placeHolderIngredients() = Ingredient("Genereating Ingredient...")
+    fun placeHolderIngredients() = Ingredient("Genereating Ingredient...",1,IngredientType.SPICE)
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 import ramseybros.WhatsForDinner.ui.screens.LoadingScreen
+import ramseybros.WhatsForDinner.ui.screens.MyKitchen
 import ramseybros.WhatsForDinner.ui.theme.WhatsForDinnerTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    MyKitchen {}
 //                    HomeScreen(
 //                        recentRecipesList = recentRecipesList,
 //                        recommendedIngredientsList = recommendedIngredientsList,
