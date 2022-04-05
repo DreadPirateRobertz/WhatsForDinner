@@ -14,94 +14,17 @@ fun WhatsForDinnerNavHost(navController: NavHostController) {
         navController = navController,
         startDestination =  IScreenSpec.start
     ) {
-        composable(
-            route = "home"
-        ) { backStackEntry ->
-            HomeScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "KitchenSubmenu"
-        ) { backStackEntry ->
-            KitchenSubmenuScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "LargeRecipeScreen"
-        ) { backStackEntry ->
-            LargeRecipeScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "load"
-        ) { backStackEntry ->
-            LoadingScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "MyKitchenScreen"
-        ) { backStackEntry ->
-            MyKitchenScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "RecipeInformationScreen"
-        ) { backStackEntry ->
-            RecipeInformationScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "RecipeSearchScreen"
-        ) { backStackEntry ->
-            RecipeSearchScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "saved"
-        ) { backStackEntry ->
-            SavedRecipesScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "ShoppingList"
-        ) { backStackEntry ->
-            ShoppingListScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
-        }
-
-        composable(
-            route = "SmallRecipeScreen"
-        ) { backStackEntry ->
-            SmallRecipeScreenSpec.content(
-                navController = navController,
-                backStackEntry = backStackEntry
-            )
+        IScreenSpec.map.forEach { (route,screen) ->
+            if(route != null) {
+                composable( route = route ) { backStackEntry ->
+                    screen?.content(
+                        navController = navController,
+                        backStackEntry = backStackEntry
+                    )
+                }
+            } else {
+                Log.d("route", "bruh, idk")
+            }
         }
     }
 }
