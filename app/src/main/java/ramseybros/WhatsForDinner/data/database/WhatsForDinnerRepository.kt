@@ -52,4 +52,7 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
     fun getIngredient(name : String) : LiveData<Ingredient>?= whatsForDinnerDao.getIngredient(name)
     fun deleteRecipe(recipe: Recipe) = whatsForDinnerDao.deleteRecipe(recipe)
     fun deleteIngredient(ingredient: Ingredient) = whatsForDinnerDao.deleteIngredient(ingredient)
+
+    fun getIngredientList(recipeId: UUID) : LiveData<List<String>> = whatsForDinnerDao.getIngredientList(recipeId)
+    fun getUtensilList(recipeId: UUID) : LiveData<List<String>> = whatsForDinnerDao.getUtensilList(recipeId)
 }

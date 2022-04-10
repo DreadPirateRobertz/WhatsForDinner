@@ -10,7 +10,7 @@ object RecipeGenerator {
     private val recipes = listOf("Cheeseburgers", "Moroccan Chicken", "Spaghetti & Meatballs", "Crab Dip", "Fish Tacos", "Caesar Salad")
 
 
-    fun placeHolderRecipe() = Recipe("Generating Recipe...","Generating Recipe...", -1,"", listOf(Ingredient("",1,IngredientType.SPICE)), listOf(""), "")
+    fun placeHolderRecipe() = Recipe("Generating Recipe...","Generating Recipe...", -1,"", "")
     fun placeHolderIngredients() = Ingredient("Genereating Ingredient...",1,IngredientType.SPICE)
     fun singleRecipe() : Recipe {
         var ingredientList: List<Ingredient> = listOf(Ingredient("Garlic",1,IngredientType.VEGETABLE), Ingredient("Kosher Salt",1,IngredientType.SPICE), Ingredient("Paprika",1,IngredientType.SPICE), Ingredient("Ground Black Pepper",1,IngredientType.SPICE), Ingredient("Cream",1,IngredientType.DAIRY))
@@ -21,7 +21,9 @@ object RecipeGenerator {
         var time = "17 hours"
         //ListItems(ingredientList = ingredientList, utensilList = utensilList, inKitchenList = inKitchenList)
         //RecipeText(recipeText = recipeText)
-        var recipe : Recipe = Recipe(ingredientList = ingredientList, utensilList = utensilList, recipeText = recipeText, title = title, difficulty = 0, time = time, imageLink = "")
+        var recipe : Recipe = Recipe(recipeText = recipeText, title = title, difficulty = 0, time = time, imageLink = "")
         return recipe
     }
+    fun recipeIngredientList() = listOf("Garlic", "Kosher Salt","Paprika","Ground Black Pepper","Cream")
+    fun recipeUtensilList() = listOf("Spoon", "Whisk", "Pan")
 }

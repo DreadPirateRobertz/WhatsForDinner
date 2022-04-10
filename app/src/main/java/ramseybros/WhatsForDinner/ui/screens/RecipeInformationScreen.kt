@@ -16,23 +16,23 @@ import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
-fun ListItems(recipe: Recipe, inKitchenList: List<String>) {
+fun ListItems(recipe: Recipe, inKitchenList: List<String>, ingredientList: List<String>, utensilList: List<String>) {
     Row(Modifier.border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(5))) {
         LazyColumn(Modifier.weight(1.0f).padding(4.dp)) {
-            items(recipe.ingredientList.size) {
-                if(recipe.ingredientList[it].name in inKitchenList) {
-                    Text(recipe.ingredientList[it].name)
+            items(ingredientList.size) {
+                if(ingredientList[it] in inKitchenList) {
+                    Text(ingredientList[it])
                 } else {
-                    Text(recipe.ingredientList[it].name,color = Color.Red)
+                    Text(ingredientList[it],color = Color.Red)
                 }
             }
         }
         LazyColumn(Modifier.weight(1.0f).padding(4.dp)) {
-            items(recipe.utensilList.size) {
-                if(recipe.utensilList[it] in inKitchenList) {
-                    Text(recipe.utensilList[it])
+            items(utensilList.size) {
+                if(utensilList[it] in inKitchenList) {
+                    Text(utensilList[it])
                 } else {
-                    Text(recipe.utensilList[it],color = Color.Red)
+                    Text(utensilList[it],color = Color.Red)
                 }
             }
         }
@@ -45,9 +45,9 @@ fun RecipeText(recipeText: String) {
 }
 
 @Composable
-fun RecipeInformation(recipe : Recipe, inKitchenList: List<String>) {
+fun RecipeInformation(recipe : Recipe, inKitchenList: List<String>, ingredientList: List<String>, utensilList: List<String>) {
     Column(Modifier.padding(4.dp)) {
-        ListItems(recipe = recipe, inKitchenList = inKitchenList)
+        ListItems(recipe = recipe, inKitchenList = inKitchenList, ingredientList = ingredientList, utensilList = utensilList)
         Spacer(Modifier.height(16.dp))
         RecipeText(recipeText = recipe.recipeText)
     }
@@ -57,5 +57,6 @@ fun RecipeInformation(recipe : Recipe, inKitchenList: List<String>) {
 @Composable
 fun previewRecipe() {
     var inKitchenList: List<String> = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk")
-    RecipeInformation(RecipeGenerator.singleRecipe(), inKitchenList = inKitchenList)
+    var ingredientList: List<String> = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk")
+    RecipeInformation(RecipeGenerator.singleRecipe(), inKitchenList = inKitchenList, ingredientList = ingredientList, utensilList = listOf("spoon"))
 }

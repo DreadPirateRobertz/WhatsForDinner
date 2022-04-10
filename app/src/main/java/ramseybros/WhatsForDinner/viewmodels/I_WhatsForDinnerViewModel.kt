@@ -15,6 +15,8 @@ abstract class I_WhatsForDinnerViewModel: ViewModel(){
     abstract val ingredientLiveData: LiveData<Ingredient?>
     abstract val outputWorkerInfo: LiveData<WorkInfo>
 
+    abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
+    abstract fun getRecipeUtensilList(recipeId: UUID): LiveData<List<String>>
 
 //    abstract fun addCharacter(character: WhatsForDinnerCharacter)
 //    abstract fun loadCharacter(Id: UUID)

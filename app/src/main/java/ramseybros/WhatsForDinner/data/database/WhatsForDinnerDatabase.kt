@@ -7,8 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
+import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
+import ramseybros.WhatsForDinner.data.RecipeUtensil
 
-@Database(entities = [Ingredient::class, Recipe::class], version = 1)
+@Database(entities = [Ingredient::class, Recipe::class, RecipeIngredientListXRef::class, RecipeUtensil::class], version = 1)
 abstract class WhatsForDinnerDatabase : RoomDatabase() {
     @TypeConverters(WhatsForDinnerTypeConverters::class)
     companion object {

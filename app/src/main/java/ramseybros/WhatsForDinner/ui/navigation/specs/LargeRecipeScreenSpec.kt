@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
@@ -21,7 +22,10 @@ object LargeRecipeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        LargeRecipeView(recipe = RecipeGenerator.singleRecipe(), onSave = {}, onBack = {navController.navigate(RecipeSearchScreenSpec.navigateTo())}, inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"))
+        val recipe = RecipeGenerator.singleRecipe()
+        val ingredientList = RecipeGenerator.recipeIngredientList()
+        val utensilList = RecipeGenerator.recipeUtensilList()
+        LargeRecipeView(recipe = recipe, onSave = {}, onBack = {navController.navigate(RecipeSearchScreenSpec.navigateTo())}, inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"), ingredientList = ingredientList, utensilList = utensilList)
     }
 
 }

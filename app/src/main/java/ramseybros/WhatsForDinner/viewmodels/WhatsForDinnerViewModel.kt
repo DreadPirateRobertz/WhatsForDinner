@@ -49,6 +49,9 @@ class WhatsForDinnerViewModel(
     }
 
 
+    override fun getRecipeIngredientList(recipeId: UUID) = whatsForDinnerRepository.getIngredientList(recipeId)
+    override fun getRecipeUtensilList(recipeId: UUID) = whatsForDinnerRepository.getUtensilList(recipeId)
+
     //TODO: Add API Functionality Functions
 
 //    override fun addCharacter(character: WhatsForDinnerCharacter) {

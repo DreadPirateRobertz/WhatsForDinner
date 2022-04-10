@@ -19,10 +19,11 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 @Composable
 // difficulty is not taken into account now since I don't know how many we're gonna have
 fun LargeRecipeView(recipe: Recipe, inKitchenList: List<String>,
+                    ingredientList: List<String>, utensilList: List<String>,
                     onSave: (Recipe) -> Unit, onBack: () -> Unit) {
     Column() {
         LargeViewRecipeHeader(recipe = recipe)
-        RecipeInformation(recipe = recipe, inKitchenList = inKitchenList)
+        RecipeInformation(recipe = recipe, inKitchenList = inKitchenList, ingredientList = ingredientList, utensilList = utensilList)
         LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
     }
 }
@@ -56,5 +57,5 @@ fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onBack: () -
 @Composable
 fun PreviewLargeRecipeView() {
     var inKitchenList: List<String> = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk")
-    LargeRecipeView(RecipeGenerator.singleRecipe(), inKitchenList = inKitchenList, onSave = fun (recipe: Recipe) {}, onBack = {})
+    LargeRecipeView(RecipeGenerator.singleRecipe(), inKitchenList = inKitchenList, onSave = fun (recipe: Recipe) {}, onBack = {}, ingredientList = inKitchenList, utensilList = listOf("spoon"))
 }
