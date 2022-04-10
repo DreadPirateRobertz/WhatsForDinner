@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
 import ramseybros.WhatsForDinner.ui.screens.RecipeInformation
 import ramseybros.WhatsForDinner.util.RecipeGenerator
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object RecipeInformationScreenSpec : IScreenSpec {
     override val route: String = "RecipeInformationScreen"
@@ -16,7 +17,11 @@ object RecipeInformationScreenSpec : IScreenSpec {
     }
 
     @Composable
-    override fun content(navController: NavHostController, backStackEntry: NavBackStackEntry) {
+    override fun Content(
+        viewModel: I_WhatsForDinnerViewModel,
+        navController: NavHostController,
+        backStackEntry: NavBackStackEntry
+    ) {
         RecipeInformation(recipe = RecipeGenerator.singleRecipe(), inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"))
     }
 }

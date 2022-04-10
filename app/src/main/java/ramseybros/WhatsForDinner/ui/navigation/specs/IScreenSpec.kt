@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 sealed interface IScreenSpec {
     val route: String
@@ -15,7 +16,7 @@ sealed interface IScreenSpec {
     }
 
     @Composable
-    fun content(navController: NavHostController, backStackEntry: NavBackStackEntry)
+    fun Content(viewModel: I_WhatsForDinnerViewModel, navController: NavHostController, backStackEntry: NavBackStackEntry)
 
     fun navigateTo(vararg args: String?) : String
 

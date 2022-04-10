@@ -8,6 +8,7 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.HomeScreen
 import ramseybros.WhatsForDinner.ui.screens.LoadingScreen
 import ramseybros.WhatsForDinner.util.RecipeGenerator
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.util.jar.Attributes
 
 
@@ -17,7 +18,8 @@ object LoadingScreenSpec: IScreenSpec {
     override val arguments: List<String> = emptyList()
 
     @Composable
-    override fun content(
+    override fun Content(
+        viewModel: I_WhatsForDinnerViewModel,
         navController: NavHostController,
         backStackEntry: NavBackStackEntry) {
         Log.d("route", "we're here1")

@@ -8,6 +8,7 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.HomeScreen
 import ramseybros.WhatsForDinner.ui.screens.SavedRecipesScreen
 import ramseybros.WhatsForDinner.util.RecipeGenerator
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object SavedRecipesScreenSpec: IScreenSpec {
     override val route: String
@@ -15,7 +16,8 @@ object SavedRecipesScreenSpec: IScreenSpec {
     override val arguments: List<String> = emptyList()
 
     @Composable
-    override fun content(
+    override fun Content(
+        viewModel: I_WhatsForDinnerViewModel,
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {

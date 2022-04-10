@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.ui.screens.MyKitchen
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object MyKitchenScreenSpec : IScreenSpec {
     override var route: String = "MyKitchenScreen"
@@ -11,7 +12,11 @@ object MyKitchenScreenSpec : IScreenSpec {
         get() = listOf()
 
     @Composable
-    override fun content(navController: NavHostController, backStackEntry: NavBackStackEntry) {
+    override fun Content(
+        viewModel: I_WhatsForDinnerViewModel,
+        navController: NavHostController,
+        backStackEntry: NavBackStackEntry
+    ) {
         MyKitchen {}
     }
 

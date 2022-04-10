@@ -5,6 +5,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
 import ramseybros.WhatsForDinner.util.RecipeGenerator
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object LargeRecipeScreenSpec : IScreenSpec {
     override val route: String = "LargeRecipeScreen"
@@ -15,7 +16,11 @@ object LargeRecipeScreenSpec : IScreenSpec {
     }
 
     @Composable
-    override fun content(navController: NavHostController, backStackEntry: NavBackStackEntry) {
+    override fun Content(
+        viewModel: I_WhatsForDinnerViewModel,
+        navController: NavHostController,
+        backStackEntry: NavBackStackEntry
+    ) {
         LargeRecipeView(recipe = RecipeGenerator.singleRecipe(), onSave = {}, onBack = {navController.navigate(RecipeSearchScreenSpec.navigateTo())}, inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"))
     }
 

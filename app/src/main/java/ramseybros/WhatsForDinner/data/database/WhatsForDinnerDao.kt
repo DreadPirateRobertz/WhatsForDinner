@@ -13,7 +13,7 @@ interface WhatsForDinnerDao {
     @Query("SELECT * FROM recipe")
     fun getRecipes() : LiveData<List<Recipe>>
     @Query("SELECT * FROM recipe WHERE id=(:id)")
-    fun getRecipe(id : UUID) : LiveData<Recipe?>
+    fun getRecipe(id : UUID) : LiveData<Recipe>?
     @Update
     fun updateRecipe(recipe: Recipe)
     @Delete
@@ -24,7 +24,7 @@ interface WhatsForDinnerDao {
     @Query("SELECT * FROM ingredient")
     fun getIngredients() : LiveData<List<Ingredient>>
     @Query("SELECT * FROM ingredient WHERE name=(:name)")
-    fun getIngredient(name : String) : LiveData<Ingredient?>
+    fun getIngredient(name : String) : LiveData<Ingredient>?
     @Update
     fun updateIngredient(ingredient: Ingredient)
     @Delete
