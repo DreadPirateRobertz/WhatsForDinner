@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.ui.screens.MyKitchen
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
@@ -10,6 +11,7 @@ object MyKitchenScreenSpec : IScreenSpec {
     override var route: String = "MyKitchenScreen"
     override val arguments: List<String>
         get() = listOf()
+    override val title: Int = R.string.app_name
 
     @Composable
     override fun Content(
@@ -19,6 +21,9 @@ object MyKitchenScreenSpec : IScreenSpec {
     ) {
         MyKitchen {}
     }
+
+    @Composable
+    override fun TopAppBarActions(navController: NavHostController) {}
 
     override fun navigateTo(vararg args: String?): String {
         return route

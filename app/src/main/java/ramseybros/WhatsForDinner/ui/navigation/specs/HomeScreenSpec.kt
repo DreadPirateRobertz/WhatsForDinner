@@ -10,11 +10,11 @@ import ramseybros.WhatsForDinner.ui.screens.HomeScreen
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.util.jar.Attributes
-
+import ramseybros.WhatsForDinner.R
 
 object HomeScreenSpec: IScreenSpec {
     override val route: String = "home"
-
+    override val title: Int = R.string.app_name
     override val arguments: List<String> = emptyList()
 
     @Composable
@@ -37,6 +37,8 @@ object HomeScreenSpec: IScreenSpec {
         )
 
     }
+    @Composable
+    override fun TopAppBarActions(navController: NavHostController) {}
 
     override fun navigateTo(vararg args: String?): String {
        return route

@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
+import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerTopBar
 
 import ramseybros.WhatsForDinner.ui.screens.LoadingScreen
 import ramseybros.WhatsForDinner.ui.screens.MyKitchen
@@ -44,11 +45,10 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel){
             color = MaterialTheme.colors.background
         ) {
             val navController = rememberNavController()
-            WhatsForDinnerNavHost(navController = navController, viewModel = model)
-//            Scaffold(
-//                topBar = { SamodelkinTopBar(navController = navController) },
-//                content ={ SamodelkinNavHost(navController = navController, viewModel = model) }
-//            )
+            Scaffold(
+                topBar = { WhatsForDinnerTopBar(navController = navController) },
+                content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) }
+            )
         }
     }
 }

@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.HomeScreen
@@ -14,7 +15,7 @@ object SavedRecipesScreenSpec: IScreenSpec {
     override val route: String
         get() = "saved"
     override val arguments: List<String> = emptyList()
-
+    override val title: Int = R.string.app_name
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -30,6 +31,9 @@ object SavedRecipesScreenSpec: IScreenSpec {
         )
 
     }
+
+    @Composable
+    override fun TopAppBarActions(navController: NavHostController) {}
 
     override fun navigateTo(vararg args: String?): String {
         return route

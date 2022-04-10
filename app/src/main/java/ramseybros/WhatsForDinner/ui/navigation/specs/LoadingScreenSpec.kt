@@ -3,6 +3,7 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.*
+import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.HomeScreen
@@ -16,7 +17,7 @@ object LoadingScreenSpec: IScreenSpec {
     override val route: String
         get() = "load"
     override val arguments: List<String> = emptyList()
-
+    override val title: Int = R.string.app_name
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -32,6 +33,8 @@ object LoadingScreenSpec: IScreenSpec {
 
     }
 
+    @Composable
+    override fun TopAppBarActions(navController: NavHostController) {}
     override fun navigateTo(vararg args: String?): String {
         return route
     }

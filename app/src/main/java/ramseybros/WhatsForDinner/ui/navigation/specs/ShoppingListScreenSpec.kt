@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
 import ramseybros.WhatsForDinner.ui.screens.ShoppingList
 import ramseybros.WhatsForDinner.util.RecipeGenerator
@@ -11,6 +12,7 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 object ShoppingListScreenSpec : IScreenSpec {
     override val route: String = "ShoppingList"
     override val arguments: List<String> = emptyList()
+    override val title: Int = R.string.app_name
 
     override fun navigateTo(vararg args: String?): String {
         return route
@@ -29,4 +31,6 @@ object ShoppingListScreenSpec : IScreenSpec {
         ShoppingList(itemList = itemList, headerList = headerList, {})
     }
 
+    @Composable
+    override fun TopAppBarActions(navController: NavHostController) {}
 }

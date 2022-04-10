@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
 import ramseybros.WhatsForDinner.ui.screens.RecipeInformation
 import ramseybros.WhatsForDinner.util.RecipeGenerator
@@ -12,6 +13,13 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 object RecipeInformationScreenSpec : IScreenSpec {
     override val route: String = "RecipeInformationScreen"
     override val arguments: List<String> = emptyList()
+    override val title: Int = R.string.app_name
+
+
+
+
+    @Composable
+    override fun TopAppBarActions(navController: NavHostController) {}
 
     override fun navigateTo(vararg args: String?): String {
         return route
