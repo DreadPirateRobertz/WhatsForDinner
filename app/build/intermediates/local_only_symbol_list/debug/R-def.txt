@@ -9,6 +9,7 @@ color teal_200
 color teal_700
 color white
 drawable butter
+drawable ic_baseline_kitchen_24
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable milk
