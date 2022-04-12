@@ -56,10 +56,7 @@ sealed interface IScreenSpec {
                 val currentRoute = navBackStackEntry?.destination?.route
                 // Bottom nav items we declared
 
-                val fridge =Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
-                    contentDescription = null
-                )
+
 
 
 

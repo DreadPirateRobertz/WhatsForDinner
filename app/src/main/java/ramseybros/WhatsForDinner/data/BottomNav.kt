@@ -33,8 +33,7 @@ object Constants {
         ),
         BottomNav(
             label = "Kitchen",
-            icon = Icons.Filled.Star
-            ,
+            icon = Icons.Filled.Star,
             route = "MyKitchenScreen"
         ),
         BottomNav(
