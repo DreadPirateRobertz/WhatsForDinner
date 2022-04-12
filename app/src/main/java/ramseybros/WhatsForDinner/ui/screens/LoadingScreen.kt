@@ -16,13 +16,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +45,7 @@ private fun CustomLinearProgressBar(){
     ) {
         LinearProgressIndicator(
             modifier = Modifier
-                .fillMaxWidth()
+//                .fillMaxWidth()
                 .height(15.dp),
             backgroundColor = Color.LightGray,
             color = colorResource(id = R.color.light_blue)
@@ -50,19 +53,23 @@ private fun CustomLinearProgressBar(){
     }
 }
 
-
-
-
 @Composable
 fun LoadingScreen(onLoad : () -> Any) {
-    Card(Modifier.clickable {onLoad()} ) {
     Column(
+        Modifier.fillMaxWidth()
+            .clickable { onLoad() },//TODO: TAKE OUT WHEN HOOKED TO API
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Spacer(Modifier.height(50.dp))
-        val image: Painter = painterResource(id = R.drawable.utensils)
-        Text(fontWeight = FontWeight.ExtraBold, fontFamily = FontFamily.Cursive ,fontSize = 40.sp, color = colorResource(id = R.color.black), text = stringResource(id = R.string.app_name))
+        val image: Painter = painterResource(id = R.drawable.utensils_mod)
+        Text(
+            fontWeight = FontWeight.ExtraBold,
+            fontFamily = FontFamily.Cursive ,
+            fontSize = 40.sp,
+            color = colorResource(id = R.color.black),
+            text = stringResource(id = R.string.app_name)
+        )
         Image(
             painter = image,
             contentDescription = "utensils",
@@ -72,7 +79,7 @@ fun LoadingScreen(onLoad : () -> Any) {
         CustomLinearProgressBar()
     }
 }
-}
+
 
 @Preview
 @Composable
