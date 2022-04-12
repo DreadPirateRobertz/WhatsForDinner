@@ -2,6 +2,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
@@ -11,7 +12,7 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object LargeRecipeScreenSpec : IScreenSpec {
     override val route: String = "LargeRecipeScreen"
-    override val arguments: List<String> = emptyList()
+    override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.large_recipe_screen_title
 
 

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -30,7 +31,7 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 sealed interface IScreenSpec {
     val route: String
-    val arguments: List<String>
+    val arguments: List<NamedNavArgument>
     val title: Int
 
     companion object {
@@ -77,7 +78,12 @@ sealed interface IScreenSpec {
                             unselectedContentColor = Color.White.copy(.7f),
                             // navigate on click
                             onClick = {
-                                navController.navigate(navItem.route)
+                                navController.navigate(navItem.route){
+                                    // Navigate to the "search” destination only if we’re not already on
+                                    // the "search" destination, avoiding multiple copies on the top of the
+                                    // back stack
+                                    launchSingleTop = true
+                                }
 
                             },
                             // Icon of navItem
@@ -145,9 +151,10 @@ sealed interface IScreenSpec {
             }
             ,
             backgroundColor = colorResource(id = R.color.purple_500),
-            modifier = Modifier.fillMaxWidth(),
-            navigationIcon = {                                        //&& navController.currentBackStackEntry?.arguments?.getString(title.toString()) != "Home"
-                if (navController.previousBackStackEntry != null ) { //TODO: Make it so Home Screen has no UP arrow/Perhaps draw a HOME icon
+            modifier = Modifier.fillMaxWidth(),                         //&& navController.currentBackStackEntry?.arguments?.getString("id") != "detail/home"
+            navigationIcon = {                                        //&& navController.currentBackStackEntry?.arguments?.getString(title.toString()) != ...
+                if (navController.previousBackStackEntry != null )
+                     { //TODO: Make it so Home Screen has no UP arrow/Perhaps draw a HOME icon
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack, //TODO: Customize Icon
@@ -158,8 +165,6 @@ sealed interface IScreenSpec {
             },
             actions = { TopAppBarActions(navController = navController) }
         )
-
-
     }
 
     fun navigateTo(vararg args: String?) : String

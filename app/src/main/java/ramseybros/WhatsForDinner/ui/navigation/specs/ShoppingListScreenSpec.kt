@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
@@ -11,7 +12,7 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object ShoppingListScreenSpec : IScreenSpec {
     override val route: String = "ShoppingList"
-    override val arguments: List<String> = emptyList()
+    override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.shopping_list_screen_title
 
     override fun navigateTo(vararg args: String?): String {

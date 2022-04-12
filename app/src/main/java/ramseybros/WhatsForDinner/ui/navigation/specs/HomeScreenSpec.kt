@@ -13,9 +13,13 @@ import java.util.jar.Attributes
 import ramseybros.WhatsForDinner.R
 
 object HomeScreenSpec: IScreenSpec {
-    override val route: String = "home"
+    private var ARG = "id"
+    override val route: String = "detail/{$ARG}"
     override val title: Int = R.string.home_screen_title
-    override val arguments: List<String> = emptyList()
+    override val arguments : List<NamedNavArgument> =
+        listOf(
+            navArgument(ARG) {type = NavType.StringType }
+        )
 
     @Composable
     override fun Content(

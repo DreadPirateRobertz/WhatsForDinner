@@ -16,7 +16,7 @@ import java.util.jar.Attributes
 object LoadingScreenSpec: IScreenSpec {
     override val route: String
         get() = "load"
-    override val arguments: List<String> = emptyList()
+    override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.app_name
     @Composable
     override fun Content(
