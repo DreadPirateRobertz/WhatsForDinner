@@ -6,12 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerTopBar
+
 
 import ramseybros.WhatsForDinner.ui.screens.LoadingScreen
 import ramseybros.WhatsForDinner.ui.screens.MyKitchen
@@ -22,6 +26,7 @@ import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.BottomBar
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.FloatingButton
+import ramseybros.WhatsForDinner.ui.navigation.specs.LoadingScreenSpec.route
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: WhatsForDinnerViewModel
@@ -46,11 +51,18 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel){
         ) {
             val navController = rememberNavController()
             Scaffold(
-                floatingActionButton = { FloatingButton(navController = navController)},
-                isFloatingActionButtonDocked = true,
-                topBar = { WhatsForDinnerTopBar(navController = navController) },
+
+                floatingActionButton = { if(currentRoute(navController = navController) != "load"){
+                    FloatingButton(navController = navController)
+                }},
+//                isFloatingActionButtonDocked = true,
+                topBar = { if(currentRoute(navController = navController) != "load"){
+                    WhatsForDinnerTopBar(navController = navController)
+                } },
                 content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) },
-                bottomBar = {BottomBar(navController = navController,)}
+                bottomBar = {if(currentRoute(navController = navController) != "load"){
+                    BottomBar(navController = navController,)
+                }}
 
             )
         }
@@ -68,4 +80,10 @@ fun DefaultPreview() {
     WhatsForDinnerTheme {
         Greeting("Android")
     }
+}
+
+@Composable
+public fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.arguments?.getString("FIX")// TODO: NOT WORKING AS INTENDED
 }

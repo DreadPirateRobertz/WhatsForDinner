@@ -18,6 +18,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -46,13 +47,11 @@ sealed interface IScreenSpec {
 
         @Composable
         fun BottomBar(navController: NavHostController){
-            BottomAppBar(            // Defaults to null, that is, No cutout
-                cutoutShape = MaterialTheme.shapes.small.copy(
-                    CornerSize(percent = 50)
-                )
-            ) {
-
-
+//            BottomAppBar(            // Defaults to null, that is, No cutout
+//                cutoutShape = MaterialTheme.shapes.small.copy(
+//                    CornerSize(percent = 50)
+//                )
+//            ) {
                 BottomNavigation(
                     backgroundColor = colorResource(id = R.color.purple_500),
 
@@ -69,17 +68,16 @@ sealed interface IScreenSpec {
 
                         // Place the bottom nav items
                         BottomNavigationItem(
-
                             // it currentRoute is equal then its selected route
                             selected = currentRoute == navItem.route,
-
+                            selectedContentColor = Color.White,
+                            unselectedContentColor = Color.White.copy(.7f),
                             // navigate on click
                             onClick = {
                                 navController.navigate(navItem.route)
+
                             },
-
                             // Icon of navItem
-
                             icon = {
                                 if (navItem.label == "Kitchen") Icon(
                                     painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
@@ -90,18 +88,15 @@ sealed interface IScreenSpec {
                                     contentDescription = navItem.label
                                 )
                             },
-
                             // label
                             label = {
-                                Text(text = navItem.label)
+                                Text(fontSize = 9.sp, text = navItem.label)
                             },
                             alwaysShowLabel = false
-
-
                         )
                     }
                 }
-            }
+//            }
         }
         @Composable
         fun FloatingButton(navController: NavHostController){
