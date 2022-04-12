@@ -22,6 +22,8 @@ import ramseybros.WhatsForDinner.ui.theme.WhatsForDinnerTheme
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerFactory
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
+import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
+import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.BottomBar
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: WhatsForDinnerViewModel
@@ -47,7 +49,9 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel){
             val navController = rememberNavController()
             Scaffold(
                 topBar = { WhatsForDinnerTopBar(navController = navController) },
-                content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) }
+                content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) },
+                bottomBar = {BottomBar(navController = navController)}
+
             )
         }
     }

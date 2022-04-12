@@ -104,7 +104,7 @@
     <integer name="status_bar_notification_info_maxnum">999</integer>
     <string name="add_recipe_label">+</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
-    <string name="app_name">WhatsForDinner</string>
+    <string name="app_name">What\'s For Dinner?</string>
     <string name="close_drawer">"Close navigation menu"</string>
     <string name="close_sheet">"Close sheet"</string>
     <string name="default_error_message">"Invalid input"</string>

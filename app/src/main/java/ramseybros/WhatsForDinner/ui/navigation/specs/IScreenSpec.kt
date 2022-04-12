@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,7 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import ramseybros.WhatsForDinner.R
+import ramseybros.WhatsForDinner.data.Constants
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 sealed interface IScreenSpec {
@@ -37,6 +40,49 @@ sealed interface IScreenSpec {
             val route = navBackStackEntry?.destination?.route ?: ""
             if (route != "") map[route]?.TopAppBarContent(navController = navController)
         }
+
+        @Composable
+        fun BottomBar(navController: NavHostController){
+            BottomNavigation(
+                backgroundColor = colorResource(id = R.color.purple_500)
+            ) {
+                // observe the backstack
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                // observe current route to change the icon
+                // color,label color when navigated
+                // observe current route to change the icon
+                // color,label color when navigated
+                val currentRoute = navBackStackEntry?.destination?.route
+                // Bottom nav items we declared
+                Constants.BottomNavItems.forEach { navItem ->
+
+                    // Place the bottom nav items
+                    BottomNavigationItem(
+
+                        // it currentRoute is equal then its selected route
+                        selected = currentRoute == navItem.route,
+
+                        // navigate on click
+                        onClick = {
+                            navController.navigate(navItem.route)
+                        },
+
+                        // Icon of navItem
+                        icon = {
+                            Icon(imageVector = navItem.icon, contentDescription = navItem.label)
+                        },
+
+                        // label
+                        label = {
+                            Text(text = navItem.label)
+                        },
+                        alwaysShowLabel = false
+                    )
+                }
+            }
+        }
+
+
     }
 
     @Composable
@@ -56,8 +102,10 @@ sealed interface IScreenSpec {
                             LocalContentAlpha provides ContentAlpha.high,
                         ){
                             Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                ,
+                                textAlign = TextAlign.Start,
                                 maxLines = 1,
                                 text = stringResource(id = title),
                                 color = Color.Magenta
@@ -67,7 +115,7 @@ sealed interface IScreenSpec {
                 }
             }
             ,
-            backgroundColor = colorResource(id = R.color.light_blue),
+            backgroundColor = colorResource(id = R.color.purple_500),
             modifier = Modifier.fillMaxWidth(),
             navigationIcon = {
                 if (navController.previousBackStackEntry != null) {
@@ -81,7 +129,12 @@ sealed interface IScreenSpec {
             },
             actions = { TopAppBarActions(navController = navController) }
         )
+
+        FloatingActionButton(onClick = { /*TODO*/ }) {
+
+        }
     }
+
     fun navigateTo(vararg args: String?) : String
 
 }

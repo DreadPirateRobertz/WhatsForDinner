@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WhatsForDinner</string>
+    <string name="app_name">What\'s For Dinner?</string>
     <string name="placeholder_recent_recipe">Rack of Lamb with Mint Jelly</string>
     <string name="placeholder_recommended_ingredient">Linguine</string>
     <string name="placeholder_recommended_recipe">Eggplant Parmesan</string>

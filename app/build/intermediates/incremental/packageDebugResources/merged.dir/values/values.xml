@@ -9,7 +9,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="white">#FFFFFFFF</color>
     <string name="add_recipe_label">+</string>
-    <string name="app_name">WhatsForDinner</string>
+    <string name="app_name">What\'s For Dinner?</string>
     <string name="my_kitchen_nav_button">My Kitchen</string>
     <string name="placeholder_recent_recipe">Rack of Lamb with Mint Jelly</string>
     <string name="placeholder_recommended_ingredient">Linguine</string>
