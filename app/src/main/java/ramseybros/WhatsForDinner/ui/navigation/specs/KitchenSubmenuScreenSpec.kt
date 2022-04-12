@@ -1,6 +1,12 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -31,5 +37,14 @@ object KitchenSubmenuScreenSpec : IScreenSpec {
         KitchenList(itemList = itemList, headerList = headerList, {})
     }
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {}
+    override fun TopAppBarActions(navController: NavHostController) {
+        IconButton(
+            onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Home,
+                contentDescription = null
+            )
+        }
+    }
 }

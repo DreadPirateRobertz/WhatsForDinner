@@ -1,5 +1,9 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NamedNavArgument
@@ -17,7 +21,17 @@ object LargeRecipeScreenSpec : IScreenSpec {
 
 
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {}
+    override fun TopAppBarActions(navController: NavHostController) {
+        IconButton(
+            onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Home,
+                contentDescription = null
+            )
+        }
+    }
+
 
     override fun navigateTo(vararg args: String?): String {
         return route

@@ -13,13 +13,13 @@ import java.util.jar.Attributes
 import ramseybros.WhatsForDinner.R
 
 object HomeScreenSpec: IScreenSpec {
-    private var ARG = "id"
-    override val route: String = "detail/{$ARG}"
+    override val route: String
+        get() = "home"
     override val title: Int = R.string.home_screen_title
-    override val arguments : List<NamedNavArgument> =
-        listOf(
-            navArgument(ARG) {type = NavType.StringType }
-        )
+    override val arguments : List<NamedNavArgument> = emptyList()
+//        listOf(
+//            navArgument(ARG) {type = NavType.StringType }
+//        )
 
     @Composable
     override fun Content(
@@ -31,11 +31,12 @@ object HomeScreenSpec: IScreenSpec {
         val recommendedIngredientsList: List<Ingredient> =
             listOf(RecipeGenerator.placeHolderIngredients())
         HomeScreen(
+            ////////TODO: FIX PlaceHolder
             recentRecipesList = recentRecipesList,
             recommendedIngredientsList = recommendedIngredientsList,
             recommendedRecipesList = recommendedRecipesList,
             onSelectRecipe =
-                fun (recipe: Recipe){
+            { recipe ->
                     navController.navigate(LargeRecipeScreenSpec.navigateTo())},
             onSelectIngredient = {}
         )
