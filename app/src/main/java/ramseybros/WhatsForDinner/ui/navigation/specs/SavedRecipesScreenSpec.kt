@@ -5,6 +5,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -27,13 +28,24 @@ object SavedRecipesScreenSpec: IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val savedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
-        SavedRecipesScreen(
-            savedRecipesList = savedRecipesList,
-            onSelectRecipe =
-            fun (recipe: Recipe){
-                navController.navigate(LargeRecipeScreenSpec.navigateTo())},
-        )
+        val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
+        if(savedRecipesList != null) {
+            SavedRecipesScreen(
+                savedRecipesList = savedRecipesList,
+                onSelectRecipe =
+                fun(recipe: Recipe) {
+                    navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
+                },
+            )
+        } else {
+            SavedRecipesScreen(
+                savedRecipesList = listOf(),
+                onSelectRecipe =
+                fun(recipe: Recipe) {
+                    navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
+                },
+            )
+        }
 
     }
 
