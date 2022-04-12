@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -58,7 +59,9 @@ fun LoadingScreen(onLoad : () -> Any) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Spacer(Modifier.height(50.dp))
         val image: Painter = painterResource(id = R.drawable.utensils)
+        Text(fontWeight = FontWeight.ExtraBold, fontSize = 30.sp, color = colorResource(id = R.color.black), text = stringResource(id = R.string.app_name))
         Image(
             painter = image,
             contentDescription = "utensils",
