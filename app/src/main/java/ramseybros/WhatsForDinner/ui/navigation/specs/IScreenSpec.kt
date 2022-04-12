@@ -152,17 +152,20 @@ sealed interface IScreenSpec {
             ,
             backgroundColor = colorResource(id = R.color.purple_500),
             modifier = Modifier.fillMaxWidth(),                         //&& navController.currentBackStackEntry?.arguments?.getString("id") != "detail/home"
-            navigationIcon = {                                        //&& navController.currentBackStackEntry?.arguments?.getString(title.toString()) != ...
+            navigationIcon =                                        //&& navController.currentBackStackEntry?.arguments?.getString(title.toString()) != ...
                 if (navController.previousBackStackEntry != null )
-                     { //TODO: Make it so Home Screen has no UP arrow/Perhaps draw a HOME icon
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack, //TODO: Customize Icon
-                            contentDescription = "Back"
-                        )
-                    }
-                } else null
-            },
+                    { //TODO: Make it so Home Screen has no UP arrow/Perhaps draw a HOME icon
+                        {
+                            IconButton(onClick = { navController.navigateUp() }) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack, //TODO: Customize Icon
+                                    contentDescription = "Back"
+                                )
+                            }
+                        }
+                    } else {null}
+
+            ,
             actions = { TopAppBarActions(navController = navController) }
         )
     }
