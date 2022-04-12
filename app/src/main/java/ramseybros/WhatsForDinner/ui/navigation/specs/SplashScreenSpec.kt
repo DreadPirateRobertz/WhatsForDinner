@@ -1,4 +1,8 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
+
+import ramseybros.WhatsForDinner.ui.screens.SplashScreen
+
+
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -13,9 +17,9 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.util.jar.Attributes
 
 
-object LoadingScreenSpec: IScreenSpec {
+object SplashScreenSpec: IScreenSpec {
     override val route: String
-        get() = "load"
+        get() = "splash"
     override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.app_name
     @Composable
@@ -23,14 +27,7 @@ object LoadingScreenSpec: IScreenSpec {
         viewModel: I_WhatsForDinnerViewModel,
         navController: NavHostController,
         backStackEntry: NavBackStackEntry) {
-        Log.d("route", "we're here1")
-        LoadingScreen(
-            onLoad =
-                 {
-                     Log.d("route", "we're here2")
-                    navController.navigate(HomeScreenSpec.navigateTo())},
-        )
-
+        SplashScreen(navController = navController)
     }
 
     @Composable
@@ -38,5 +35,4 @@ object LoadingScreenSpec: IScreenSpec {
     override fun navigateTo(vararg args: String?): String {
         return route
     }
-
 }

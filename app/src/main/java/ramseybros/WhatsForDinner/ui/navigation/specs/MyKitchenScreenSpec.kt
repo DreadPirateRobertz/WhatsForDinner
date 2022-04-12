@@ -30,7 +30,9 @@ object MyKitchenScreenSpec : IScreenSpec {
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
         IconButton(
-            onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }
+            onClick = {
+
+                navController.navigate(HomeScreenSpec.navigateTo()) }
         ) {
             Icon(
                 imageVector = Icons.Filled.Home,

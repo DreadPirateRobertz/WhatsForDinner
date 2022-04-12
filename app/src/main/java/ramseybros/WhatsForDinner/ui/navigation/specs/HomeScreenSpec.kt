@@ -30,6 +30,8 @@ object HomeScreenSpec: IScreenSpec {
         val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
         val recommendedIngredientsList: List<Ingredient> =
             listOf(RecipeGenerator.placeHolderIngredients())
+
+
         HomeScreen(
             ////////TODO: FIX PlaceHolder
             recentRecipesList = recentRecipesList,

@@ -35,7 +35,7 @@ sealed interface IScreenSpec {
     val title: Int
 
     companion object {
-        val start: String = LoadingScreenSpec.route
+        val start: String = SplashScreenSpec.route
         val map = IScreenSpec::class.sealedSubclasses
             .associate { it.objectInstance?.route to it.objectInstance }
 

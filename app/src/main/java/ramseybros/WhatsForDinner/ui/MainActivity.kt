@@ -26,7 +26,7 @@ import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.BottomBar
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.FloatingButton
-import ramseybros.WhatsForDinner.ui.navigation.specs.LoadingScreenSpec.route
+
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: WhatsForDinnerViewModel
@@ -51,16 +51,15 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel){
         ) {
             val navController = rememberNavController()
             Scaffold(
-
-                floatingActionButton = { if(currentRoute(navController = navController) != "load"){
+                floatingActionButton = { if(currentRoute(navController = navController) != "splash"){
                     FloatingButton(navController = navController)
                 }},
 //                isFloatingActionButtonDocked = true,
-                topBar = { if(currentRoute(navController = navController) != "load"){
+                topBar = { if(currentRoute(navController = navController) != "splash"){
                     WhatsForDinnerTopBar(navController = navController)
                 } },
                 content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) },
-                bottomBar = { if(currentRoute(navController = navController) != "load"){
+                bottomBar = { if(currentRoute(navController = navController) != "splash"){
                     BottomBar(navController = navController,)
                 }}
             )
