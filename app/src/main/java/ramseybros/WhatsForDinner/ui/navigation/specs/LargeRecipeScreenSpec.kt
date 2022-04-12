@@ -12,7 +12,7 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 object LargeRecipeScreenSpec : IScreenSpec {
     override val route: String = "LargeRecipeScreen"
     override val arguments: List<String> = emptyList()
-    override val title: Int = R.string.app_name
+    override val title: Int = R.string.large_recipe_screen_title
 
 
     @Composable

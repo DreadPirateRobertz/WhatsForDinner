@@ -15,7 +15,7 @@ object SavedRecipesScreenSpec: IScreenSpec {
     override val route: String
         get() = "saved"
     override val arguments: List<String> = emptyList()
-    override val title: Int = R.string.app_name
+    override val title: Int = R.string.saved_recipes_screen_title
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,

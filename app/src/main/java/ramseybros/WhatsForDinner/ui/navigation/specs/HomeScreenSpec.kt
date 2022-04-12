@@ -14,7 +14,7 @@ import ramseybros.WhatsForDinner.R
 
 object HomeScreenSpec: IScreenSpec {
     override val route: String = "home"
-    override val title: Int = R.string.app_name
+    override val title: Int = R.string.home_screen_title
     override val arguments: List<String> = emptyList()
 
     @Composable

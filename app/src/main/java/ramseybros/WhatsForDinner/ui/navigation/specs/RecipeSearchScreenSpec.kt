@@ -12,7 +12,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         get() = "RecipeSearchScreen"
     override val arguments: List<String>
         get() = listOf()
-    override val title: Int = R.string.app_name
+    override val title: Int = R.string.recipe_search_screen_title
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,

@@ -11,7 +11,7 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 object KitchenSubmenuScreenSpec : IScreenSpec {
     override val route: String = "KitchenSubmenu"
     override val arguments: List<String> = emptyList()
-    override val title: Int = R.string.app_name
+    override val title: Int = R.string.kitchen_submenu_screen_title
 
     override fun navigateTo(vararg args: String?): String {
         return route

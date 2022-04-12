@@ -60,10 +60,9 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel){
                     WhatsForDinnerTopBar(navController = navController)
                 } },
                 content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) },
-                bottomBar = {if(currentRoute(navController = navController) != "load"){
+                bottomBar = { if(currentRoute(navController = navController) != "load"){
                     BottomBar(navController = navController,)
                 }}
-
             )
         }
     }
@@ -83,7 +82,7 @@ fun DefaultPreview() {
 }
 
 @Composable
-public fun currentRoute(navController: NavHostController): String? {
+fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.arguments?.getString("FIX")// TODO: NOT WORKING AS INTENDED
+    return navBackStackEntry?.destination?.route
 }

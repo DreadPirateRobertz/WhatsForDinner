@@ -42,7 +42,8 @@ sealed interface IScreenSpec {
         @Composable
         fun TopBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?){
             val route = navBackStackEntry?.destination?.route ?: ""
-            if (route != "") map[route]?.TopAppBarContent(navController = navController)
+            if (route != "" ) map[route]?.TopAppBarContent(navController = navController)
+            //&& route != "home"
         }
 
         @Composable
@@ -134,7 +135,7 @@ sealed interface IScreenSpec {
                                 textAlign = TextAlign.Start,
                                 maxLines = 1,
                                 text = stringResource(id = title),
-                                color = Color.Magenta
+                                color = colorResource(id = R.color.purple_200)
                             )
                         }
                     }
@@ -143,8 +144,8 @@ sealed interface IScreenSpec {
             ,
             backgroundColor = colorResource(id = R.color.purple_500),
             modifier = Modifier.fillMaxWidth(),
-            navigationIcon = {
-                if (navController.previousBackStackEntry != null) {
+            navigationIcon = {                                        //&& navController.currentBackStackEntry?.arguments?.getString(title.toString()) != "Home"
+                if (navController.previousBackStackEntry != null ) { //TODO: Make it so Home Screen has no UP arrow
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack, //TODO: Customize Icon

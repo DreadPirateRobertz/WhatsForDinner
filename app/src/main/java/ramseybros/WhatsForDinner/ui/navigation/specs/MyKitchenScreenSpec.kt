@@ -11,7 +11,7 @@ object MyKitchenScreenSpec : IScreenSpec {
     override var route: String = "MyKitchenScreen"
     override val arguments: List<String>
         get() = listOf()
-    override val title: Int = R.string.app_name
+    override val title: Int = R.string.my_kitchen_screen_title
 
     @Composable
     override fun Content(

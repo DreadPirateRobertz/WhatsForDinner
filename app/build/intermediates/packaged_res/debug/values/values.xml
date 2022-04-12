@@ -10,19 +10,28 @@
     <color name="white">#FFFFFFFF</color>
     <string name="add_recipe_label">+</string>
     <string name="app_name">What\'s For Dinner?</string>
+    <string name="home_screen_title">Home</string>
+    <string name="kitchen_submenu_screen_title">Kitchen Submenu</string>
+    <string name="large_recipe_screen_title">Large Recipe</string>
     <string name="my_kitchen_nav_button">My Kitchen</string>
+    <string name="my_kitchen_screen_title">My Kitchen</string>
     <string name="placeholder_recent_recipe">Rack of Lamb with Mint Jelly</string>
     <string name="placeholder_recommended_ingredient">Linguine</string>
     <string name="placeholder_recommended_recipe">Eggplant Parmesan</string>
     <string name="recent_recipes_header">Recent Recipes (Scrollable)</string>
+    <string name="recipe_info_screen_title">Recipe Information</string>
     <string name="recipe_search_nav_button">Recipe Search</string>
+    <string name="recipe_search_screen_title">Recipe Search</string>
     <string name="recommended_ingredients_header">Recommended Ingredients (Scrollable)</string>
     <string name="recommended_recipes_header">Recommended Recipes (Scrollable)</string>
     <string name="return_to_recipe_list_label">Return to List</string>
     <string name="save_recipe_label">Save Recipe to Saved Recipe?</string>
     <string name="saved_recipes_header">Saved Recipes (Scrollable)</string>
     <string name="saved_recipes_nav_button">Saved Recipes</string>
+    <string name="saved_recipes_screen_title">Saved Recipes</string>
     <string name="shopping_list_nav_button">Shopping List</string>
+    <string name="shopping_list_screen_title">Shopping List</string>
+    <string name="small_recipe_screen_title">Small Recipe</string>
     <style name="Theme.WhatsForDinner" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
     </style>
