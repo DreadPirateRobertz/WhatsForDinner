@@ -37,7 +37,7 @@ object Constants {
             route = "MyKitchenScreen"
         ),
         BottomNav(
-            label = "Search",
+            label = "Recipe Search",
             icon = Icons.Filled.Search,
             route = "RecipeSearchScreen"
         ),

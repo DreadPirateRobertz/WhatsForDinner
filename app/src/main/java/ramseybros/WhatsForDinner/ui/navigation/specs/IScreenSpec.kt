@@ -17,6 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
@@ -91,7 +93,7 @@ sealed interface IScreenSpec {
                             },
                             // label
                             label = {
-                                Text(fontSize = 9.sp, text = navItem.label)
+                                Text(fontWeight = FontWeight.ExtraBold ,fontSize = 12.sp, text = navItem.label)
                             },
                             alwaysShowLabel = false
                         )
@@ -145,7 +147,7 @@ sealed interface IScreenSpec {
             backgroundColor = colorResource(id = R.color.purple_500),
             modifier = Modifier.fillMaxWidth(),
             navigationIcon = {                                        //&& navController.currentBackStackEntry?.arguments?.getString(title.toString()) != "Home"
-                if (navController.previousBackStackEntry != null ) { //TODO: Make it so Home Screen has no UP arrow
+                if (navController.previousBackStackEntry != null ) { //TODO: Make it so Home Screen has no UP arrow/Perhaps draw a HOME icon
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack, //TODO: Customize Icon
