@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +21,7 @@ import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerFactory
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.BottomBar
+import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.FloatingButton
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: WhatsForDinnerViewModel
@@ -48,9 +46,11 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel){
         ) {
             val navController = rememberNavController()
             Scaffold(
+                floatingActionButton = { FloatingButton(navController = navController)},
+                isFloatingActionButtonDocked = true,
                 topBar = { WhatsForDinnerTopBar(navController = navController) },
                 content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) },
-                bottomBar = {BottomBar(navController = navController)}
+                bottomBar = {BottomBar(navController = navController,)}
 
             )
         }

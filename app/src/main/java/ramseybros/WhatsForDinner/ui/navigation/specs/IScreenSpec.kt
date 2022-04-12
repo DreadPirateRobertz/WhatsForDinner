@@ -3,9 +3,11 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -44,54 +46,75 @@ sealed interface IScreenSpec {
 
         @Composable
         fun BottomBar(navController: NavHostController){
-            BottomNavigation(
-                backgroundColor = colorResource(id = R.color.purple_500)
+            BottomAppBar(            // Defaults to null, that is, No cutout
+                cutoutShape = MaterialTheme.shapes.small.copy(
+                    CornerSize(percent = 50)
+                )
             ) {
-                // observe the backstack
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                // observe current route to change the icon
-                // color,label color when navigated
-                // observe current route to change the icon
-                // color,label color when navigated
-                val currentRoute = navBackStackEntry?.destination?.route
-                // Bottom nav items we declared
 
 
+                BottomNavigation(
+                    backgroundColor = colorResource(id = R.color.purple_500),
+
+                    ) {
+                    // observe the backstack
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    // observe current route to change the icon
+                    // color,label color when navigated
+                    // observe current route to change the icon
+                    // color,label color when navigated
+                    val currentRoute = navBackStackEntry?.destination?.route
+                    // Bottom nav items we declared
+                    Constants.BottomNavItems.forEach { navItem ->
+
+                        // Place the bottom nav items
+                        BottomNavigationItem(
+
+                            // it currentRoute is equal then its selected route
+                            selected = currentRoute == navItem.route,
+
+                            // navigate on click
+                            onClick = {
+                                navController.navigate(navItem.route)
+                            },
+
+                            // Icon of navItem
+
+                            icon = {
+                                if (navItem.label == "Kitchen") Icon(
+                                    painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
+                                    contentDescription = navItem.label
+                                )
+                                else Icon(
+                                    imageVector = navItem.icon,
+                                    contentDescription = navItem.label
+                                )
+                            },
+
+                            // label
+                            label = {
+                                Text(text = navItem.label)
+                            },
+                            alwaysShowLabel = false
 
 
-
-                Constants.BottomNavItems.forEach { navItem ->
-
-                    // Place the bottom nav items
-                    BottomNavigationItem(
-
-                        // it currentRoute is equal then its selected route
-                        selected = currentRoute == navItem.route,
-
-                        // navigate on click
-                        onClick = {
-                            navController.navigate(navItem.route)
-                        },
-
-                        // Icon of navItem
-
-                        icon = {
-                            if(navItem.label == "Kitchen") Icon(painter = painterResource(id = R.drawable.ic_baseline_kitchen_24), contentDescription = navItem.label)
-                            else Icon(imageVector = navItem.icon, contentDescription = navItem.label)
-                        },
-
-                        // label
-                        label = {
-                            Text(text = navItem.label)
-                        },
-                        alwaysShowLabel = false
-                    )
+                        )
+                    }
                 }
             }
         }
-
-
+        @Composable
+        fun FloatingButton(navController: NavHostController){
+            FloatingActionButton(onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())}, ) {
+                Icon(
+                    imageVector = Icons.Filled.ShoppingCart,
+                    contentDescription = null
+                )
+            }
+        }
     }
+
+
 
     @Composable
     fun Content(viewModel: I_WhatsForDinnerViewModel, navController: NavHostController, backStackEntry: NavBackStackEntry)
@@ -138,9 +161,7 @@ sealed interface IScreenSpec {
             actions = { TopAppBarActions(navController = navController) }
         )
 
-        FloatingActionButton(onClick = { /*TODO*/ }) {
 
-        }
     }
 
     fun navigateTo(vararg args: String?) : String
