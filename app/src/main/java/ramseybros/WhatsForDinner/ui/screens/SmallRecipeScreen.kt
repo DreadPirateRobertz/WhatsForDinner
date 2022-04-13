@@ -16,13 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import ramseybros.WhatsForDinner.R
+import ramseybros.WhatsForDinner.data.Recipe
+import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
-fun SmallRecipeView( onClick: () -> Unit ) {
+fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit ) {
     Card (modifier = Modifier
         .padding(10.dp)
         .clickable { onClick() }
@@ -30,8 +35,12 @@ fun SmallRecipeView( onClick: () -> Unit ) {
         .padding(6.dp)
     ) {
         Row {
-            Image(
-                painter = painterResource(R.drawable.pot_image),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(recipe.imageLink)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.pot_image),
                 contentDescription = "recipe image",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -75,5 +84,5 @@ fun SmallRecipeView( onClick: () -> Unit ) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview () {
-    SmallRecipeView {}
+    SmallRecipeView(RecipeGenerator.singleRecipe()) {}
 }

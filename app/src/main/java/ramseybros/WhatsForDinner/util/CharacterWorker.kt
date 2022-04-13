@@ -25,34 +25,23 @@ class CharacterWorker(context: Context, workerParams: WorkerParameters)
 
     override fun doWork(): Result {
         Log.d(LOG_TAG, "Work request triggered")
+        val ingredients: String = "chicken%2Crice&2cbeans"
         val client = OkHttpClient()
+        var apiData: String? = null
         val request : Request = Request.Builder()
-            .url("https://edamam-recipe-search.p.rapidapi.com/search?q=chicken")
+            .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=$ingredients&number=10&ignorePantry=true&ranking=1")
             .get()
-            .addHeader("x-rapidapi-host", "edamam-recipe-search.p.rapidapi.com")
+            .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
             .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
             .build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
             override fun onResponse(call: Call, response: Response) {
-                val recipeList: MutableList<Recipe> = mutableListOf()
-                val jsonData = response.body?.string()
-                val jsonObject = JSONObject(jsonData)
-                val hits: JSONArray = jsonObject.getJSONArray("hits")
-                for (i in (0 until hits.length())) {
-                    val recipeObject = hits.getJSONObject(i).getJSONObject("recipe")
-                    val recipe: Recipe = Recipe(
-                        imageLink = recipeObject.getString("image"),
-                        title = recipeObject.getString("label"),
-                        difficulty = 0, //TODO: find or change difficulty param
-                        time = recipeObject.getString("totalTime"),
-                        recipeText = recipeObject.getString("ingredientLines") //TODO: must further parse this JSON response to separate ingredients
-                    )
-                    Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
-                    recipeList.add(recipe)
-                }
+                apiData = response.body?.string()
+                Log.d(LOG_TAG, "Got result $apiData")
             }
         })
-        return Result.success() //TODO: return recipeList??
+        val outputData = workDataOf(CHARACTER_API_KEY to apiData)
+        return Result.success(outputData) //TODO: return recipeList??
     }
 }

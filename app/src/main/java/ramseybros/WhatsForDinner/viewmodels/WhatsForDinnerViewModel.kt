@@ -9,6 +9,7 @@ import androidx.lifecycle.Transformations
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.CharacterWorker
 
@@ -23,11 +24,13 @@ class WhatsForDinnerViewModel(
     private val workRequest = CharacterWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
-//    override fun requestWebCharacter() {
-//        workManager.enqueueUniqueWork(CharacterWorker.UNIQUE_WORK_NAME,
-//            ExistingWorkPolicy.REPLACE,
-//            workRequest)
-//    }
+    override fun requestWebRecipes() {
+        workManager.enqueueUniqueWork(CharacterWorker.UNIQUE_WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            workRequest)
+    }
+
+    private val _apiRecipeListLiveData = MutableLiveData<MutableList<Recipe>>()
 
     private val _recipeIdLiveData =
         MutableLiveData<UUID>()
@@ -51,6 +54,8 @@ class WhatsForDinnerViewModel(
 
     override fun getRecipeIngredientList(recipeId: UUID) = whatsForDinnerRepository.getIngredientList(recipeId)
     override fun getRecipeUtensilList(recipeId: UUID) = whatsForDinnerRepository.getUtensilList(recipeId)
+
+    override fun getApiRecipeList(): MutableLiveData<MutableList<Recipe>> = _apiRecipeListLiveData
 
     //TODO: Add API Functionality Functions
 
