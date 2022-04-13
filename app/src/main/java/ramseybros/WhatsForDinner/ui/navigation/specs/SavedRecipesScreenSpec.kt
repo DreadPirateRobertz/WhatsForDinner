@@ -29,23 +29,14 @@ object SavedRecipesScreenSpec: IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
         val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
-        if(savedRecipesList != null) {
-            SavedRecipesScreen(
-                savedRecipesList = savedRecipesList,
-                onSelectRecipe =
-                fun(recipe: Recipe) {
-                    navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
-                },
-            )
-        } else {
-            SavedRecipesScreen(
-                savedRecipesList = listOf(),
-                onSelectRecipe =
-                fun(recipe: Recipe) {
-                    navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
-                },
-            )
-        }
+        val blankList: List<Recipe> = listOf()
+        SavedRecipesScreen(
+            savedRecipesList = savedRecipesList,
+            onSelectRecipe =
+            fun(recipe: Recipe) {
+                navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
+            },
+        )
 
     }
 
