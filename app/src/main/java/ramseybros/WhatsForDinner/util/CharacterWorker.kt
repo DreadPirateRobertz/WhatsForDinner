@@ -34,14 +34,11 @@ class CharacterWorker(context: Context, workerParams: WorkerParameters)
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
             .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
             .build()
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) {
-                apiData = response.body?.string()
-                Log.d(LOG_TAG, "Got result $apiData")
-            }
-        })
+        val response = client.newCall(request).execute()
+        apiData = response.body?.string()
+        Log.d(LOG_TAG, "Got result $apiData")
         val outputData = workDataOf(CHARACTER_API_KEY to apiData)
+        Log.d(LOG_TAG, "outputData contains $outputData")
         return Result.success(outputData) //TODO: return recipeList??
     }
 }

@@ -30,9 +30,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val LOG_TAG = "RecipeSearchScreen"
-        var recipeList = viewModel.getApiRecipeList()
-        recipeList.value = mutableListOf()
+        val LOG_TAG = "ramseybros.RecipeSearchScreen"
+
         val workInfoState = viewModel.outputWorkerInfo.observeAsState()
         workInfoState.value?.let { workInfo ->
             when(workInfo.state) {
@@ -40,26 +39,33 @@ object RecipeSearchScreenSpec : IScreenSpec {
                 WorkInfo.State.RUNNING -> Log.d(LOG_TAG, "workInfo running")
                 WorkInfo.State.SUCCEEDED -> {
                     Log.d(LOG_TAG, "workInfo succeeded")
+                    val recipeList = viewModel.getApiRecipeList()
+                    recipeList.value = mutableListOf()
                     val apiData = CharacterWorker.getApiData(workInfo.outputData)
-                    val items = JSONArray(apiData)
-                    for (i in (0 until items.length())) {
-                        val recipeObject = items.getJSONObject(i)
-                        val recipe = Recipe(
-                            imageLink = recipeObject.getString("image"),
-                            title = recipeObject.getString("title"),
-                            difficulty = 0,
-                            time = "Click for more",
-                            recipeText = "Click for more", //TODO: use separate API call for these
-                            searchId = recipeObject.getInt("id")
-                        )
-                        Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
-                        recipeList.value!!.add(recipe)
+                    Log.d(LOG_TAG, "apiData contains $apiData")
+                    if(apiData != null) {
+                        val items = JSONArray(apiData)
+                        for (i in (0 until items.length())) {
+                            val recipeObject = items.getJSONObject(i)
+                            val recipe = Recipe(
+                                imageLink = recipeObject.getString("image"),
+                                title = recipeObject.getString("title"),
+                                difficulty = 0,
+                                time = "Click for more",
+                                recipeText = "Click for more", //TODO: use separate API call for these
+                                searchId = recipeObject.getInt("id")
+                            )
+                            Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
+                            recipeList.value!!.add(recipe)
+                        }
+                    } else {
+                        Log.d(LOG_TAG, "api call returned null")
                     }
                 }
                 else -> Log.d(LOG_TAG, "other workInfo state")
             }
         }
-        RecipeSearchScreen()
+        RecipeSearchScreen { viewModel.requestWebRecipes() }
     }
 
 
