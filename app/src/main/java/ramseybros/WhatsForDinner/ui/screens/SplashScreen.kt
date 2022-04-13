@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.screens
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
@@ -39,7 +40,7 @@ fun SplashScreen(navController: NavController) {
                 durationMillis = 800,
                 easing = {
                     OvershootInterpolator(4f).getInterpolation(it)
-                })
+                },)
         )
         delay(2000L)
         navController.popBackStack()
@@ -54,13 +55,23 @@ fun SplashScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Cursive,
-                fontSize = 40.sp,
-                color = colorResource(id = R.color.black),
-                text = stringResource(id = R.string.app_name)
-            )
+            if(!isSystemInDarkTheme()) {
+                Text(
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.Cursive,
+                    fontSize = 40.sp,
+                    color = colorResource(id = R.color.black),
+                    text = stringResource(id = R.string.app_name)
+                )
+            } else {
+                Text(
+                    fontWeight = FontWeight.ExtraBold,
+                    fontFamily = FontFamily.Cursive,
+                    fontSize = 40.sp,
+                    color = colorResource(id = R.color.white),
+                    text = stringResource(id = R.string.app_name)
+                )
+            }
             Image(
                 painter = painterResource(id = R.drawable.utensils_mod),
                 contentDescription = "Logo",
@@ -83,7 +94,7 @@ private fun CustomLinearProgressBar(){
 //                .fillMaxWidth()
                 .height(15.dp),
             backgroundColor = Color.LightGray,
-            color = colorResource(id = R.color.light_blue)
+            color = colorResource(id = R.color.teal_700)
         )
     }
 }

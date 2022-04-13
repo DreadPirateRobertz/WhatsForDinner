@@ -31,7 +31,6 @@ object MyKitchenScreenSpec : IScreenSpec {
     override fun TopAppBarActions(navController: NavHostController) {
         IconButton(
             onClick = {
-
                 navController.navigate(HomeScreenSpec.navigateTo()) }
         ) {
             Icon(
