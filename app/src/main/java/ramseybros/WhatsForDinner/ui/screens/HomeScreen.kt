@@ -128,93 +128,6 @@ private fun RecommendedRecipeRow(recommendedRecipe: Recipe, onSelectRecipe: (Rec
 }
 
 @Composable
-private fun SavedRecipesButton(
-    text: String,
-    enabled: Boolean = true,
-    onClick: () -> Unit) {
-        Button(
-            onClick = onClick,
-            enabled = enabled ) {
-            Text(fontSize = 12.sp, text = text)
-        }
-
-        Spacer(Modifier.width(22.dp))
-}
-
-@Composable
-private fun MyKitchenButton(
-    text: String,
-    enabled: Boolean = true,
-    onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        enabled = enabled ) {
-        Text(fontSize = 12.sp, text = text)
-    }
-
-}
-
-@Composable
-private fun RecipeSearchButton(
-    text: String,
-    enabled: Boolean = true,
-    onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        enabled = enabled ) {
-
-        Text(fontSize = 12.sp, text = text)
-    }
-
-
-}
-
-@Composable
-private fun ShoppingListButton(
-    text: String,
-    enabled: Boolean = true,
-    onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        enabled = enabled ) {
-        Text(fontSize = 12.sp, text = text)
-    }
-
-}
-
-@Composable
-private fun NavFooterMenu(){
-    Row(){
-        Card(modifier = Modifier.weight(1.0f)) {
-            SavedRecipesButton(
-                text = stringResource(R.string.saved_recipes_nav_button),
-                onClick = {})
-        }
-        Spacer(Modifier.width(4.dp))
-        Card(modifier = Modifier.weight(1.0f)) {
-            MyKitchenButton(text = stringResource(R.string.my_kitchen_nav_button), onClick = {})
-        }
-        Spacer(Modifier.width(4.dp))
-        Card(modifier = Modifier.weight(1.0f)) {
-            RecipeSearchButton(
-                text = stringResource(R.string.recipe_search_nav_button),
-                onClick = {})
-        }
-        }
-    }
-
-@Composable fun NavHeaderMenu(){
-    Row(){
-        Card(modifier = Modifier.weight(1.0f)) {
-            ShoppingListButton(
-                text = stringResource(R.string.shopping_list_nav_button),
-                onClick = {})
-        }
-    }
-}
-
-
-@Composable
 fun HomeScreen(
     recentRecipesList: List<Recipe>?,
     recommendedIngredientsList: List<Ingredient>?,
@@ -227,7 +140,7 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        NavHeaderMenu()
+
         if(recentRecipesList != null){
             LazyColumn(){
                items(recentRecipesList){
@@ -251,10 +164,7 @@ fun HomeScreen(
                 }
             }
         }
-
-        NavFooterMenu()
     }
-
 }
 
 @Preview

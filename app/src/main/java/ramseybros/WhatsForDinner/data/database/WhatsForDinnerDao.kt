@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
+import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
 import java.util.*
 
 @Dao
@@ -30,6 +31,14 @@ interface WhatsForDinnerDao {
     @Delete
     fun deleteIngredient(ingredient: Ingredient)
 
+    @Insert
+    fun addIngredientToList(recipeIngredient: RecipeIngredientListXRef)
+    fun addIngredientsToList(ingredientList: List<Ingredient>, recipe: Recipe) {
+        for (ingredient in ingredientList) {
+            if(getIngredient(ingredient.name)==null) addIngredient(ingredient = ingredient)
+            addIngredientToList(RecipeIngredientListXRef(ingredientName = ingredient.name, recipeId = recipe.id))
+        }
+    }
     @Query("SELECT recipe_ingredient_list_xref.ingredientName FROM recipe_ingredient_list_xref WHERE recipe_ingredient_list_xref.recipeId=(:recipeId)")
     fun getIngredientList(recipeId: UUID) : LiveData<List<String>>
     @Query("SELECT name FROM utensil WHERE utensil.recipeId=(:recipeId)")
