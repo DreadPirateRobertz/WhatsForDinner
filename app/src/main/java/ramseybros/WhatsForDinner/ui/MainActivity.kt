@@ -15,12 +15,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerTopBar
-import ramseybros.WhatsForDinner.ui.screens.MyKitchen
 import ramseybros.WhatsForDinner.ui.theme.WhatsForDinnerTheme
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerFactory
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
-import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.BottomBar
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.FloatingButton
 
@@ -48,15 +46,18 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel){
         ) {
             val navController = rememberNavController()
             Scaffold(
-                floatingActionButton = { if(currentRoute(navController = navController) != "splash"){
+                //Could not do an && on complex function call so resolved with two conditionals
+                floatingActionButton = { if(checkRoute(navController = navController) != 1)
+                                        if(checkRoute(navController = navController) != 2)
+                {
                     FloatingButton(navController = navController)
                 }},
 //                isFloatingActionButtonDocked = true,
-                topBar = { if(currentRoute(navController = navController) != "splash"){
+                topBar = { if(checkRoute(navController = navController) != 2){
                     WhatsForDinnerTopBar(navController = navController)
                 } },
                 content ={ WhatsForDinnerNavHost(navController = navController, viewModel = model) },
-                bottomBar = { if(currentRoute(navController = navController) != "splash"){
+                bottomBar = { if(checkRoute(navController = navController) != 2){
                     BottomBar(navController = navController,)
                 }}
             )
@@ -78,7 +79,11 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun currentRoute(navController: NavHostController): String? {
+fun checkRoute(navController: NavHostController): Int {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route
+    val x = navBackStackEntry?.destination?.route
+    if(x == "ShoppingList") return 1
+    else if(x == "splash") return 2;
+    else return 3
+
 }

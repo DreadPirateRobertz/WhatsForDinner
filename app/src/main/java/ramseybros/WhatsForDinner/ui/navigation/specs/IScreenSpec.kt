@@ -4,10 +4,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -28,6 +27,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Constants
+import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
@@ -45,7 +45,7 @@ sealed interface IScreenSpec {
         @Composable
         fun TopBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?){
             val route = navBackStackEntry?.destination?.route ?: ""
-            if (route != "" ) map[route]?.TopAppBarContent(navController = navController)
+            if (route != "" ) map[route]?.TopAppBarContent(navController = navController, navBackStackEntry)
             //&& route != "home"
         }
 
@@ -171,7 +171,10 @@ sealed interface IScreenSpec {
     @Composable fun TopAppBarActions(navController: NavHostController)
 
     @Composable
-    private fun TopAppBarContent(navController: NavHostController) {
+    private fun TopAppBarContent(
+        navController: NavHostController,
+        navBackStackEntry: NavBackStackEntry?
+    ) {
         if (!isSystemInDarkTheme()) {//Light Theme
             TopAppBar(
                 title =         //Title
@@ -184,27 +187,37 @@ sealed interface IScreenSpec {
                             CompositionLocalProvider(
                                 LocalContentAlpha provides ContentAlpha.high,
                             ) {
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    textAlign = TextAlign.Start,
-                                    maxLines = 1,
-                                    text = stringResource(id = title),
-                                    color = colorResource(id = R.color.white)
-                                )
+                                if (navBackStackEntry?.destination?.route != "home") {
+                                    Text(
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                        textAlign = TextAlign.Start,
+                                        maxLines = 1,
+                                        text = stringResource(id = title),
+                                        color = colorResource(id = R.color.white)
+                                    )
+                                }
                             }
+                        }
+                        if(navBackStackEntry?.destination?.route == "home"){
+                            Icon(
+                                imageVector = Icons.Filled.Home,
+                                contentDescription = null,
+                                tint = colorResource(R.color.white)
+                            )
                         }
                     }
                 },
                 backgroundColor = colorDarkSecondary,
-                modifier = Modifier.fillMaxWidth(),                         //&& navController.currentBackStackEntry?.arguments?.getString("id") != "detail/home"
-                navigationIcon =                                        //&& navController.currentBackStackEntry?.arguments?.getString(title.toString()) != ...
-                if (navController.previousBackStackEntry != null) { //TODO: Make it so Home Screen has no UP arrow/Perhaps draw a HOME icon
+                modifier = Modifier.fillMaxWidth(),
+                navigationIcon =
+                if (navController.previousBackStackEntry != null) {
                     {
                         IconButton(onClick = { navController.navigateUp() }) {
                             Icon(
-                                imageVector = Icons.Filled.ArrowBack, //TODO: Customize Icon
-                                contentDescription = "Back"
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = null,
+                                tint = colorResource(id = R.color.white)
                             )
                         }
                     }
@@ -225,15 +238,24 @@ sealed interface IScreenSpec {
                             CompositionLocalProvider(
                                 LocalContentAlpha provides ContentAlpha.high,
                             ) {
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    textAlign = TextAlign.Start,
-                                    maxLines = 1,
-                                    text = stringResource(id = title),
-                                    color = colorResource(id = R.color.black)
-                                )
+                                if (navBackStackEntry?.destination?.route != "home") {
+                                    Text(
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                        textAlign = TextAlign.Start,
+                                        maxLines = 1,
+                                        text = stringResource(id = title),
+                                        color = colorResource(id = R.color.black)
+                                    )
+                                }
                             }
+                            }
+                            if(navBackStackEntry?.destination?.route == "home"){
+                                    Icon(
+                                        imageVector = Icons.Filled.Home,
+                                        contentDescription = null,
+                                        tint = colorResource(id = R.color.black)
+                                    )
                         }
                     }
                 },
