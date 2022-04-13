@@ -37,7 +37,10 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.Ingredient
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.graphics.graphicsLayer
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
@@ -81,48 +84,72 @@ private fun RecommendedIngredientsSection(){
 
 
 @Composable
-private fun RecentRecipeRow(recentRecipe: Recipe, onSelectRecipe: (Recipe) -> Any){
+private fun RecentRecipeRow( onSelectRecipe: (Recipe) -> Any, recentRecipesList: List<Recipe>?){
   //Clicking A recipe will take you to how to make it...
     Card(modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-        .clickable { onSelectRecipe(recentRecipe) }
     ) {
-        Column {
+        Column(Modifier.fillMaxWidth()) {
             RecentRecipesSection()
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
+            if (recentRecipesList != null) {
+                LazyRow {
+                    items(recentRecipesList) {
+                        Text(text = it.title, modifier = Modifier
+                            .selectable(
+                                selected = true,
+                                onClick = { onSelectRecipe(it) }
+                            )
+                        )
+                    }
+                }
             }
+        }
         }
     }
 
 @Composable
-private fun RecommendedIngredientRow(recommendedIngredient: Ingredient, onSelectIngredient: (Ingredient) -> Any){
+private fun RecommendedIngredientRow(onSelectIngredient: (Ingredient) -> Any, recentIngredientsList: List<Ingredient>?){
 //if You click on Ingredient Shows you it and maybe some facts about it
     Card(modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-        .clickable { onSelectIngredient(recommendedIngredient) }
     ) {
-        Column {
-            RecommendedIngredientsSection()
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recommended_ingredient))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recommended_ingredient))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recommended_ingredient))
+        Column(Modifier.fillMaxWidth()) {
+        RecommendedIngredientsSection()
+        if (recentIngredientsList != null) {
+            LazyRow {
+                items(recentIngredientsList) {
+                    Text(text = it.name, modifier = Modifier
+                        .selectable(
+                            selected = true,
+                            onClick = { onSelectIngredient(it) }
+                        )
+                    )
+                }
+            }
         }
+    }
     }
 }
 
 @Composable
-private fun RecommendedRecipeRow(recommendedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any) {
+private fun RecommendedRecipeRow(onSelectRecipe: (Recipe) -> Any, recommendedRecipesList: List<Recipe>?) {
     Card(modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-        .clickable { onSelectRecipe(recommendedRecipe) }
     ) {
-        Column {
+        Column(Modifier.fillMaxWidth()) {
             RecommendedRecipesSection()
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recommended_recipe))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recommended_recipe))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recommended_recipe))
+            if (recommendedRecipesList != null) {
+                LazyRow {
+                    items(recommendedRecipesList) {
+                        Text(text = it.title, modifier = Modifier
+                            .selectable(
+                                selected = true,
+                                onClick = { onSelectRecipe(it) }
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -136,34 +163,36 @@ fun HomeScreen(
     onSelectIngredient: (Ingredient) -> Any
 ){
     Column(
-
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-
-        if(recentRecipesList != null){
-            LazyColumn(){
-               items(recentRecipesList){
-                   RecentRecipeRow(recentRecipe = it, onSelectRecipe = onSelectRecipe)
-               }
-            }
-        }
-
-        if(recommendedIngredientsList != null){
-            LazyColumn(){
-                items(recommendedIngredientsList){
-                    RecommendedIngredientRow(recommendedIngredient = it, onSelectIngredient = onSelectIngredient)
-                }
-            }
-        }
-
-        if(recommendedRecipesList != null){
-            LazyColumn(){
-                items(recommendedRecipesList){
-                   RecommendedRecipeRow(recommendedRecipe = it, onSelectRecipe = onSelectRecipe)
-                }
-            }
-        }
+        RecentRecipeRow(onSelectRecipe = onSelectRecipe, recentRecipesList = recentRecipesList)
+        RecommendedIngredientRow(onSelectIngredient = onSelectIngredient, recentIngredientsList = recommendedIngredientsList)
+        RecommendedRecipeRow(onSelectRecipe = onSelectRecipe, recommendedRecipesList = recommendedRecipesList)
+//        if(recentRecipesList != null){
+//            LazyColumn(){
+//               items(recentRecipesList){
+//                   RecentRecipeRow(recentRecipe = it, onSelectRecipe = onSelectRecipe)
+//               }
+//            }
+//        }
+//
+//        if(recommendedIngredientsList != null){
+//            LazyColumn(){
+//                items(recommendedIngredientsList){
+//                    RecommendedIngredientRow(recommendedIngredient = it, onSelectIngredient = onSelectIngredient)
+//                }
+//            }
+//        }
+//
+//        if(recommendedRecipesList != null){
+//            LazyColumn(){
+//                items(recommendedRecipesList){
+//                   RecommendedRecipeRow(recommendedRecipe = it, onSelectRecipe = onSelectRecipe)
+//                }
+//            }
+//        }
     }
 }
 
