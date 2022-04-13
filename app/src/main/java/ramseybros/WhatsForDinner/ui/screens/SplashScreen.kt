@@ -48,7 +48,7 @@ fun SplashScreen(navController: NavController) {
             animationSpec = tween(
                 durationMillis = 800,
                 easing = {
-                    OvershootInterpolator(4f).getInterpolation(it)
+                    OvershootInterpolator(10f).getInterpolation(it)
                 },)
         )
         delay(2500L)
