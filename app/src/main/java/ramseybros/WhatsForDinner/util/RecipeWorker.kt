@@ -2,25 +2,28 @@ package ramseybros.WhatsForDinner.util
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
 import okhttp3.*
 import okio.IOException
 import org.json.JSONArray
 import org.json.JSONObject
 import ramseybros.WhatsForDinner.data.Recipe
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
+import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
 import java.net.URL
 
-class CharacterWorker(context: Context, workerParams: WorkerParameters)
+class RecipeWorker(context: Context, workerParams: WorkerParameters)
     : Worker(context, workerParams) {
     companion object {
         const val UNIQUE_WORK_NAME = "WhatsForDinner_API_REQUEST"
-        const val LOG_TAG = "ramseybros.CharacterWorker"
-        private const val CHARACTER_API_KEY = "apiCharacterData"
+        const val LOG_TAG = "ramseybros.RecipeWorker"
+        private const val PROGRESS = "Progress"
         fun buildOneTimeWorkRequest() = OneTimeWorkRequest
-            .Builder(CharacterWorker::class.java)
+            .Builder(RecipeWorker::class.java)
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .build()
-        fun getApiData(outputData: Data) = outputData.getString(CHARACTER_API_KEY)
+        fun getApiData(outputData: Data) = outputData.getString(PROGRESS)
     }
 
     override fun doWork(): Result {
@@ -36,9 +39,25 @@ class CharacterWorker(context: Context, workerParams: WorkerParameters)
             .build()
         val response = client.newCall(request).execute()
         apiData = response.body?.string()
-        Log.d(LOG_TAG, "Got result $apiData")
-        val outputData = workDataOf(CHARACTER_API_KEY to apiData)
-        Log.d(LOG_TAG, "outputData contains $outputData")
-        return Result.success(outputData) //TODO: return recipeList??
+        if (apiData != null) {
+            Log.d(LOG_TAG, "Got result $apiData")
+            Log.d(LOG_TAG, "Length ${apiData.length}")
+        }
+        var substr: String = ""
+        var update: Data
+        if (apiData != null) {
+            while (apiData!!.isNotEmpty()) {
+                if (apiData.length < 10000) {
+                    substr = apiData.subSequence(0, apiData.length-1).toString()
+                    apiData = substr
+                } else {
+                    substr = apiData.subSequence(0, 9999).toString()
+                    apiData = substr
+                }
+                update = workDataOf(PROGRESS to substr)
+                setProgressAsync(update)
+            }
+        }
+        return Result.success()
     }
 }

@@ -11,7 +11,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
-import ramseybros.WhatsForDinner.util.CharacterWorker
+import ramseybros.WhatsForDinner.util.RecipeWorker
 
 import java.util.*
 
@@ -21,11 +21,12 @@ class WhatsForDinnerViewModel(
     context: Context
 ): I_WhatsForDinnerViewModel() {
     private val workManager = WorkManager.getInstance(context)
-    private val workRequest = CharacterWorker.buildOneTimeWorkRequest()
+    private val workRequest = RecipeWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
     override fun requestWebRecipes() {
-        workManager.enqueueUniqueWork(CharacterWorker.UNIQUE_WORK_NAME,
+        workManager.enqueueUniqueWork(
+            RecipeWorker.UNIQUE_WORK_NAME,
             ExistingWorkPolicy.REPLACE,
             workRequest)
     }
