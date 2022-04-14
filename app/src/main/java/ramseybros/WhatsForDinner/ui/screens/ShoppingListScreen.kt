@@ -1,8 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -12,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -58,22 +57,32 @@ fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addReci
         ) {
             var color: Color = Color.Black
             if (isSystemInDarkTheme()) color = Color.White
-            Button(
-                onClick = { addRecipe() },
-                modifier = Modifier.padding(16.dp),
-                shape = CircleShape,
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = color,
-                    contentColor = colorResource(id = R.color.teal_200)
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(60.dp)
+                    .clip(CircleShape)
+                    .background(color)
+                    .clickable { addRecipe() }
+            ) {
+                Button(
+                    onClick = { addRecipe() },
+                    modifier = Modifier.padding(top = 10.dp),
+                    shape = CircleShape,
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = color,
+                        contentColor = colorResource(id = R.color.teal_200)
+                    )
                 )
-            )
-            {
-                Icon(
-                    painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                    contentDescription = null
-                )
+                {
+                    Icon(
+                        painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                        contentDescription = null
+                    )
+                }
             }
         }
+
         LazyColumn() {
             items(itemList.size) {
                 SectionList(itemList[it], headerList[it])
