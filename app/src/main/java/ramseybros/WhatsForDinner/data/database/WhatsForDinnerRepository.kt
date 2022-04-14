@@ -49,6 +49,12 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
         }
     }
 
+    fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) {
+        executor.execute {
+            whatsForDinnerDao.addRecipe(recipe = recipe, ingredients = ingredients, utensils = utensils)
+        }
+    }
+
     fun getRecipes(): LiveData<List<Recipe>> = whatsForDinnerDao.getRecipes()
     fun getRecipe(id: UUID): LiveData<Recipe>? = whatsForDinnerDao.getRecipe(id)
     fun getIngredients(): LiveData<List<Ingredient>> = whatsForDinnerDao.getIngredients()
@@ -61,4 +67,5 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
 
     fun getUtensilList(recipeId: UUID): LiveData<List<String>> =
         whatsForDinnerDao.getUtensilList(recipeId)
+
 }
