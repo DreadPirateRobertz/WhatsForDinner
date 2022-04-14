@@ -2,9 +2,11 @@ package ramseybros.WhatsForDinner.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import okio.`-DeprecatedUtf8`
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
+import ramseybros.WhatsForDinner.data.RecipeUtensil
 import java.util.*
 
 @Dao
@@ -33,6 +35,9 @@ interface WhatsForDinnerDao {
     @Query("SELECT * FROM ingredient WHERE name=(:name)")
     fun getIngredient(name: String): LiveData<Ingredient>?
 
+    @Query("SELECT name FROM utensil WHERE name=(:name) AND recipeId=(:recipeId)")
+    fun getUtensil(name: String, recipeId: UUID): LiveData<String>?
+
     @Update
     fun updateIngredient(ingredient: Ingredient)
 
@@ -51,6 +56,27 @@ interface WhatsForDinnerDao {
                 )
             )
         }
+    }
+    @Insert
+    fun addUtensilToList(recipeIngredient: RecipeUtensil)
+    fun addUtensilsToList(utensilList: List<String>, recipe: Recipe) {
+        for (utensil in utensilList) {
+            if (getUtensil(utensil, recipe.id) == null)
+                addUtensilToList(
+                    RecipeUtensil(
+                    recipeId = recipe.id,
+                    name = utensil)
+                )
+        }
+    }
+
+
+
+    fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>?, utensils: List<String>?) {
+        if(getRecipe(recipe.id) == null) addRecipe(recipe)
+        else updateRecipe(recipe)
+        if(utensils != null) addUtensilsToList(utensils, recipe)
+        if(ingredients != null) addIngredientsToList(ingredients, recipe)
     }
 
     @Query("SELECT recipe_ingredient_list_xref.ingredientName FROM recipe_ingredient_list_xref WHERE recipe_ingredient_list_xref.recipeId=(:recipeId)")
