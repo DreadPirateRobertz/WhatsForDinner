@@ -24,6 +24,8 @@ class RecipeWorker(context: Context, workerParams: WorkerParameters)
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .build()
         fun getApiData(outputData: Data) = outputData.getString(PROGRESS)
+
+        fun getApiData(outputData: Data) = outputData.getString(CHARACTER_API_KEY)
     }
 
     override fun doWork(): Result {
@@ -31,7 +33,7 @@ class RecipeWorker(context: Context, workerParams: WorkerParameters)
         val ingredients: String = "chicken%2Crice&2cbeans"
         val client = OkHttpClient()
         var apiData: String? = null
-        val request : Request = Request.Builder()
+        val request: Request = Request.Builder()
             .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=$ingredients&number=10&ignorePantry=true&ranking=1")
             .get()
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")

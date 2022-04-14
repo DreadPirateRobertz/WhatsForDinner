@@ -1,12 +1,15 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import android.util.Log
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -15,6 +18,8 @@ import org.json.JSONArray
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
+import ramseybros.WhatsForDinner.ui.theme.colorDarkError
+import ramseybros.WhatsForDinner.util.CharacterWorker
 import ramseybros.WhatsForDinner.util.RecipeWorker
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.lang.StringBuilder
@@ -25,6 +30,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
     override val arguments: List<NamedNavArgument>
         get() = listOf()
     override val title: Int = R.string.recipe_search_screen_title
+
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -36,7 +42,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         val workInfoState = viewModel.outputWorkerInfo.observeAsState()
         val sb = StringBuilder()
         workInfoState.value?.let { workInfo ->
-            when(workInfo.state) {
+            when (workInfo.state) {
                 WorkInfo.State.ENQUEUED -> Log.d(LOG_TAG, "workInfo enqueued")
                 WorkInfo.State.RUNNING -> {
                     //gets the segments of the JSON request while the worker is running
@@ -76,12 +82,16 @@ object RecipeSearchScreenSpec : IScreenSpec {
 
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
+        var color: Color = colorDarkError
+        if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
+        else color = colorResource(id = R.color.black)
         IconButton(
             onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }
         ) {
             Icon(
                 imageVector = Icons.Filled.Home,
-                contentDescription = null
+                contentDescription = null,
+                tint = color
             )
         }
     }

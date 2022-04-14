@@ -10,16 +10,24 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
 import ramseybros.WhatsForDinner.data.RecipeUtensil
 
-@Database(entities = [Ingredient::class, Recipe::class, RecipeIngredientListXRef::class, RecipeUtensil::class], version = 1)
+@Database(
+    entities = [Ingredient::class, Recipe::class, RecipeIngredientListXRef::class, RecipeUtensil::class],
+    version = 1
+)
 abstract class WhatsForDinnerDatabase : RoomDatabase() {
     @TypeConverters(WhatsForDinnerTypeConverters::class)
     companion object {
-        @Volatile private var INSTANCE: WhatsForDinnerDatabase? = null
+        @Volatile
+        private var INSTANCE: WhatsForDinnerDatabase? = null
         fun getInstance(context: Context): WhatsForDinnerDatabase {
             synchronized(this) {
                 var instance = INSTANCE
-                if(instance == null) {
-                    instance = Room.databaseBuilder(context, WhatsForDinnerDatabase::class.java, "whatsfordinner-database").build()
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
+                        context,
+                        WhatsForDinnerDatabase::class.java,
+                        "whatsfordinner-database"
+                    ).build()
                     INSTANCE = instance
                 }
                 return instance

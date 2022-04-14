@@ -42,8 +42,8 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 
 @Composable
-private fun SectionHeader(title: String){
-    Column(){
+private fun SectionHeader(title: String) {
+    Column() {
         Text(
             title,
             fontSize = 24.sp,
@@ -56,14 +56,15 @@ private fun SectionHeader(title: String){
 }
 
 @Composable
-private fun SavedRecipesSection(){
+private fun SavedRecipesSection() {
     Column(
     ) {
         SectionHeader(title = stringResource(id = R.string.saved_recipes_header))
     }
 }
+
 @Composable
-private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any){
+private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any) {
     //Clicking A recipe will take you to how to make it...
     Card(modifier = Modifier
         .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)

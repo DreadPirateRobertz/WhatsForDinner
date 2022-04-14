@@ -22,7 +22,7 @@ import ramseybros.WhatsForDinner.data.IngredientType
 import ramseybros.WhatsForDinner.util.IngredientListGenerator
 
 @Composable
-fun MyKitchen (onClick: () -> Unit) {
+fun MyKitchen(onClick: () -> Unit) {
     Text(
         text = "My Kitchen"
     )
@@ -35,7 +35,6 @@ fun MyKitchen (onClick: () -> Unit) {
         }
     }
 }
-
 
 
 @Composable
@@ -63,7 +62,7 @@ private fun IngredientIcon(image: Painter, text: String, onClick: () -> Unit) {
             .padding(5.dp)
     ) {
         Column {
-            Image (
+            Image(
                 painter = image,
                 contentDescription = text,
                 modifier = Modifier
@@ -80,6 +79,6 @@ private fun IngredientIcon(image: Painter, text: String, onClick: () -> Unit) {
 
 @Preview(showBackground = true, showSystemUi = false)
 @Composable
-private fun Preview () {
+private fun Preview() {
     IngredientIcon(image = painterResource(R.drawable.butter), text = "Butter") {}
 }

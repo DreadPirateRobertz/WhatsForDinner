@@ -7,16 +7,23 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 import java.util.*
 
-@Entity(tableName = "recipe_ingredient_list_xref",
+@Entity(
+    tableName = "recipe_ingredient_list_xref",
     primaryKeys = ["recipeId", "ingredientName"],
     foreignKeys = arrayOf(
-        ForeignKey(entity = Recipe::class,
+        ForeignKey(
+            entity = Recipe::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("recipeId"),
-            onDelete = CASCADE),
-        ForeignKey(entity = Ingredient::class,
+            onDelete = CASCADE
+        ),
+        ForeignKey(
+            entity = Ingredient::class,
             parentColumns = arrayOf("name"),
             childColumns = arrayOf("ingredientName"),
-            onDelete = CASCADE)))
+            onDelete = CASCADE
+        )
+    )
+)
 class RecipeIngredientListXRef(var recipeId: UUID, var ingredientName: String) : Serializable {
 }

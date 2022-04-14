@@ -19,16 +19,18 @@ import java.util.*
 class WhatsForDinnerViewModel(
     private val whatsForDinnerRepository: WhatsForDinnerRepository,
     context: Context
-): I_WhatsForDinnerViewModel() {
+) : I_WhatsForDinnerViewModel() {
     private val workManager = WorkManager.getInstance(context)
     private val workRequest = RecipeWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
+
     override fun requestWebRecipes() {
         workManager.enqueueUniqueWork(
             RecipeWorker.UNIQUE_WORK_NAME,
             ExistingWorkPolicy.REPLACE,
-            workRequest)
+            workRequest
+        )
     }
 
     private val _apiRecipeListLiveData = MutableLiveData<MutableList<Recipe>>()
@@ -43,18 +45,21 @@ class WhatsForDinnerViewModel(
     override val ingredientListLiveData = whatsForDinnerRepository.getIngredients()
 
 
-
-    override val recipeLiveData = Transformations.switchMap(_recipeIdLiveData){
-            recipeId -> whatsForDinnerRepository.getRecipe(recipeId)
+    override val recipeLiveData = Transformations.switchMap(_recipeIdLiveData) { recipeId ->
+        whatsForDinnerRepository.getRecipe(recipeId)
     }
 
-    override val ingredientLiveData = Transformations.switchMap(_ingredientIdLiveData){
-            ingredientId -> whatsForDinnerRepository.getIngredient(ingredientId)
-    }
+    override val ingredientLiveData =
+        Transformations.switchMap(_ingredientIdLiveData) { ingredientId ->
+            whatsForDinnerRepository.getIngredient(ingredientId)
+        }
 
 
-    override fun getRecipeIngredientList(recipeId: UUID) = whatsForDinnerRepository.getIngredientList(recipeId)
-    override fun getRecipeUtensilList(recipeId: UUID) = whatsForDinnerRepository.getUtensilList(recipeId)
+    override fun getRecipeIngredientList(recipeId: UUID) =
+        whatsForDinnerRepository.getIngredientList(recipeId)
+
+    override fun getRecipeUtensilList(recipeId: UUID) =
+        whatsForDinnerRepository.getUtensilList(recipeId)
 
     override fun getApiRecipeList(): MutableLiveData<MutableList<Recipe>> = _apiRecipeListLiveData
 

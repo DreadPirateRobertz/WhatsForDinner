@@ -18,12 +18,19 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
 // difficulty is not taken into account now since I don't know how many we're gonna have
-fun LargeRecipeView(recipe: Recipe, inKitchenList: List<String>,
-                    ingredientList: List<String>, utensilList: List<String>,
-                    onSave: (Recipe) -> Unit, onBack: () -> Unit) {
+fun LargeRecipeView(
+    recipe: Recipe, inKitchenList: List<String>,
+    ingredientList: List<String>, utensilList: List<String>,
+    onSave: (Recipe) -> Unit, onBack: () -> Unit
+) {
     Column() {
         LargeViewRecipeHeader(recipe = recipe)
-        RecipeInformation(recipe = recipe, inKitchenList = inKitchenList, ingredientList = ingredientList, utensilList = utensilList)
+        RecipeInformation(
+            recipe = recipe,
+            inKitchenList = inKitchenList,
+            ingredientList = ingredientList,
+            utensilList = utensilList
+        )
         LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
     }
 }
@@ -32,7 +39,13 @@ fun LargeRecipeView(recipe: Recipe, inKitchenList: List<String>,
 fun LargeViewRecipeHeader(recipe: Recipe) {
     //probably call small view???
     Row() {
-        Text(recipe.title, Modifier.weight(1.0f), textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text(
+            recipe.title,
+            Modifier.weight(1.0f),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp
+        )
         Column() {
             Text(recipe.difficulty.toString())
             Text(recipe.time)
@@ -43,10 +56,10 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
 @Composable
 fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onBack: () -> Unit) {
     Row(Modifier.wrapContentHeight()) {
-        Button(onClick = {onSave(recipe)}, Modifier.weight(1.0f)) {
+        Button(onClick = { onSave(recipe) }, Modifier.weight(1.0f)) {
             Text(stringResource(id = ramseybros.WhatsForDinner.R.string.save_recipe_label))
         }
-        Button(onClick = {onBack}, Modifier.weight(1.0f)) {
+        Button(onClick = { onBack }, Modifier.weight(1.0f)) {
             Text(stringResource(id = R.string.return_to_recipe_list_label))
         }
     }
@@ -56,6 +69,14 @@ fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onBack: () -
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewLargeRecipeView() {
-    var inKitchenList: List<String> = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk")
-    LargeRecipeView(RecipeGenerator.singleRecipe(), inKitchenList = inKitchenList, onSave = fun (recipe: Recipe) {}, onBack = {}, ingredientList = inKitchenList, utensilList = listOf("spoon"))
+    var inKitchenList: List<String> =
+        listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk")
+    LargeRecipeView(
+        RecipeGenerator.singleRecipe(),
+        inKitchenList = inKitchenList,
+        onSave = fun(recipe: Recipe) {},
+        onBack = {},
+        ingredientList = inKitchenList,
+        utensilList = listOf("spoon")
+    )
 }

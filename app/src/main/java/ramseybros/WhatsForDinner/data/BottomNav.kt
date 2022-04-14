@@ -19,7 +19,7 @@ import ramseybros.WhatsForDinner.ui.screens.MyKitchen
 data class BottomNav(
     val label: String,
     var icon: ImageVector,
-    val route:String,
+    val route: String,
 )
 
 object Constants {
@@ -42,7 +42,7 @@ object Constants {
             route = "RecipeSearchScreen"
         ),
 
-    )
+        )
 }
 
 

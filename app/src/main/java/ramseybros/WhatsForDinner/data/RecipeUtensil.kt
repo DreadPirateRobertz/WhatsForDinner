@@ -6,13 +6,17 @@ import androidx.room.PrimaryKey
 import ramseybros.WhatsForDinner.data.Recipe
 import java.util.*
 
-@Entity(tableName = "utensil",
+@Entity(
+    tableName = "utensil",
     primaryKeys = ["name", "recipeId"],
     foreignKeys = arrayOf(
-        ForeignKey(entity = Recipe::class,
+        ForeignKey(
+            entity = Recipe::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("recipeId"),
             onDelete = ForeignKey.CASCADE
-        )))
-class RecipeUtensil( val name: String, val recipeId: UUID) {
+        )
+    )
+)
+class RecipeUtensil(val name: String, val recipeId: UUID) {
 }

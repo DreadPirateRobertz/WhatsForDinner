@@ -18,7 +18,7 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
 
 @Composable
-fun RecipeSearchScreen(onButtonClick:() -> Unit) {
+fun RecipeSearchScreen(onButtonClick: () -> Unit) {
     Button(
         onClick = onButtonClick
     ) {

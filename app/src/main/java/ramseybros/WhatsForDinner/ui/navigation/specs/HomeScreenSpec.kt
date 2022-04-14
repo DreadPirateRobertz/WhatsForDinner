@@ -12,11 +12,11 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.util.jar.Attributes
 import ramseybros.WhatsForDinner.R
 
-object HomeScreenSpec: IScreenSpec {
+object HomeScreenSpec : IScreenSpec {
     override val route: String
         get() = "home"
     override val title: Int = R.string.home_screen_title
-    override val arguments : List<NamedNavArgument> = emptyList()
+    override val arguments: List<NamedNavArgument> = emptyList()
 //        listOf(
 //            navArgument(ARG) {type = NavType.StringType }
 //        )
@@ -25,7 +25,8 @@ object HomeScreenSpec: IScreenSpec {
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
         navController: NavHostController,
-        backStackEntry: NavBackStackEntry) {
+        backStackEntry: NavBackStackEntry
+    ) {
         val recentRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
         val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
         val recommendedIngredientsList: List<Ingredient> =
@@ -39,15 +40,18 @@ object HomeScreenSpec: IScreenSpec {
             recommendedRecipesList = recommendedRecipesList,
             onSelectRecipe =
             { recipe ->
-                    navController.navigate(LargeRecipeScreenSpec.navigateTo())},
+                navController.navigate(LargeRecipeScreenSpec.navigateTo())
+            },
             onSelectIngredient = {}
         )
 
     }
+
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {}
+    override fun TopAppBarActions(navController: NavHostController) {
+    }
 
     override fun navigateTo(vararg args: String?): String {
-       return route
+        return route
     }
 }
