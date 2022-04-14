@@ -34,16 +34,44 @@ object KitchenSubmenuScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        var headerList: List<String> = listOf("Ingredients", "Utensils", "Utensils", "Utensils", "Utensils", "Utensils", "Utensils", "Ingredients")
-        var ingredientList: List<String> = listOf("Garlic", "Kosher Salt", "Paprika", "Ground Black Pepper", "Cream","Chicken Breast", "Beef Stock", "Rosemary")
+        var headerList: List<String> = listOf(
+            "Ingredients",
+            "Utensils",
+            "Utensils",
+            "Utensils",
+            "Utensils",
+            "Utensils",
+            "Utensils",
+            "Ingredients"
+        )
+        var ingredientList: List<String> = listOf(
+            "Garlic",
+            "Kosher Salt",
+            "Paprika",
+            "Ground Black Pepper",
+            "Cream",
+            "Chicken Breast",
+            "Beef Stock",
+            "Rosemary"
+        )
         var utensilList: List<String> = listOf("Spoon", "Whisk", "Pan")
-        var itemList: List<List<String>> = listOf(ingredientList, utensilList, utensilList, utensilList, utensilList, utensilList, utensilList, ingredientList)
+        var itemList: List<List<String>> = listOf(
+            ingredientList,
+            utensilList,
+            utensilList,
+            utensilList,
+            utensilList,
+            utensilList,
+            utensilList,
+            ingredientList
+        )
         KitchenList(itemList = itemList, headerList = headerList, {})
     }
+
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
         var color: Color = colorDarkError
-        if(!isSystemInDarkTheme()) color = colorResource(R.color.white)
+        if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
         else color = colorResource(id = R.color.black)
         IconButton(
             onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }

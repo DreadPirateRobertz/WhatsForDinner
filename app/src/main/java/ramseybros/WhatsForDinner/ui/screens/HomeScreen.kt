@@ -150,7 +150,7 @@ private fun RecommendedRecipeRow(
         Card(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
-            ) {
+        ) {
             Column(Modifier.fillMaxSize()) {
                 RecommendedRecipesSection()
                 if (recommendedRecipesList != null) {
@@ -183,8 +183,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 8.dp, bottom = 8.dp)
-        ,
+            .padding(top = 8.dp, bottom = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {

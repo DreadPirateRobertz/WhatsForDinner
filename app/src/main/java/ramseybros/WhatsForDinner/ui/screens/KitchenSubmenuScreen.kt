@@ -27,11 +27,18 @@ fun KitchenSectionList(itemList: List<String>, header: String) {
         Text(header, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         LazyRow(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             items(itemList.size) {
-                Card(Modifier.border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(5))) {
-                    Text(text = itemList[it],
+                Card(
+                    Modifier.border(
+                        BorderStroke(2.dp, Color.Black),
+                        shape = RoundedCornerShape(5)
+                    )
+                ) {
+                    Text(
+                        text = itemList[it],
                         Modifier
                             .height(64.dp)
-                            .width(64.dp), textAlign = TextAlign.Center)
+                            .width(64.dp), textAlign = TextAlign.Center
+                    )
                 }
             }
         }
@@ -41,8 +48,12 @@ fun KitchenSectionList(itemList: List<String>, header: String) {
 @Composable
 fun KitchenList(itemList: List<List<String>>, headerList: List<String>, addRecipe: () -> Unit) {
     Column() {
-        Column(modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-            horizontalAlignment = Alignment.End) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            horizontalAlignment = Alignment.End
+        ) {
             Button(onClick = addRecipe) {
                 Text(stringResource(id = R.string.add_recipe_label))
             }
@@ -59,9 +70,36 @@ fun KitchenList(itemList: List<List<String>>, headerList: List<String>, addRecip
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewKitchenList() {
-    var headerList: List<String> = listOf("Ingredients", "Utensils", "Utensils", "Utensils", "Utensils", "Utensils", "Utensils", "Ingredients")
-    var ingredientList: List<String> = listOf("Garlic", "Kosher Salt", "Paprika", "Ground Black Pepper", "Cream","Chicken Breast", "Beef Stock", "Rosemary")
+    var headerList: List<String> = listOf(
+        "Ingredients",
+        "Utensils",
+        "Utensils",
+        "Utensils",
+        "Utensils",
+        "Utensils",
+        "Utensils",
+        "Ingredients"
+    )
+    var ingredientList: List<String> = listOf(
+        "Garlic",
+        "Kosher Salt",
+        "Paprika",
+        "Ground Black Pepper",
+        "Cream",
+        "Chicken Breast",
+        "Beef Stock",
+        "Rosemary"
+    )
     var utensilList: List<String> = listOf("Spoon", "Whisk", "Pan")
-    var itemList: List<List<String>> = listOf(ingredientList, utensilList, utensilList, utensilList, utensilList, utensilList, utensilList, ingredientList)
+    var itemList: List<List<String>> = listOf(
+        ingredientList,
+        utensilList,
+        utensilList,
+        utensilList,
+        utensilList,
+        utensilList,
+        utensilList,
+        ingredientList
+    )
     KitchenList(itemList = itemList, headerList = headerList, {})
 }

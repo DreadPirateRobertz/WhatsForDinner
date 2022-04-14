@@ -8,7 +8,7 @@ import androidx.work.WorkInfo
 import ramseybros.WhatsForDinner.data.*
 import java.util.*
 
-abstract class I_WhatsForDinnerViewModel: ViewModel(){
+abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract val recipeListLiveData: LiveData<List<Recipe>>
     abstract val recipeLiveData: LiveData<Recipe?>
 
@@ -21,7 +21,7 @@ abstract class I_WhatsForDinnerViewModel: ViewModel(){
 
     abstract fun getApiRecipeList(): MutableLiveData<MutableList<Recipe>>
 
-//    abstract fun addCharacter(character: WhatsForDinnerCharacter)
+    //    abstract fun addCharacter(character: WhatsForDinnerCharacter)
 //    abstract fun loadCharacter(Id: UUID)
 //    abstract fun generateRandomCharacter(): WhatsForDinnerCharacter
     abstract fun requestWebRecipes()

@@ -10,7 +10,7 @@ object IngredientListGenerator {
 
     fun generateList() {
         ingredientList = mutableListOf()
-        for(i in 1..10) {
+        for (i in 1..10) {
             ingredientList.add(Ingredient("Temp...", R.drawable.butter, IngredientType.DAIRY))
         }
     }

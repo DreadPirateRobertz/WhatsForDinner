@@ -21,11 +21,12 @@ import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
-object SavedRecipesScreenSpec: IScreenSpec {
+object SavedRecipesScreenSpec : IScreenSpec {
     override val route: String
         get() = "saved"
     override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.saved_recipes_screen_title
+
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -47,7 +48,7 @@ object SavedRecipesScreenSpec: IScreenSpec {
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
         var color: Color = colorDarkError
-        if(!isSystemInDarkTheme()) color = colorResource(R.color.white)
+        if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
         else color = colorResource(id = R.color.black)
         IconButton(
             onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }

@@ -26,7 +26,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
         var color: Color = colorDarkError
-        if(!isSystemInDarkTheme()) color = colorResource(R.color.white)
+        if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
         else color = colorResource(id = R.color.black)
         IconButton(
             onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }
@@ -53,7 +53,14 @@ object LargeRecipeScreenSpec : IScreenSpec {
         val recipe = RecipeGenerator.singleRecipe()
         val ingredientList = RecipeGenerator.recipeIngredientList()
         val utensilList = RecipeGenerator.recipeUtensilList()
-        LargeRecipeView(recipe = recipe, onSave = {}, onBack = {navController.navigate(RecipeSearchScreenSpec.navigateTo())}, inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"), ingredientList = ingredientList, utensilList = utensilList)
+        LargeRecipeView(
+            recipe = recipe,
+            onSave = {},
+            onBack = { navController.navigate(RecipeSearchScreenSpec.navigateTo()) },
+            inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"),
+            ingredientList = ingredientList,
+            utensilList = utensilList
+        )
     }
 
 }

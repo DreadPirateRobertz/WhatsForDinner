@@ -23,36 +23,42 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
             }
         }
     }
+
     private val executor = Executors.newSingleThreadExecutor()
     fun addRecipe(recipe: Recipe) {
         executor.execute {
             whatsForDinnerDao.addRecipe(recipe)
         }
     }
-    fun addIngredient(ingredient: Ingredient){
-        executor.execute{
+
+    fun addIngredient(ingredient: Ingredient) {
+        executor.execute {
             whatsForDinnerDao.addIngredient(ingredient)
         }
     }
+
     fun updateRecipe(recipe: Recipe) {
-        executor.execute{
+        executor.execute {
             whatsForDinnerDao.updateRecipe(recipe)
         }
     }
 
     fun updateIngredient(ingredient: Ingredient) {
-        executor.execute{
+        executor.execute {
             whatsForDinnerDao.updateIngredient(ingredient)
         }
     }
 
     fun getRecipes(): LiveData<List<Recipe>> = whatsForDinnerDao.getRecipes()
     fun getRecipe(id: UUID): LiveData<Recipe>? = whatsForDinnerDao.getRecipe(id)
-    fun getIngredients() : LiveData<List<Ingredient>> = whatsForDinnerDao.getIngredients()
-    fun getIngredient(name : String) : LiveData<Ingredient>?= whatsForDinnerDao.getIngredient(name)
+    fun getIngredients(): LiveData<List<Ingredient>> = whatsForDinnerDao.getIngredients()
+    fun getIngredient(name: String): LiveData<Ingredient>? = whatsForDinnerDao.getIngredient(name)
     fun deleteRecipe(recipe: Recipe) = whatsForDinnerDao.deleteRecipe(recipe)
     fun deleteIngredient(ingredient: Ingredient) = whatsForDinnerDao.deleteIngredient(ingredient)
 
-    fun getIngredientList(recipeId: UUID) : LiveData<List<String>> = whatsForDinnerDao.getIngredientList(recipeId)
-    fun getUtensilList(recipeId: UUID) : LiveData<List<String>> = whatsForDinnerDao.getUtensilList(recipeId)
+    fun getIngredientList(recipeId: UUID): LiveData<List<String>> =
+        whatsForDinnerDao.getIngredientList(recipeId)
+
+    fun getUtensilList(recipeId: UUID): LiveData<List<String>> =
+        whatsForDinnerDao.getUtensilList(recipeId)
 }

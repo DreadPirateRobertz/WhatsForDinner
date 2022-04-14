@@ -44,7 +44,7 @@ fun SplashScreen(navController: NavController) {
     // AnimationEffect
     LaunchedEffect(key1 = true) {
         scale.animateTo(
-            targetValue = 1.3f,
+            targetValue = 1.25f,
             animationSpec = tween(
                 durationMillis = 800,
                 easing = {
@@ -89,9 +89,25 @@ fun SplashScreen(navController: NavController) {
                 color = Color(0xFF03DAC5),
                 center = Offset(
                     x = canvasWidth / 2,
-                    y = canvasHeight / 2 + 75
+                    y = canvasHeight / 2 + 60
                 ),
                 radius = size.minDimension / 4f,
+            )
+            drawCircle(
+                color = Color(0xFF000000),
+                center = Offset(
+                    x = canvasWidth / 2,
+                    y = canvasHeight / 2 + 60
+                ),
+                radius = size.minDimension / 6f,
+            )
+            drawCircle(
+                color = Color(0xFF03DAC5),
+                center = Offset(
+                    x = canvasWidth / 2,
+                    y = canvasHeight / 2 + 60
+                ),
+                radius = size.minDimension / 16f,
             )
         }
     }

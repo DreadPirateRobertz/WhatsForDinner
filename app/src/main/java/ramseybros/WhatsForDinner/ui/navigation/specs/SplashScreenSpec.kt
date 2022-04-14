@@ -16,21 +16,25 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.util.jar.Attributes
 
 
-object SplashScreenSpec: IScreenSpec {
+object SplashScreenSpec : IScreenSpec {
     override val route: String
         get() = "splash"
     override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.app_name
+
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
         navController: NavHostController,
-        backStackEntry: NavBackStackEntry) {
+        backStackEntry: NavBackStackEntry
+    ) {
         SplashScreen(navController = navController)
     }
 
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {}
+    override fun TopAppBarActions(navController: NavHostController) {
+    }
+
     override fun navigateTo(vararg args: String?): String {
         return route
     }

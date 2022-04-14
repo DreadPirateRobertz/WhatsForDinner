@@ -27,8 +27,8 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
-fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit ) {
-    Card (modifier = Modifier
+fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
+    Card(modifier = Modifier
         .padding(10.dp)
         .clickable { onClick() }
         .border(2.dp, Color.Black, RoundedCornerShape(10))
@@ -59,7 +59,7 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit ) {
                     .padding(6.dp)
             )
             Column(
-            ){
+            ) {
                 Text(
                     text = "\"Calories\"",
                     modifier = Modifier
@@ -83,6 +83,6 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit ) {
 
 @Preview(showBackground = true)
 @Composable
-private fun Preview () {
+private fun Preview() {
     SmallRecipeView(RecipeGenerator.singleRecipe()) {}
 }

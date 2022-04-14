@@ -43,119 +43,87 @@ sealed interface IScreenSpec {
             .associate { it.objectInstance?.route to it.objectInstance }
 
         @Composable
-        fun TopBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?){
+        fun TopBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
             val route = navBackStackEntry?.destination?.route ?: ""
-            if (route != "" ) map[route]?.TopAppBarContent(navController = navController, navBackStackEntry)
+            if (route != "") map[route]?.TopAppBarContent(
+                navController = navController,
+                navBackStackEntry
+            )
             //&& route != "home"
         }
 
         @Composable
-        fun BottomBar(navController: NavHostController){
+        fun BottomBar(navController: NavHostController) {
 //            BottomAppBar(            // Defaults to null, that is, No cutout
 //                cutoutShape = MaterialTheme.shapes.small.copy(
 //                    CornerSize(percent = 50)
 //                )
 //            ) {
-            if(!isSystemInDarkTheme()) {//Light Theme
-                BottomNavigation(
-                    backgroundColor = colorDarkSecondary,
+            var color = Color.White
+            var bgColor = colorDarkSecondary
+            if (isSystemInDarkTheme()) {
+                color = Color.Black
+                bgColor = colorLightSecondary
+            }
+            BottomNavigation(
+                backgroundColor = bgColor,
 
-                    ) {
-                    // observe the backstack
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    // observe current route to change the icon
-                    // color,label color when navigated
-                    // observe current route to change the icon
-                    // color,label color when navigated
-                    val currentRoute = navBackStackEntry?.destination?.route
-                    // Bottom nav items we declared
-                    Constants.BottomNavItems.forEach { navItem ->
+                ) {
+                // observe the backstack
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                // observe current route to change the icon
+                // color,label color when navigated
+                // observe current route to change the icon
+                // color,label color when navigated
+                val currentRoute = navBackStackEntry?.destination?.route
+                // Bottom nav items we declared
+                Constants.BottomNavItems.forEach { navItem ->
+                    // Place the bottom nav items
+                    BottomNavigationItem(
+                        // it currentRoute is equal then its selected route
+                        selected = currentRoute == navItem.route,
+                        selectedContentColor = color,
+                        unselectedContentColor = color.copy(.7f),
+                        // navigate on click
+                        onClick = {
+                            navController.navigate(navItem.route) {
+                                // Navigate to the "search” destination only if we’re not already on
+                                // the "search" destination, avoiding multiple copies on the top of the
+                                // back stack
+                                launchSingleTop = true
+                            }
 
-                        // Place the bottom nav items
-
-                        BottomNavigationItem(
-                            // it currentRoute is equal then its selected route
-                            selected = currentRoute == navItem.route,
-                            selectedContentColor = Color.White,
-                            unselectedContentColor = Color.White.copy(.7f),
-                            // navigate on click
-                            onClick = {
-                                navController.navigate(navItem.route) {
-                                    // Navigate to the "search” destination only if we’re not already on
-                                    // the "search" destination, avoiding multiple copies on the top of the
-                                    // back stack
-                                    launchSingleTop = true
-                                }
-
-                            },
-                            // Icon of navItem
-                            icon = {
-                                if (navItem.label == "Kitchen") Icon(
-                                    painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
-                                    contentDescription = navItem.label
-                                )
-                                else Icon(
-                                    imageVector = navItem.icon,
-                                    contentDescription = navItem.label
-                                )
-                            },
-                            // label
-                            label = {
-                                Text(
-                                    fontWeight = FontWeight.ExtraBold,
-                                    fontSize = 12.sp,
-                                    text = navItem.label
-                                )
-                            },
-                            alwaysShowLabel = false
-                        )
-                    }
+                        },
+                        // Icon of navItem
+                        icon = {
+                            if (navItem.label == "Kitchen") Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
+                                contentDescription = navItem.label
+                            )
+                            else Icon(
+                                imageVector = navItem.icon,
+                                contentDescription = navItem.label
+                            )
+                        },
+                        // label
+                        label = {
+                            Text(
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 12.sp,
+                                text = navItem.label
+                            )
+                        },
+                        alwaysShowLabel = false
+                    )
                 }
             }
-                        else{//Dark Theme
-                            BottomNavigation(
-                                backgroundColor = colorLightSecondary,
-                                ) {
 
-                                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                                val currentRoute = navBackStackEntry?.destination?.route
-                                Constants.BottomNavItems.forEach { navItem ->
-                            BottomNavigationItem(
-                                selected = currentRoute == navItem.route,
-                                selectedContentColor = Color.Black,
-                                unselectedContentColor = Color.Black.copy(.7f),
-                                onClick = {
-                                    navController.navigate(navItem.route) {
-                                        launchSingleTop = true
-                                    }
-                                },
-                                icon = {
-                                    if (navItem.label == "Kitchen") Icon(
-                                        painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
-                                        contentDescription = navItem.label
-                                    )
-                                    else Icon(
-                                        imageVector = navItem.icon,
-                                        contentDescription = navItem.label
-                                    )
-                                },
-                                label = {
-                                    Text(
-                                        fontWeight = FontWeight.ExtraBold,
-                                        fontSize = 12.sp,
-                                        text = navItem.label
-                                    )
-                                },
-                                alwaysShowLabel = false
-                            )
-                        }
-                    }
-                }
 //            }
         }
+
         @Composable
-        fun FloatingButton(navController: NavHostController){
-            FloatingActionButton(onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())}, ) {
+        fun FloatingButton(navController: NavHostController) {
+            FloatingActionButton(onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo()) }) {
                 Icon(
                     imageVector = Icons.Filled.ShoppingCart,
                     contentDescription = null
@@ -165,120 +133,78 @@ sealed interface IScreenSpec {
     }
 
 
+    @Composable
+    fun Content(
+        viewModel: I_WhatsForDinnerViewModel,
+        navController: NavHostController,
+        backStackEntry: NavBackStackEntry
+    )
 
     @Composable
-    fun Content(viewModel: I_WhatsForDinnerViewModel, navController: NavHostController, backStackEntry: NavBackStackEntry)
-    @Composable fun TopAppBarActions(navController: NavHostController)
+    fun TopAppBarActions(navController: NavHostController)
 
     @Composable
     private fun TopAppBarContent(
         navController: NavHostController,
         navBackStackEntry: NavBackStackEntry?
     ) {
-        if (!isSystemInDarkTheme()) {//Light Theme
-            TopAppBar(
-                title =         //Title
+        var color = Color.White
+        var bgColor = colorDarkSecondary
+        if (isSystemInDarkTheme()) {
+            color = Color.Black
+            bgColor = colorLightSecondary
+        }
+        TopAppBar(
+            title =
+            {
+                Row(
+                    Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ProvideTextStyle(value = MaterialTheme.typography.h6) {
+                        CompositionLocalProvider(
+                            LocalContentAlpha provides ContentAlpha.high,
+                        ) {
+                            if (navBackStackEntry?.destination?.route != "home") {
+                                Text(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    textAlign = TextAlign.Start,
+                                    maxLines = 1,
+                                    text = stringResource(id = title),
+                                    color = color
+                                )
+                            }
+                        }
+                    }
+                    if (navBackStackEntry?.destination?.route == "home") {
+                        Icon(
+                            imageVector = Icons.Filled.Home,
+                            contentDescription = null,
+                            tint = color
+                        )
+                    }
+                }
+            },
+            backgroundColor = bgColor,
+            modifier = Modifier.fillMaxWidth(),
+            navigationIcon =
+            if (navController.previousBackStackEntry != null) {
                 {
-                    Row(
-                        Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        ProvideTextStyle(value = MaterialTheme.typography.h6) {
-                            CompositionLocalProvider(
-                                LocalContentAlpha provides ContentAlpha.high,
-                            ) {
-                                if (navBackStackEntry?.destination?.route != "home") {
-                                    Text(
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        textAlign = TextAlign.Start,
-                                        maxLines = 1,
-                                        text = stringResource(id = title),
-                                        color = colorResource(id = R.color.white)
-                                    )
-                                }
-                            }
-                        }
-                        if(navBackStackEntry?.destination?.route == "home"){
-                            Icon(
-                                imageVector = Icons.Filled.Home,
-                                contentDescription = null,
-                                tint = colorResource(R.color.white)
-                            )
-                        }
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = color
+                        )
                     }
-                },
-                backgroundColor = colorDarkSecondary,
-                modifier = Modifier.fillMaxWidth(),
-                navigationIcon =
-                if (navController.previousBackStackEntry != null) {
-                    {
-                        IconButton(onClick = { navController.navigateUp() }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = null,
-                                tint = colorResource(id = R.color.white)
-                            )
-                        }
-                    }
-                } else {
-                    null
-                },
-                actions = { TopAppBarActions(navController = navController) }
-            )
-        } else { //Dark Theme
-            TopAppBar(
-                title =         //Title
-                {
-                    Row(
-                        Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        ProvideTextStyle(value = MaterialTheme.typography.h6) {
-                            CompositionLocalProvider(
-                                LocalContentAlpha provides ContentAlpha.high,
-                            ) {
-                                if (navBackStackEntry?.destination?.route != "home") {
-                                    Text(
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        textAlign = TextAlign.Start,
-                                        maxLines = 1,
-                                        text = stringResource(id = title),
-                                        color = colorResource(id = R.color.black)
-                                    )
-                                }
-                            }
-                            }
-                            if(navBackStackEntry?.destination?.route == "home"){
-                                    Icon(
-                                        imageVector = Icons.Filled.Home,
-                                        contentDescription = null,
-                                        tint = colorResource(id = R.color.black)
-                                    )
-                        }
-                    }
-                },
-                backgroundColor = colorLightSecondary,
-                modifier = Modifier.fillMaxWidth(),
-                navigationIcon =
-                if (navController.previousBackStackEntry != null) { //TODO: Make it so Home Screen has no UP arrow/Perhaps draw a HOME icon
-                    {
-                        IconButton(onClick = { navController.navigateUp() }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack, //TODO: Customize Icon
-                                contentDescription = "Back"
-                            )
-                        }
-                    }
-                } else {
-                    null
-                },
-                actions = { TopAppBarActions(navController = navController) }
-            )
-    }
+                }
+            } else {
+                null
+            },
+            actions = { TopAppBarActions(navController = navController) }
+        )
     }
 
-    fun navigateTo(vararg args: String?) : String
-
+    fun navigateTo(vararg args: String?): String
 }

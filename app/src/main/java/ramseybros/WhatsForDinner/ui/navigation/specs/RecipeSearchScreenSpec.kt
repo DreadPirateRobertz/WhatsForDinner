@@ -28,6 +28,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
     override val arguments: List<NamedNavArgument>
         get() = listOf()
     override val title: Int = R.string.recipe_search_screen_title
+
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -38,7 +39,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
 
         val workInfoState = viewModel.outputWorkerInfo.observeAsState()
         workInfoState.value?.let { workInfo ->
-            when(workInfo.state) {
+            when (workInfo.state) {
                 WorkInfo.State.ENQUEUED -> Log.d(LOG_TAG, "workInfo enqueued")
                 WorkInfo.State.RUNNING -> Log.d(LOG_TAG, "workInfo running")
                 WorkInfo.State.SUCCEEDED -> {
@@ -47,7 +48,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
                     recipeList.value = mutableListOf()
                     val apiData = CharacterWorker.getApiData(workInfo.outputData)
                     Log.d(LOG_TAG, "apiData contains $apiData")
-                    if(apiData != null) {
+                    if (apiData != null) {
                         val items = JSONArray(apiData)
                         for (i in (0 until items.length())) {
                             val recipeObject = items.getJSONObject(i)
@@ -76,7 +77,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
         var color: Color = colorDarkError
-        if(!isSystemInDarkTheme()) color = colorResource(R.color.white)
+        if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
         else color = colorResource(id = R.color.black)
         IconButton(
             onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }
