@@ -19,7 +19,6 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
-import ramseybros.WhatsForDinner.util.CharacterWorker
 import ramseybros.WhatsForDinner.util.RecipeWorker
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.lang.StringBuilder

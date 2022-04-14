@@ -24,8 +24,6 @@ class RecipeWorker(context: Context, workerParams: WorkerParameters)
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .build()
         fun getApiData(outputData: Data) = outputData.getString(PROGRESS)
-
-        fun getApiData(outputData: Data) = outputData.getString(CHARACTER_API_KEY)
     }
 
     override fun doWork(): Result {
