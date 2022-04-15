@@ -92,7 +92,6 @@ sealed interface IScreenSpec {
                                 // avoid building up a large stack of destinations
                                 // on the back stack as users select items
                                 popUpTo(navItem.route) {
-                                    saveState = true
                                 }
                                 // Navigate to the "search” destination only if we’re not already on
                                 // the "search" destination, avoiding multiple copies on the top of the
@@ -132,7 +131,11 @@ sealed interface IScreenSpec {
 
         @Composable
         fun FloatingButton(navController: NavHostController) {
-            FloatingActionButton(onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo()) }) {
+            FloatingActionButton(onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())
+            {
+                popUpTo(ShoppingListScreenSpec.route)
+            }
+            }) {
                 Icon(
                     imageVector = Icons.Filled.ShoppingCart,
                     contentDescription = null
