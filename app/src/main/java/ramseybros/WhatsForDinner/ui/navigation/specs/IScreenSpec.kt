@@ -91,7 +91,7 @@ sealed interface IScreenSpec {
                                 // Pop up to the start destination of the graph to
                                 // avoid building up a large stack of destinations
                                 // on the back stack as users select items
-                                popUpTo(navController.graph.findStartDestination().id) {
+                                popUpTo(navItem.route) {
                                     saveState = true
                                 }
                                 // Navigate to the "search” destination only if we’re not already on
@@ -200,7 +200,7 @@ sealed interface IScreenSpec {
             navigationIcon =
             if (navController.previousBackStackEntry != null) {
                 {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = { navController.navigateUp()}) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,

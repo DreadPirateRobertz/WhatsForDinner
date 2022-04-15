@@ -43,7 +43,11 @@ object SmallRecipeScreenSpec : IScreenSpec {
         if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
         else color = colorResource(id = R.color.black)
         IconButton(
-            onClick = { navController.navigate(HomeScreenSpec.navigateTo()) }
+            onClick = { navController.navigate(HomeScreenSpec.navigateTo()){
+                popUpTo(HomeScreenSpec.route){
+                    inclusive = true
+                }
+            } }
         ) {
             Icon(
                 imageVector = Icons.Filled.Home,
