@@ -23,16 +23,22 @@ import ramseybros.WhatsForDinner.util.IngredientListGenerator
 
 @Composable
 fun MyKitchen(onClick: () -> Unit) {
-    Text(
-        text = "My Kitchen"
-    )
-    Spacer(
-        Modifier.height(15.dp)
-    )
-    LazyColumn() {
-        items(10) {
-            IngredientRow {}
+//    Text(
+//        text = "My Kitchen"
+//    )
+//    Spacer(
+//        Modifier.height(15.dp)
+//    )
+    Column(Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxWidth().weight(.75f)) {
+            LazyColumn() {
+                items(10) {
+                    IngredientRow {}
+                }
+            }
         }
+        Box(Modifier.fillMaxWidth().weight(.25f))
+
     }
 }
 

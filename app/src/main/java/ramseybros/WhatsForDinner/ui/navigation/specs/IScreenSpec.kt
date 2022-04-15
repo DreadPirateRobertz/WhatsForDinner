@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ramseybros.WhatsForDinner.R
@@ -87,10 +88,18 @@ sealed interface IScreenSpec {
                         // navigate on click
                         onClick = {
                             navController.navigate(navItem.route) {
+                                // Pop up to the start destination of the graph to
+                                // avoid building up a large stack of destinations
+                                // on the back stack as users select items
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
                                 // Navigate to the "search” destination only if we’re not already on
                                 // the "search" destination, avoiding multiple copies on the top of the
                                 // back stack
                                 launchSingleTop = true
+                                // Restore state when re selecting a previously selected item
+                                restoreState = true
                             }
 
                         },
@@ -202,7 +211,7 @@ sealed interface IScreenSpec {
             } else {
                 null
             },
-            actions = { TopAppBarActions(navController = navController) }
+            actions = { TopAppBarActions(navController = navController) },
         )
     }
 

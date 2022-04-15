@@ -82,23 +82,16 @@ fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addReci
                 }
             }
         }
-
-        LazyColumn() {
-            items(itemList.size) {
-                SectionList(itemList[it], headerList[it])
+        Column(Modifier.fillMaxSize()) {
+            Box(Modifier.fillMaxWidth().weight(.75f)) {
+                LazyColumn() {
+                    items(itemList.size) {
+                        SectionList(itemList[it], headerList[it])
+                    }
+                }
             }
+            Box(Modifier.fillMaxWidth().weight(.25f))
         }
-//        OutlinedButton(
-//            onClick = addRecipe,
-//            modifier= Modifier.size(100.dp),
-//            shape = CircleShape,
-//            border= BorderStroke(5.dp, Color(0XFF0F9D58)),
-//            contentPadding = PaddingValues(0.dp),
-//            colors = ButtonDefaults.outlinedButtonColors(contentColor =  Color.Blue)
-//        ){
-//
-//        }
-
     }
 }
 

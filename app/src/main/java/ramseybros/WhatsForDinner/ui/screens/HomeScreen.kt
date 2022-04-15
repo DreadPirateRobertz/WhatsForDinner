@@ -217,6 +217,7 @@ fun HomeScreen(
                 recommendedRecipesList = recommendedRecipesList
             )
         }
+        Spacer(Modifier.weight(.5f))
     }
 }
 
