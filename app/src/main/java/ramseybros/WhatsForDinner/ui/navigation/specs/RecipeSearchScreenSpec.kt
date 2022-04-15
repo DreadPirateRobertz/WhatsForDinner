@@ -19,8 +19,9 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
-import ramseybros.WhatsForDinner.util.CharacterWorker
+import ramseybros.WhatsForDinner.util.RecipeWorker
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
+import java.lang.StringBuilder
 
 object RecipeSearchScreenSpec : IScreenSpec {
     override val route: String
@@ -38,33 +39,37 @@ object RecipeSearchScreenSpec : IScreenSpec {
         val LOG_TAG = "ramseybros.RecipeSearchScreen"
 
         val workInfoState = viewModel.outputWorkerInfo.observeAsState()
+        val sb = StringBuilder()
         workInfoState.value?.let { workInfo ->
             when (workInfo.state) {
                 WorkInfo.State.ENQUEUED -> Log.d(LOG_TAG, "workInfo enqueued")
-                WorkInfo.State.RUNNING -> Log.d(LOG_TAG, "workInfo running")
+                WorkInfo.State.RUNNING -> {
+                    //gets the segments of the JSON request while the worker is running
+                    Log.d(LOG_TAG, "workInfo running")
+                    val value = RecipeWorker.getApiData(workInfo.progress)
+                    sb.append(value)
+                    Log.d(LOG_TAG, "sb contains ${sb.length.toString()}")
+                }
                 WorkInfo.State.SUCCEEDED -> {
+                    //parses the JSON response after it has been assembled
                     Log.d(LOG_TAG, "workInfo succeeded")
                     val recipeList = viewModel.getApiRecipeList()
                     recipeList.value = mutableListOf()
-                    val apiData = CharacterWorker.getApiData(workInfo.outputData)
+                    val apiData = sb.toString()
                     Log.d(LOG_TAG, "apiData contains $apiData")
-                    if (apiData != null) {
-                        val items = JSONArray(apiData)
-                        for (i in (0 until items.length())) {
-                            val recipeObject = items.getJSONObject(i)
-                            val recipe = Recipe(
-                                imageLink = recipeObject.getString("image"),
-                                title = recipeObject.getString("title"),
-                                difficulty = 0,
-                                time = "Click for more",
-                                recipeText = "Click for more", //TODO: use separate API call for these
-                                searchId = recipeObject.getInt("id")
-                            )
-                            Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
-                            recipeList.value!!.add(recipe)
-                        }
-                    } else {
-                        Log.d(LOG_TAG, "api call returned null")
+                    val items = JSONArray(apiData)
+                    for (i in (0 until items.length())) {
+                        val recipeObject = items.getJSONObject(i)
+                        val recipe = Recipe(
+                            imageLink = recipeObject.getString("image"),
+                            title = recipeObject.getString("title"),
+                            difficulty = 0,
+                            time = "Click for more",
+                            recipeText = "Click for more", //TODO: use separate API call for these
+                            searchId = recipeObject.getInt("id")
+                        )
+                        Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
+                        recipeList.value!!.add(recipe)
                     }
                 }
                 else -> Log.d(LOG_TAG, "other workInfo state")

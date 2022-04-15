@@ -14,7 +14,6 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
-import ramseybros.WhatsForDinner.util.CharacterWorker
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
 
