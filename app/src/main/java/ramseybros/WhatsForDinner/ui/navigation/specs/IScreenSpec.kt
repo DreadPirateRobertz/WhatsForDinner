@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -88,19 +89,14 @@ sealed interface IScreenSpec {
                         // navigate on click
                         onClick = {
                             navController.navigate(navItem.route) {
-                                // Pop up to the start destination of the graph to
-                                // avoid building up a large stack of destinations
-                                // on the back stack as users select items
                                 popUpTo(navItem.route) {
+                                    //savestate = true was disabling buttons
                                 }
                                 // Navigate to the "search” destination only if we’re not already on
                                 // the "search" destination, avoiding multiple copies on the top of the
                                 // back stack
                                 launchSingleTop = true
-                                // Restore state when re selecting a previously selected item
-                                restoreState = true
                             }
-
                         },
                         // Icon of navItem
                         icon = {
@@ -131,7 +127,12 @@ sealed interface IScreenSpec {
 
         @Composable
         fun FloatingButton(navController: NavHostController) {
-            FloatingActionButton(onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())
+            var color: Color = Color.Black
+            if (isSystemInDarkTheme()) color = Color.White
+            FloatingActionButton(
+                contentColor = colorResource(id = R.color.teal_200),
+                backgroundColor = color,
+                onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())
             {
                 popUpTo(ShoppingListScreenSpec.route)
             }

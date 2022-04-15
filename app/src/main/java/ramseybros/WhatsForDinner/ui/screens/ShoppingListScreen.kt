@@ -57,40 +57,37 @@ fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addReci
         ) {
             var color: Color = Color.Black
             if (isSystemInDarkTheme()) color = Color.White
-            Box(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(60.dp)
-                    .clip(CircleShape)
-                    .background(color)
-                    .clickable { addRecipe() }
-            ) {
-                Button(
-                    onClick = { addRecipe() },
-                    modifier = Modifier.padding(top = 10.dp),
-                    shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = color,
-                        contentColor = colorResource(id = R.color.teal_200)
-                    )
+            FloatingActionButton(
+                backgroundColor = color,
+                onClick = { addRecipe() },
+                modifier = Modifier.padding(top = 10.dp, end= 16.dp),
+                shape = CircleShape,
+                contentColor = colorResource(id = R.color.teal_200)
+            )
+            {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                    contentDescription = null
                 )
-                {
-                    Icon(
-                        painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                        contentDescription = null
-                    )
-                }
             }
         }
         Column(Modifier.fillMaxSize()) {
-            Box(Modifier.fillMaxWidth().weight(.75f)) {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(.75f)
+            ) {
                 LazyColumn() {
                     items(itemList.size) {
                         SectionList(itemList[it], headerList[it])
                     }
                 }
             }
-            Box(Modifier.fillMaxWidth().weight(.25f))
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(.25f)
+            )
         }
     }
 }
