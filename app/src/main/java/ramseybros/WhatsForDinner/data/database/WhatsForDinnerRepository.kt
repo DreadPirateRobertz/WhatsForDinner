@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
+import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
+import ramseybros.WhatsForDinner.data.RecipeUtensil
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -49,9 +51,15 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
         }
     }
 
-    fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) {
+    fun addIngredientToList(recipeIngredient: RecipeIngredientListXRef) {
         executor.execute {
-            whatsForDinnerDao.addRecipe(recipe = recipe, ingredients = ingredients, utensils = utensils)
+            whatsForDinnerDao.addIngredientToList(recipeIngredient = recipeIngredient)
+        }
+    }
+
+    fun addUtensilToList(recipeIngredient: RecipeUtensil) {
+        executor.execute {
+            whatsForDinnerDao.addUtensilToList(recipeIngredient = recipeIngredient)
         }
     }
 

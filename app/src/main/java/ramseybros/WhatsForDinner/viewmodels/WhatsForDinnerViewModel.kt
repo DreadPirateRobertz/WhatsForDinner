@@ -11,6 +11,8 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
+import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
+import ramseybros.WhatsForDinner.data.RecipeUtensil
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.RecipeWorker
 
@@ -64,8 +66,21 @@ class WhatsForDinnerViewModel(
 
     override fun getApiRecipeList(): MutableLiveData<MutableList<Recipe>> = _apiRecipeListLiveData
 
-    override fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) =
-        whatsForDinnerRepository.addRecipe(recipe, ingredients, utensils)
+    override fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) {
+        whatsForDinnerRepository.addRecipe(recipe)
+        for(ingredient in ingredients) {
+            whatsForDinnerRepository.addIngredient(ingredient)
+            whatsForDinnerRepository.addIngredientToList(
+                RecipeIngredientListXRef(
+                    recipe.id,
+                    ingredient.name
+                )
+            )
+        }
+        for(utensil in utensils) {
+            whatsForDinnerRepository.addUtensilToList(RecipeUtensil(utensil,recipe.id))
+        }
+    }
 
     //TODO: Add API Functionality Functions
 
