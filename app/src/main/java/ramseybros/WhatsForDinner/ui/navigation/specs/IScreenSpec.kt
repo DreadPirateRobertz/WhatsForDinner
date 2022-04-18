@@ -37,6 +37,7 @@ import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
+import ramseybros.WhatsForDinner.ui.theme.colorLightTextSecondary
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 
@@ -157,7 +158,7 @@ sealed interface IScreenSpec {
         @Composable
         fun FloatingButton(navController: NavHostController) {
             var color: Color = Color.Black
-            if (isSystemInDarkTheme()) color = Color.White
+            if (isSystemInDarkTheme()) color = colorLightSecondary
             FloatingActionButton(
                 contentColor = colorResource(id = R.color.teal_200),
                 backgroundColor = color,

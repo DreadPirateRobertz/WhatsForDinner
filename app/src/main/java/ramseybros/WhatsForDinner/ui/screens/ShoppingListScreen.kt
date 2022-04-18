@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ramseybros.WhatsForDinner.R
+import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
 
 @Composable
 fun SectionList(itemList: List<String>, header: String) {
@@ -55,7 +56,7 @@ fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addReci
             horizontalAlignment = Alignment.End
         ) {
             var color: Color = Color.Black
-            if (isSystemInDarkTheme()) color = Color.White
+            if (isSystemInDarkTheme()) color = colorLightSecondary
             FloatingActionButton(
                 backgroundColor = color,
                 onClick = { addRecipe() },
