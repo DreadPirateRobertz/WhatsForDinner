@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.viewmodels
 
 
 import android.content.Context
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -25,14 +26,6 @@ class WhatsForDinnerViewModel(
     private val workRequest = RecipeWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
-
-    override fun requestWebRecipes() {
-        workManager.enqueueUniqueWork(
-            RecipeWorker.UNIQUE_WORK_NAME,
-            ExistingWorkPolicy.REPLACE,
-            workRequest
-        )
-    }
 
     private val _apiRecipeListLiveData = MutableLiveData<MutableList<Recipe>>()
 

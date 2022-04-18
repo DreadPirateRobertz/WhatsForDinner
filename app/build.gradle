@@ -75,5 +75,5 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation("io.coil-kt:coil-compose:2.0.0-rc03")
-
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 }

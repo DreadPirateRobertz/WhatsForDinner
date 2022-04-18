@@ -26,5 +26,4 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     //    abstract fun addCharacter(character: WhatsForDinnerCharacter)
 //    abstract fun loadCharacter(Id: UUID)
 //    abstract fun generateRandomCharacter(): WhatsForDinnerCharacter
-    abstract fun requestWebRecipes()
 }

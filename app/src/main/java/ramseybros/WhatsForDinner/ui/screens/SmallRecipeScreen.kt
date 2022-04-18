@@ -51,7 +51,7 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
                     .size(64.dp)
             )
             Text(
-                text = "\"Recipe Title\"",
+                text = recipe.title,
                 modifier = Modifier
                     .padding(10.dp)
                     .align(Alignment.CenterVertically)
