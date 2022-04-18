@@ -23,7 +23,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
     override val route: String = "LargeRecipeScreen"
     override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.large_recipe_screen_title
-    lateinit var recipe: Recipe
+    //lateinit var recipe: Recipe
 
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
@@ -60,7 +60,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
         val ingredientList = RecipeGenerator.recipeIngredientList()
         val utensilList = RecipeGenerator.recipeUtensilList()
         LargeRecipeView(
-            recipe = recipe,
+            recipe = RecipeGenerator.placeHolderRecipe(),
             onSave = {},
             onBack = { navController.navigate(RecipeSearchScreenSpec.navigateTo()) },
             inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"),

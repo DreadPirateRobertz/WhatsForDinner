@@ -82,9 +82,11 @@ fun RecipeSearchScreen(viewModel: I_WhatsForDinnerViewModel, onClick: () -> Unit
                     Log.d(LOG_TAG, "recipeList is null")
                 } else {
                     Log.d(LOG_TAG, "recipeList has size ${recipeList.value!!.size}")
+                    var recipe: Recipe
                     LazyColumn(){
                         items(recipeList.value!!.size) { index ->
-                            SmallRecipeView(recipe = recipeList.value!![index]) {}
+                            recipe = recipeList.value!![index]
+                            SmallRecipeView(recipe = recipe) {onRequestRecipe(recipe)}
                         }
                     }
                 }
