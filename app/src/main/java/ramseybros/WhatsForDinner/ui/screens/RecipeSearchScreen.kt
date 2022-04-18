@@ -59,7 +59,7 @@ private fun SectionHeader(title: String) {
     }
 }
 @Composable
-fun RecipeSearchScreen(viewModel: I_WhatsForDinnerViewModel, onClick: () -> Unit) {
+fun RecipeSearchScreen(viewModel: I_WhatsForDinnerViewModel, onClick: () -> Unit, onRequestRecipe: (Recipe) -> Unit) {
     val recipeList = viewModel.getApiRecipeList()
     Column(Modifier.fillMaxSize()) {
         SectionHeader(title = stringResource(id = R.string.recipe_search_screen_title))

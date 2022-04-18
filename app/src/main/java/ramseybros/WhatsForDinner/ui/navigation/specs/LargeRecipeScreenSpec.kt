@@ -13,6 +13,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
+import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.util.RecipeGenerator
@@ -22,6 +23,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
     override val route: String = "LargeRecipeScreen"
     override val arguments: List<NamedNavArgument> = emptyList()
     override val title: Int = R.string.large_recipe_screen_title
+    lateinit var recipe: Recipe
 
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
@@ -45,6 +47,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
 
 
     override fun navigateTo(vararg args: String?): String {
+        //recipe = args[0].to
         return route
     }
 
@@ -54,7 +57,6 @@ object LargeRecipeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val recipe = RecipeGenerator.singleRecipe()
         val ingredientList = RecipeGenerator.recipeIngredientList()
         val utensilList = RecipeGenerator.recipeUtensilList()
         LargeRecipeView(
