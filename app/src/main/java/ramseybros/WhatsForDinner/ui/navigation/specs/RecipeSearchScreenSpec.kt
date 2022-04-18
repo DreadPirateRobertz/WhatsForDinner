@@ -7,18 +7,13 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import androidx.work.WorkInfo
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -28,9 +23,7 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
-import ramseybros.WhatsForDinner.util.RecipeWorker
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
-import java.lang.StringBuilder
 
 object RecipeSearchScreenSpec : IScreenSpec {
     override val route: String
@@ -96,7 +89,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         return route
     }
 
-    suspend fun makeApiListRequest(): String {
+    private suspend fun makeApiListRequest(): String {
         Log.d(LOG_TAG, "makeApiListRequest() function called")
         val ingredients: String = "chicken%2Crice&2cbeans"
         val client = OkHttpClient()
@@ -107,9 +100,10 @@ object RecipeSearchScreenSpec : IScreenSpec {
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
             .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
             .build()
-        //TODO: use different call that doesn't block execution
+        //should be fine as a blocking call since this function executes on IO coroutine
         val response = client.newCall(request).execute()
         apiData = response.body?.string()
+        response.close()
         if (apiData != null) {
             Log.d(LOG_TAG, "Got result $apiData")
             Log.d(LOG_TAG, "Length ${apiData.length}")
@@ -117,7 +111,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         return apiData!!
     }
 
-    suspend fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe> {
+    private suspend fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe> {
         //parses the JSON response
         Log.d(LOG_TAG, "parseListJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
@@ -139,7 +133,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         return recipeList
     }
 
-    suspend fun makeApiRecipeRequest(recipe: Recipe) : String {
+    private suspend fun makeApiRecipeRequest(recipe: Recipe) : String {
         Log.d(LOG_TAG, "makeApiRecipeRequest() function called")
         val client = OkHttpClient()
         val apiData: String?
@@ -149,7 +143,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
             .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
             .build()
-        //TODO: use different call that doesn't block execution
+        //same as above, this function executes on IO dispatcher. Won't block UI thread
         val response = client.newCall(request).execute()
         apiData = response.body?.string()
         if (apiData != null) {
@@ -159,7 +153,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         return apiData!!
     }
 
-    suspend fun parseRecipeJSON(apiData: String, recipe: Recipe) {
+    private suspend fun parseRecipeJSON(apiData: String, recipe: Recipe) {
         Log.d(LOG_TAG, "parseRecipeJSON() function called")
         Log.d(LOG_TAG, "apiData contains $apiData")
         val properties = JSONObject(apiData)

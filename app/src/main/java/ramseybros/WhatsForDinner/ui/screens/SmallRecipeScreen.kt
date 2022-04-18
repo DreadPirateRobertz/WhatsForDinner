@@ -1,6 +1,5 @@
 package ramseybros.WhatsForDinner.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -86,5 +85,5 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    //SmallRecipeView(RecipeGenerator.singleRecipe()) {}
+    SmallRecipeView(RecipeGenerator.singleRecipe()) {}
 }
