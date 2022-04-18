@@ -61,21 +61,22 @@ private fun SectionHeader(title: String) {
 @Composable
 fun RecipeSearchScreen(viewModel: I_WhatsForDinnerViewModel, onClick: () -> Unit) {
     val recipeList = viewModel.getApiRecipeList()
-    Box(Modifier.fillMaxWidth()) {
+    Column(Modifier.fillMaxSize()) {
+        SectionHeader(title = stringResource(id = R.string.recipe_search_screen_title))
+        Button(
+            onClick = {
+                onClick()
+            }
+        ) {
+            Text(
+                textAlign = TextAlign.Center,
+                text = "Refresh",
+                fontSize = 24.sp
+            )
+        }
 
-            Column(Modifier.fillMaxSize()) {
-                SectionHeader(title = stringResource(id = R.string.recipe_search_screen_title))
-                Button(
-                    onClick = {
-                        onClick()
-                    }
-                ) {
-                    Text(
-                        textAlign = TextAlign.Center,
-                        text = "Refresh",
-                        fontSize = 24.sp
-                    )
-                }
+        Spacer(Modifier.weight(.1f))
+        Box(Modifier.fillMaxWidth().weight(1.0f)) {
 
                 if(recipeList.value == null) {
                     Log.d(LOG_TAG, "recipeList is null")
@@ -89,6 +90,7 @@ fun RecipeSearchScreen(viewModel: I_WhatsForDinnerViewModel, onClick: () -> Unit
                 }
 
         }
+        Spacer(Modifier.weight(.25f))
     }
 }
 
