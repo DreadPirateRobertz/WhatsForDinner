@@ -3,7 +3,9 @@ package ramseybros.WhatsForDinner.viewmodels
 
 
 import android.content.Context
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -29,8 +31,7 @@ class WhatsForDinnerViewModel(
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
 
-    private val _apiRecipeListLiveData =
-        MutableLiveData<MutableList<Recipe>>()
+    private val _apiRecipeListLiveData = mutableStateListOf<Recipe>()
 
     private val _apiRecipeLiveData =
         MutableLiveData<Recipe>()
@@ -61,7 +62,7 @@ class WhatsForDinnerViewModel(
     override fun getRecipeUtensilList(recipeId: UUID) =
         whatsForDinnerRepository.getUtensilList(recipeId)
 
-    override fun getApiRecipeList(): MutableLiveData<MutableList<Recipe>> = _apiRecipeListLiveData
+    override fun getApiRecipeList(): SnapshotStateList<Recipe> = _apiRecipeListLiveData
     override fun getApiRecipeLiveData(): MutableLiveData<Recipe> = _apiRecipeLiveData
 
     override fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) {

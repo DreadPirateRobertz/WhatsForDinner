@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -76,16 +77,19 @@ fun RecipeSearchScreen(viewModel: I_WhatsForDinnerViewModel, onClick: () -> Unit
         }
 
         Spacer(Modifier.weight(.1f))
-        Box(Modifier.fillMaxWidth().weight(1.0f)) {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(1.0f)) {
 
-                if(recipeList.value == null) {
+                if(recipeList == null) {
                     Log.d(LOG_TAG, "recipeList is null")
                 } else {
-                    Log.d(LOG_TAG, "recipeList has size ${recipeList.value!!.size}")
+                    Log.d(LOG_TAG, "recipeList has size ${recipeList.size}")
                     var recipe: Recipe
                     LazyColumn(){
-                        items(recipeList.value!!.size) { index ->
-                            recipe = recipeList.value!![index]
+                        items(recipeList.size) { index ->
+                            recipe = recipeList[index]
                             SmallRecipeView(recipe = recipe) {onRequestRecipe(recipe)}
                         }
                     }

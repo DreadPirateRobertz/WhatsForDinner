@@ -8,7 +8,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.LiveData
@@ -49,9 +51,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
         val coroutineScope = rememberCoroutineScope()
         fun onRequestList() {
             coroutineScope.launch {
-                val recipeList = viewModel.getApiRecipeList()
                 val apiData = withContext(Dispatchers.IO) { makeApiListRequest() }
-                recipeList.value = withContext(Dispatchers.IO) { parseListJSON(apiData) }
+                withContext(Dispatchers.IO) { parseListJSON(apiData, viewModel) } //updates snapshotstatelist in viewModel, no need to return
             }
         }
 
@@ -116,10 +117,10 @@ object RecipeSearchScreenSpec : IScreenSpec {
         return apiData!!
     }
 
-    suspend fun parseListJSON(apiData: String): MutableList<Recipe> {
+    suspend fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe> {
         //parses the JSON response
         Log.d(LOG_TAG, "parseListJSON() function called")
-        val recipeList: MutableList<Recipe> = mutableListOf()
+        val recipeList = viewModel.getApiRecipeList()
         Log.d(LOG_TAG, "apiData contains $apiData")
         val items = JSONArray(apiData)
         for (i in (0 until items.length())) {

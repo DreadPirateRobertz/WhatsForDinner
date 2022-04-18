@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.viewmodels
 
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,7 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipeUtensilList(recipeId: UUID): LiveData<List<String>>
 
-    abstract fun getApiRecipeList(): MutableLiveData<MutableList<Recipe>>
+    abstract fun getApiRecipeList(): SnapshotStateList<Recipe>
     abstract fun getApiRecipeLiveData(): MutableLiveData<Recipe>
 
     abstract fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>)
