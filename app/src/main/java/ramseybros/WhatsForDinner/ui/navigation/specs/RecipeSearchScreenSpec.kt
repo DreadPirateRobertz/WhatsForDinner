@@ -45,6 +45,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
+        val recipeLiveData = viewModel.getApiRecipeLiveData()
         val coroutineScope = rememberCoroutineScope()
         fun onRequestList() {
             coroutineScope.launch {
@@ -61,8 +62,9 @@ object RecipeSearchScreenSpec : IScreenSpec {
                 coroutineScope.launch {
                     val apiData = withContext(Dispatchers.IO) { makeApiRecipeRequest(recipe)}
                     withContext(Dispatchers.IO) { parseRecipeJSON(apiData,recipe) }
+                    recipeLiveData.value = recipe
                     Log.d(LOG_TAG, "Calling navigateTo() with ${recipe.searchId} on ${Thread.currentThread().name}")
-                    withContext(Dispatchers.Main){navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.searchId.toString()))}
+                    withContext(Dispatchers.Main){navController.navigate(LargeRecipeScreenSpec.navigateTo())}
                 }
             }
         )
