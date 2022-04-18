@@ -51,8 +51,7 @@ fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addReci
     Column() {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight(),
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.End
         ) {
             var color: Color = Color.Black

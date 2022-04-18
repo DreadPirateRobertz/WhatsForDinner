@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.graphics.Paint
 import android.widget.ImageView
 import android.widget.ScrollView
 import androidx.compose.foundation.Image
@@ -43,14 +44,17 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
 private fun SectionHeader(title: String) {
-    Column() {
+    Column(        horizontalAlignment = Alignment.CenterHorizontally,
+                   modifier = Modifier.fillMaxWidth()
+        ) {
         Text(
-            title,
+            textAlign = TextAlign.Center,
+            text = title,
             fontSize = 24.sp,
         )
         Divider(
             thickness = 2.dp,
-            color = colorResource(R.color.light_blue),
+            color = colorResource(R.color.teal_200),
         )
     }
 }
@@ -58,6 +62,7 @@ private fun SectionHeader(title: String) {
 @Composable
 private fun SavedRecipesSection() {
     Column(
+
     ) {
         SectionHeader(title = stringResource(id = R.string.saved_recipes_header))
     }
@@ -66,15 +71,17 @@ private fun SavedRecipesSection() {
 @Composable
 private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any) {
     //Clicking A recipe will take you to how to make it...
-    Card(modifier = Modifier
-        .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-        .clickable { onSelectRecipe(savedRecipe) }
-    ) {
-        Column {
-            SavedRecipesSection()
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
-            Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Card(modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+            .clickable { onSelectRecipe(savedRecipe) }
+        ) {
+            Column (Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
+
+                Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
+                Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
+                Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
+            }
         }
     }
 }
@@ -85,9 +92,11 @@ fun SavedRecipesScreen(
     onSelectRecipe: (Recipe) -> Any,
 ) {
     Column(
+        Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
+        SavedRecipesSection()
         if (savedRecipesList != null) {
             LazyColumn() {
                 items(savedRecipesList) {
@@ -102,7 +111,13 @@ fun SavedRecipesScreen(
 @Preview
 @Composable
 private fun SavedRecipesScreenPreview() {
-    val savedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
+    val savedRecipesList = mutableListOf(RecipeGenerator.placeHolderRecipe())
+    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
     SavedRecipesScreen(
         savedRecipesList = savedRecipesList,
         onSelectRecipe = {},

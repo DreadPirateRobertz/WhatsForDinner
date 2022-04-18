@@ -75,21 +75,8 @@ class WhatsForDinnerViewModel(
         }
     }
 
-    //TODO: Add API Functionality Functions
-
-//    override fun addCharacter(character: WhatsForDinnerCharacter) {
-//
-//        whatsForDinnerRepository.addCharacter(character = character)
-//    }
-//
-//    override fun loadCharacter(Id: UUID) {
-//        _characterIdLiveData.value = Id
-//    }
-//
-//
-//    override fun generateRandomCharacter(): WhatsForDinnerCharacter {
-//        return CharacterGenerator.generateRandomCharacter()
-//    }
-
+    override fun requestWebRecipes() {
+        TODO("Not yet implemented")
+    }
 
 }

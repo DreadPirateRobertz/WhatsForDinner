@@ -41,6 +41,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.ui.graphics.graphicsLayer
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
@@ -52,7 +55,7 @@ private fun SectionHeader(title: String) {
         )
         Divider(
             thickness = 3.dp,
-            color = colorResource(R.color.light_blue),
+            color = colorResource(R.color.teal_200),
         )
     }
 }
@@ -171,6 +174,7 @@ private fun RecommendedRecipeRow(
 
 }
 
+
 @Composable
 fun HomeScreen(
     recentRecipesList: List<Recipe>?,
@@ -187,39 +191,40 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            RecentRecipeRow(
-                onSelectRecipe = onSelectRecipe,
-                recentRecipesList = recentRecipesList
-            )
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                RecentRecipeRow(
+                    onSelectRecipe = onSelectRecipe,
+                    recentRecipesList = recentRecipesList
+                )
+            }
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                RecommendedIngredientRow(
+                    onSelectIngredient = onSelectIngredient,
+                    recentIngredientsList = recommendedIngredientsList
+                )
+            }
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            ) {
+                RecommendedRecipeRow(
+                    onSelectRecipe = onSelectRecipe,
+                    recommendedRecipesList = recommendedRecipesList
+                )
+            }
+            Spacer(Modifier.weight(.5f))
         }
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            RecommendedIngredientRow(
-                onSelectIngredient = onSelectIngredient,
-                recentIngredientsList = recommendedIngredientsList
-            )
-        }
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            RecommendedRecipeRow(
-                onSelectRecipe = onSelectRecipe,
-                recommendedRecipesList = recommendedRecipesList
-            )
-        }
-        Spacer(Modifier.weight(.5f))
     }
-}
+
 
 
 @Preview

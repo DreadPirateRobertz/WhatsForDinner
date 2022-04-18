@@ -7,12 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,12 +26,19 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Constants
+import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
+
 
 sealed interface IScreenSpec {
     val route: String
@@ -51,9 +57,29 @@ sealed interface IScreenSpec {
                 navController = navController,
                 navBackStackEntry
             )
+
             //&& route != "home"
         }
 
+
+//        @OptIn(ExperimentalPagerApi::class)
+//        @Composable
+//        fun HorizontalSwiper() {
+//            val pagerState = rememberPagerState()
+//            HorizontalPager(
+//                count = 3,
+//                state = pagerState,
+//                modifier = Modifier.fillMaxSize()
+//            ) {
+//                when (it) {
+//                    0 -> RecipeSearchScreen {
+//                        {}
+//                    }
+////                    1 -> navController.navigate(SavedRecipesScreenSpec.navigateTo())
+////                    2 -> navController.navigate(RecipeSearchScreenSpec.navigateTo())
+//                }
+//            }
+//        }
         @Composable
         fun BottomBar(navController: NavHostController) {
 //            BottomAppBar(            // Defaults to null, that is, No cutout
@@ -71,59 +97,62 @@ sealed interface IScreenSpec {
                 backgroundColor = bgColor,
 
                 ) {
-                // observe the backstack
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                // observe current route to change the icon
-                // color,label color when navigated
-                // observe current route to change the icon
-                // color,label color when navigated
-                val currentRoute = navBackStackEntry?.destination?.route
-                // Bottom nav items we declared
-                Constants.BottomNavItems.forEach { navItem ->
-                    // Place the bottom nav items
-                    BottomNavigationItem(
-                        // it currentRoute is equal then its selected route
-                        selected = currentRoute == navItem.route,
-                        selectedContentColor = color,
-                        unselectedContentColor = color.copy(.7f),
-                        // navigate on click
-                        onClick = {
-                            navController.navigate(navItem.route) {
-                                popUpTo(navItem.route) {
-                                    //savestate = true was disabling buttons
+
+                    // observe the backstack
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    // observe current route to change the icon
+                    // color,label color when navigated
+                    // observe current route to change the icon
+                    // color,label color when navigated
+                    val currentRoute = navBackStackEntry?.destination?.route
+                    // Bottom nav items we declared
+                    Constants.BottomNavItems.forEach { navItem ->
+                        // Place the bottom nav items
+                        BottomNavigationItem(
+                            // it currentRoute is equal then its selected route
+                            selected = currentRoute == navItem.route,
+                            selectedContentColor = color,
+                            unselectedContentColor = color.copy(.7f),
+                            // navigate on click
+                            onClick = {
+                                navController.navigate(navItem.route) {
+                                    popUpTo(navItem.route) {
+                                        //savestate = true was disabling buttons
+                                    }
+                                    // Navigate to the "search” destination only if we’re not already on
+                                    // the "search" destination, avoiding multiple copies on the top of the
+                                    // back stack
+                                    launchSingleTop = true
                                 }
-                                // Navigate to the "search” destination only if we’re not already on
-                                // the "search" destination, avoiding multiple copies on the top of the
-                                // back stack
-                                launchSingleTop = true
-                            }
-                        },
-                        // Icon of navItem
-                        icon = {
-                            if (navItem.label == "Kitchen") Icon(
-                                painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
-                                contentDescription = navItem.label
-                            )
-                            else Icon(
-                                imageVector = navItem.icon,
-                                contentDescription = navItem.label
-                            )
-                        },
-                        // label
-                        label = {
-                            Text(
-                                fontWeight = FontWeight.ExtraBold,
-                                fontSize = 12.sp,
-                                text = navItem.label
-                            )
-                        },
-                        alwaysShowLabel = false
-                    )
+                            },
+                            // Icon of navItem
+                            icon = {
+                                if (navItem.label == "Kitchen") Icon(
+                                    painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
+                                    contentDescription = navItem.label
+                                )
+                                else Icon(
+                                    imageVector = navItem.icon,
+                                    contentDescription = navItem.label
+                                )
+                            },
+                            // label
+                            label = {
+                                Text(
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 12.sp,
+                                    text = navItem.label
+                                )
+                            },
+                            alwaysShowLabel = false
+                        )
+                    }
+
                 }
-            }
 
 //            }
         }
+
 
         @Composable
         fun FloatingButton(navController: NavHostController) {
@@ -179,6 +208,10 @@ sealed interface IScreenSpec {
                             LocalContentAlpha provides ContentAlpha.high,
                         ) {
                             if (navBackStackEntry?.destination?.route != "home") {
+                                if (navBackStackEntry?.destination?.route != "saved")
+                                    if (navBackStackEntry?.destination?.route != "MyKitchenScreen")
+                                        if (navBackStackEntry?.destination?.route != "RecipeSearchScreen")
+
                                 Text(
                                     modifier = Modifier
                                         .fillMaxWidth(),
@@ -193,6 +226,27 @@ sealed interface IScreenSpec {
                     if (navBackStackEntry?.destination?.route == "home") {
                         Icon(
                             imageVector = Icons.Filled.Home,
+                            contentDescription = null,
+                            tint = color
+                        )
+                    }
+                    else if (navBackStackEntry?.destination?.route == "saved") {
+                        Icon(
+                            imageVector = Icons.Filled.Star,
+                            contentDescription = null,
+                            tint = color
+                        )
+                    }
+                    else if (navBackStackEntry?.destination?.route == "MyKitchenScreen") {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
+                            contentDescription = null,
+                            tint = color
+                        )
+                    }
+                    else if (navBackStackEntry?.destination?.route == "RecipeSearchScreen") {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
                             contentDescription = null,
                             tint = color
                         )

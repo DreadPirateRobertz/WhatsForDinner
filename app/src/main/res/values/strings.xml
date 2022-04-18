@@ -5,7 +5,7 @@
     <string name="placeholder_recommended_recipe">Eggplant Parmesan</string>
     <string name="recent_recipes_header">Recent Recipes</string>
     <string name="recommended_recipes_header">Recommended Recipes</string>
-    <string name="recommended_ingredients_header">Recommended Ingredients (Scrollable)</string>
+    <string name="recommended_ingredients_header">Recommended Ingredients</string>
     <string name="saved_recipes_header">Saved Recipes</string>
     <string name="save_recipe_label">Save Recipe to Saved Recipe?</string>
     <string name="return_to_recipe_list_label">Return to List</string>
