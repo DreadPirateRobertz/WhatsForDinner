@@ -11,6 +11,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -19,6 +21,7 @@ import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
+import org.json.JSONObject
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
@@ -43,14 +46,26 @@ object RecipeSearchScreenSpec : IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
         val coroutineScope = rememberCoroutineScope()
-        fun onClick() {
+        fun onRequestList() {
             coroutineScope.launch {
                 val recipeList = viewModel.getApiRecipeList()
-                val apiData = withContext(Dispatchers.IO) { makeApiRequest() }
-                recipeList.value = withContext(Dispatchers.IO) { parseJSON(apiData) }
+                val apiData = withContext(Dispatchers.IO) { makeApiListRequest() }
+                recipeList.value = withContext(Dispatchers.IO) { parseListJSON(apiData) }
             }
         }
-        RecipeSearchScreen(viewModel) { onClick() }
+
+        RecipeSearchScreen(
+            viewModel,
+            { onRequestList() },
+            onRequestRecipe = fun (recipe: Recipe) {
+                coroutineScope.launch {
+                    val apiData = withContext(Dispatchers.IO) { makeApiRecipeRequest(recipe)}
+                    withContext(Dispatchers.IO) { parseRecipeJSON(apiData,recipe) }
+                    Log.d(LOG_TAG, "Calling navigateTo() with ${recipe.searchId} on ${Thread.currentThread().name}")
+                    withContext(Dispatchers.Main){navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.searchId.toString()))}
+                }
+            }
+        )
     }
 
 
@@ -78,8 +93,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
         return route
     }
 
-    suspend fun makeApiRequest(): String {
-        Log.d(LOG_TAG, "makeApiRequest() function called")
+    suspend fun makeApiListRequest(): String {
+        Log.d(LOG_TAG, "makeApiListRequest() function called")
         val ingredients: String = "chicken%2Crice&2cbeans"
         val client = OkHttpClient()
         val apiData: String?
@@ -99,9 +114,9 @@ object RecipeSearchScreenSpec : IScreenSpec {
         return apiData!!
     }
 
-    suspend fun parseJSON(apiData: String): MutableList<Recipe> {
+    suspend fun parseListJSON(apiData: String): MutableList<Recipe> {
         //parses the JSON response
-        Log.d(LOG_TAG, "parseJSON() function called")
+        Log.d(LOG_TAG, "parseListJSON() function called")
         val recipeList: MutableList<Recipe> = mutableListOf()
         Log.d(LOG_TAG, "apiData contains $apiData")
         val items = JSONArray(apiData)
@@ -119,6 +134,34 @@ object RecipeSearchScreenSpec : IScreenSpec {
             recipeList.add(recipe)
         }
         return recipeList
+    }
+
+    suspend fun makeApiRecipeRequest(recipe: Recipe) : String {
+        Log.d(LOG_TAG, "makeApiRecipeRequest() function called")
+        val client = OkHttpClient()
+        val apiData: String?
+        val request: Request = Request.Builder()
+            .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipe.searchId}/information?includeNutrition=false")
+            .get()
+            .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+            .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
+            .build()
+        //TODO: use different call that doesn't block execution
+        val response = client.newCall(request).execute()
+        apiData = response.body?.string()
+        if (apiData != null) {
+            Log.d(LOG_TAG, "Got result $apiData")
+            Log.d(LOG_TAG, "Length ${apiData.length}")
+        }
+        return apiData!!
+    }
+
+    suspend fun parseRecipeJSON(apiData: String, recipe: Recipe) {
+        Log.d(LOG_TAG, "parseRecipeJSON() function called")
+        Log.d(LOG_TAG, "apiData contains $apiData")
+        val properties = JSONObject(apiData)
+        recipe.recipeText = properties.getString("instructions")
+        recipe.time = properties.getString("readyInMinutes")
     }
 
 }

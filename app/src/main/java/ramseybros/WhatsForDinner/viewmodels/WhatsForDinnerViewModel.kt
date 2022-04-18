@@ -29,7 +29,11 @@ class WhatsForDinnerViewModel(
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
 
-    private val _apiRecipeListLiveData = MutableLiveData<MutableList<Recipe>>()
+    private val _apiRecipeListLiveData =
+        MutableLiveData<MutableList<Recipe>>()
+
+    private val _apiRecipeLiveData =
+        MutableLiveData<Recipe>()
 
     private val _recipeIdLiveData =
         MutableLiveData<UUID>()
@@ -58,6 +62,7 @@ class WhatsForDinnerViewModel(
         whatsForDinnerRepository.getUtensilList(recipeId)
 
     override fun getApiRecipeList(): MutableLiveData<MutableList<Recipe>> = _apiRecipeListLiveData
+    override fun getApiRecipeLiveData(): MutableLiveData<Recipe> = _apiRecipeLiveData
 
     override fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) {
         whatsForDinnerRepository.addRecipe(recipe)

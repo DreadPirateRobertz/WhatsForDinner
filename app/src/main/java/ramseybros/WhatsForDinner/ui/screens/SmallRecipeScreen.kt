@@ -86,5 +86,5 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    SmallRecipeView(RecipeGenerator.singleRecipe()) {}
+    //SmallRecipeView(RecipeGenerator.singleRecipe()) {}
 }
