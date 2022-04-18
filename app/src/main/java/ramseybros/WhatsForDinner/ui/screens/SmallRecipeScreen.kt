@@ -3,10 +3,7 @@ package ramseybros.WhatsForDinner.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -28,58 +25,63 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
 fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
-    Card(modifier = Modifier
-        .padding(10.dp)
-        .clickable { onClick() }
-        .border(2.dp, Color.Black, RoundedCornerShape(10))
-        .padding(6.dp)
-    ) {
-        Row {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(recipe.imageLink)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(R.drawable.pot_image),
-                contentDescription = "recipe image",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(10))
-                    .align(Alignment.CenterVertically)
-                    .border(1.dp, Color.Black, RoundedCornerShape(10))
-                    .padding(16.dp)
-                    .size(64.dp)
-            )
-            Text(
-                text = recipe.title,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .align(Alignment.CenterVertically)
-                    .border(1.dp, Color.Black, RoundedCornerShape(10))
-                    .padding(6.dp)
-            )
-            Column(
+    Box(Modifier.fillMaxWidth()) {
+        Column(Modifier.fillMaxSize()) {
+            Card(modifier = Modifier
+                .padding(10.dp)
+                .clickable { onClick() }
+                .border(2.dp, Color.Black, RoundedCornerShape(10))
+                .padding(6.dp)
             ) {
-                Text(
-                    text = "\"Calories\"",
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .border(1.dp, Color.Black, RoundedCornerShape(10))
-                        .padding(6.dp)
-                )
-                Text(
-                    text = "\"Cook Time\"",
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .border(1.dp, Color.Black, RoundedCornerShape(10))
-                        .padding(6.dp)
-                )
+                Row {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(recipe.imageLink)
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(R.drawable.pot_image),
+                        contentDescription = "recipe image",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(10))
+                            .align(Alignment.CenterVertically)
+                            .border(1.dp, Color.Black, RoundedCornerShape(10))
+                            .padding(16.dp)
+                            .size(64.dp)
+                    )
+                    Text(
+                        text = recipe.title,
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .align(Alignment.CenterVertically)
+                            .border(1.dp, Color.Black, RoundedCornerShape(10))
+                            .padding(6.dp)
+                    )
+//                    Column(
+//                    ) {
+//                        Text(
+//                            text = "\"Calories\"",
+//                            modifier = Modifier
+//                                .padding(10.dp)
+//                                .align(Alignment.CenterHorizontally)
+//                                .border(1.dp, Color.Black, RoundedCornerShape(10))
+//                                .padding(6.dp)
+//                        )
+//                        Text(
+//                            text = "\"Cook Time\"",
+//                            modifier = Modifier
+//                                .padding(10.dp)
+//                                .align(Alignment.CenterHorizontally)
+//                                .border(1.dp, Color.Black, RoundedCornerShape(10))
+//                                .padding(6.dp)
+//                        )
+//                    }
+                }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
