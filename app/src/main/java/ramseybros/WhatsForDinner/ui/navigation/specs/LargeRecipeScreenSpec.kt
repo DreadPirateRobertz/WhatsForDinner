@@ -58,6 +58,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
         }
         else{
            ID = args[0].toString()
+            fromSearch = false
         }
         return route
     }

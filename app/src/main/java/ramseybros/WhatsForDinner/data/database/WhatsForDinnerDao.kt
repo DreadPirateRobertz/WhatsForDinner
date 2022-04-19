@@ -11,7 +11,8 @@ import java.util.*
 
 @Dao
 interface WhatsForDinnerDao {
-    @Insert
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addRecipe(recipe: Recipe)
 
     @Query("SELECT * FROM recipe")

@@ -60,10 +60,11 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
-            Column(Modifier.fillMaxWidth()) {
-                Text(recipe.difficulty.toString())
-                Text(recipe.time)
-            }
+//            Column() {
+//
+//                Text(recipe.difficulty.toString())
+//                Text(recipe.time)
+//            }
         }
     }
 }
@@ -74,9 +75,7 @@ fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onBack: () -
         Button(onClick = { onSave(recipe) }, Modifier.weight(1.0f)) {
             Text(stringResource(id = ramseybros.WhatsForDinner.R.string.save_recipe_label))
         }
-        Button(onClick = { onBack }, Modifier.weight(1.0f)) {
-            Text(stringResource(id = R.string.return_to_recipe_list_label))
-        }
+
     }
 }
 

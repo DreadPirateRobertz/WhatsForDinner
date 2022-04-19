@@ -74,13 +74,9 @@ private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any)
     Box(modifier = Modifier.fillMaxWidth()) {
         Card(modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-            .clickable { onSelectRecipe(savedRecipe) }
         ) {
             Column (Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
-
-                Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
-                Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
-                Text(fontSize = 16.sp, text = stringResource(R.string.placeholder_recent_recipe))
+                Text(fontSize = 16.sp, text = savedRecipe.title, modifier = Modifier.clickable { onSelectRecipe(savedRecipe) })
             }
         }
     }

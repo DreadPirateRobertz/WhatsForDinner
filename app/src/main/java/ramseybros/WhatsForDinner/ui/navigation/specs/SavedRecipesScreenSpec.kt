@@ -34,7 +34,6 @@ object SavedRecipesScreenSpec : IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
         val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
-        val blankList: List<Recipe> = listOf()
         SavedRecipesScreen(
             savedRecipesList = savedRecipesList,
             onSelectRecipe = { recipe ->
