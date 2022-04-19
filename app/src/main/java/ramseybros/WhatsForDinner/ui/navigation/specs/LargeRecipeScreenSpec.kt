@@ -13,6 +13,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
+import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
@@ -56,15 +57,15 @@ object LargeRecipeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val ingredientList = RecipeGenerator.recipeIngredientList()
-        val utensilList = RecipeGenerator.recipeUtensilList()
+        val ingredientList = emptyList<Ingredient>()
+        val utensilList = emptyList<String>()
         recipe = viewModel.getApiRecipeLiveData().value!!
         LargeRecipeView(
             recipe = recipe,
-            onSave = {},
+            onSave = {viewModel.addRecipe(recipe,ingredientList,utensilList)},
             onBack = { navController.navigate(RecipeSearchScreenSpec.navigateTo()) },
             inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"),
-            ingredientList = ingredientList,
+            ingredientList = utensilList,
             utensilList = utensilList
         )
     }
