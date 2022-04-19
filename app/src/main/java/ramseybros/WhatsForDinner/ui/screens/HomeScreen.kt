@@ -1,7 +1,9 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.content.Context
 import android.widget.ImageView
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +43,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -171,7 +174,6 @@ private fun RecommendedRecipeRow(
             }
         }
     }
-
 }
 
 
@@ -183,7 +185,11 @@ fun HomeScreen(
     onSelectRecipe: (Recipe) -> Any,
     onSelectIngredient: (Ingredient) -> Any
 ) {
-
+    Toast.makeText(
+        LocalContext.current,
+        "L: Saved Recipes, Mid: Kitchen, R: Recipe Search", Toast.LENGTH_SHORT
+    )
+        .show()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -191,40 +197,39 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                RecentRecipeRow(
-                    onSelectRecipe = onSelectRecipe,
-                    recentRecipesList = recentRecipesList
-                )
-            }
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                RecommendedIngredientRow(
-                    onSelectIngredient = onSelectIngredient,
-                    recentIngredientsList = recommendedIngredientsList
-                )
-            }
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                RecommendedRecipeRow(
-                    onSelectRecipe = onSelectRecipe,
-                    recommendedRecipesList = recommendedRecipesList
-                )
-            }
-            Spacer(Modifier.weight(.5f))
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            RecentRecipeRow(
+                onSelectRecipe = onSelectRecipe,
+                recentRecipesList = recentRecipesList
+            )
         }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            RecommendedIngredientRow(
+                onSelectIngredient = onSelectIngredient,
+                recentIngredientsList = recommendedIngredientsList
+            )
+        }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            RecommendedRecipeRow(
+                onSelectRecipe = onSelectRecipe,
+                recommendedRecipesList = recommendedRecipesList
+            )
+        }
+        Spacer(Modifier.weight(.5f))
     }
-
+}
 
 
 @Preview

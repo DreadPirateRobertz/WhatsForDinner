@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
@@ -9,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,6 +46,7 @@ fun RecipeSearchScreen(
     onClick: () -> Unit,
     onRequestRecipe: (Recipe) -> Unit
 ) {
+
     val recipeList = viewModel.getApiRecipeList()
     Column(Modifier.fillMaxSize()) {
         SectionHeader(title = stringResource(id = R.string.recipe_search_screen_title))
@@ -79,6 +82,11 @@ fun RecipeSearchScreen(
                 }
 
         }
+        Toast.makeText(
+            LocalContext.current,
+            "Hit Refresh to show Recipes: (Beans, Ckn, & Rice (for now))", Toast.LENGTH_SHORT
+        )
+            .show()
         Spacer(Modifier.weight(.25f))
     }
 }

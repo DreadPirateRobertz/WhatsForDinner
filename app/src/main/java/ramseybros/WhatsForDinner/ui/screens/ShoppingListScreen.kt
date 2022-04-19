@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -90,6 +92,11 @@ fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addReci
             )
         }
     }
+    Toast.makeText(
+        LocalContext.current,
+        "Currently a PlaceHolder: Will be a shopping list to add items and import items needed from recipes", Toast.LENGTH_SHORT
+    )
+        .show()
 }
 
 

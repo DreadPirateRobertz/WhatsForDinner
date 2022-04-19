@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.screens
 import android.graphics.Paint
 import android.widget.ImageView
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +40,7 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.Ingredient
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.platform.LocalContext
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 
@@ -87,6 +89,11 @@ fun SavedRecipesScreen(
     savedRecipesList: List<Recipe>?,
     onSelectRecipe: (Recipe) -> Any,
 ) {
+    Toast.makeText(
+        LocalContext.current,
+        "List of Recipes that you save from Recipe Search", Toast.LENGTH_SHORT
+    )
+        .show()
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

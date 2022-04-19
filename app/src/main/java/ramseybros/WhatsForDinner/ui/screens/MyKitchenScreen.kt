@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,7 +45,11 @@ private fun SectionHeader(title: String) {
 }
 @Composable
 fun MyKitchen(onClick: () -> Unit) {
-
+    Toast.makeText(
+        LocalContext.current,
+        "Currently A Placeholder", Toast.LENGTH_SHORT
+    )
+        .show()
     Column(Modifier.fillMaxSize()) {
         SectionHeader(title = stringResource(id = R.string.my_kitchen_screen_title))
         Box(
