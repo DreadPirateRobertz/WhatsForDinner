@@ -58,7 +58,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
                     withContext(Dispatchers.IO) { parseRecipeJSON(apiData,recipe) }
                     recipeLiveData.value = recipe
                     Log.d(LOG_TAG, "Calling navigateTo() with ${recipe.searchId} on ${Thread.currentThread().name}")
-                    withContext(Dispatchers.Main){navController.navigate(LargeRecipeScreenSpec.navigateTo())}
+                    withContext(Dispatchers.Main){navController.navigate(LargeRecipeScreenSpec.navigateTo("search"))}
                 }
             }
         )

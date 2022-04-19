@@ -37,10 +37,11 @@ object SavedRecipesScreenSpec : IScreenSpec {
         val blankList: List<Recipe> = listOf()
         SavedRecipesScreen(
             savedRecipesList = savedRecipesList,
-            onSelectRecipe =
-            fun(recipe: Recipe) {
+            onSelectRecipe = { recipe ->
+                viewModel.setRecipeIdLiveData(recipe.id)
                 navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
-            },
+
+            }
         )
 
     }

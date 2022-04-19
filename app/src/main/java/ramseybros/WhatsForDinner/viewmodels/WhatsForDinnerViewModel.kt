@@ -17,6 +17,7 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
 import ramseybros.WhatsForDinner.data.RecipeUtensil
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
+import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.util.RecipeWorker
 
 import java.util.*
@@ -55,7 +56,13 @@ class WhatsForDinnerViewModel(
             whatsForDinnerRepository.getIngredient(ingredientId)
         }
 
+    override fun setRecipeIdLiveData(uuid: UUID) {
+       _recipeIdLiveData.value = uuid
+    }
 
+    override fun getRecipe(recipeId: UUID): LiveData<Recipe>? {
+       return whatsForDinnerRepository.getRecipe(recipeId)
+    }
     override fun getRecipeIngredientList(recipeId: UUID) =
         whatsForDinnerRepository.getIngredientList(recipeId)
 
@@ -81,7 +88,7 @@ class WhatsForDinnerViewModel(
         }
     }
 
-    override fun requestWebRecipes() {
+        override fun requestWebRecipes() {
         TODO("Not yet implemented")
     }
 

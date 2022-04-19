@@ -4,7 +4,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -52,6 +54,7 @@ fun ListItems(
 
 @Composable
 fun RecipeText(recipeText: String) {
+
     Text(recipeText, Modifier.padding(4.dp))
 }
 
@@ -62,14 +65,17 @@ fun RecipeInformation(
     ingredientList: List<String>,
     utensilList: List<String>
 ) {
-    Column(Modifier.padding(4.dp)) {
-        ListItems(
-            recipe = recipe,
-            inKitchenList = inKitchenList,
-            ingredientList = ingredientList,
-            utensilList = utensilList
-        )
-        Spacer(Modifier.height(16.dp))
+    Column(
+        Modifier
+            .padding(4.dp)
+            .verticalScroll(rememberScrollState())) {
+//        ListItems(
+//            recipe = recipe,
+//            inKitchenList = inKitchenList,
+//            ingredientList = ingredientList,
+//            utensilList = utensilList
+//        )
+//        Spacer(Modifier.height(16.dp))
         RecipeText(recipeText = recipe.recipeText)
     }
 }

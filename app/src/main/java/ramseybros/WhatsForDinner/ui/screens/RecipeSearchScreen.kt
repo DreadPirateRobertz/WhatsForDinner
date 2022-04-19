@@ -59,7 +59,7 @@ fun RecipeSearchScreen(
             )
         }
 
-        Spacer(Modifier.weight(.1f))
+        Spacer(Modifier.weight(0.1f))
         Box(
             Modifier
                 .fillMaxWidth()

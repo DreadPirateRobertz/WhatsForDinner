@@ -1,8 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,32 +21,49 @@ fun LargeRecipeView(
     ingredientList: List<String>, utensilList: List<String>,
     onSave: (Recipe) -> Unit, onBack: () -> Unit
 ) {
-    Column() {
-        LargeViewRecipeHeader(recipe = recipe)
-        RecipeInformation(
-            recipe = recipe,
-            inKitchenList = inKitchenList,
-            ingredientList = ingredientList,
-            utensilList = utensilList
-        )
-        LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
+    Column(Modifier.fillMaxSize()) {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(0.2f)) {
+            LargeViewRecipeHeader(recipe = recipe)
+        }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(1.0f)) {
+            RecipeInformation(
+                recipe = recipe,
+                inKitchenList = inKitchenList,
+                ingredientList = ingredientList,
+                utensilList = utensilList
+            )
+        }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(0.4f)) {
+            LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
+        }
     }
 }
 
 @Composable
 fun LargeViewRecipeHeader(recipe: Recipe) {
     //probably call small view???
-    Row() {
-        Text(
-            recipe.title,
-            Modifier.weight(1.0f),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
-        )
-        Column() {
-            Text(recipe.difficulty.toString())
-            Text(recipe.time)
+    Column(Modifier.fillMaxWidth()) {
+        Row() {
+            Text(
+                recipe.title,
+                Modifier.weight(1.0f),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+            Column(Modifier.fillMaxWidth()) {
+                Text(recipe.difficulty.toString())
+                Text(recipe.time)
+            }
         }
     }
 }

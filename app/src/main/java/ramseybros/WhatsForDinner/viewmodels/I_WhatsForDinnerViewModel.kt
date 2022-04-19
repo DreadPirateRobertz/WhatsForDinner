@@ -19,9 +19,10 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
 
     abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipeUtensilList(recipeId: UUID): LiveData<List<String>>
-
+    abstract fun getRecipe(recipeId: UUID): LiveData<Recipe>?
     abstract fun getApiRecipeList(): SnapshotStateList<Recipe>
     abstract fun getApiRecipeLiveData(): MutableLiveData<Recipe>
+    abstract fun setRecipeIdLiveData(recipeId: UUID)
 
     abstract fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>)
 
