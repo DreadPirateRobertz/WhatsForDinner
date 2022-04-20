@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -25,12 +26,12 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 @Composable
 fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
     Box(Modifier.fillMaxWidth()) {
-        Column(Modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween) {
             Card(modifier = Modifier
-                .padding(10.dp)
+                .padding(4.dp)
+                .fillMaxWidth()
                 .clickable { onClick() }
                 .border(2.dp, Color.Black, RoundedCornerShape(10))
-                .padding(6.dp)
             ) {
                 Row {
                     AsyncImage(
@@ -44,16 +45,18 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
                         modifier = Modifier
                             .clip(RoundedCornerShape(10))
                             .align(Alignment.CenterVertically)
-                            .border(1.dp, Color.Black, RoundedCornerShape(10))
+//                            .border(1.dp, Color.Black, RoundedCornerShape(10))
                             .padding(16.dp)
-                            .size(64.dp)
+                            .size(128.dp)
+
                     )
                     Text(
                         text = recipe.title,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
                             .padding(10.dp)
                             .align(Alignment.CenterVertically)
-                            .border(1.dp, Color.Black, RoundedCornerShape(10))
+//                            .border(1.dp, Color.Black, RoundedCornerShape(10))
                             .padding(6.dp)
                     )
 //                    Column(
