@@ -23,4 +23,6 @@
     <string name="saved_recipes_screen_title">Saved Recipes</string>
     <string name="small_recipe_screen_title">Small Recipe</string>
     <string name="shopping_list_screen_title">Shopping List</string>
+    <string name="difficulty">Difficulty: %1$s</string>
+    <string name="cook_time">Cook Time: %1$sm</string>
 </resources>

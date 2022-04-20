@@ -54,7 +54,7 @@ fun LargeRecipeView(
 @Composable
 fun LargeViewRecipeHeader(recipe: Recipe) {
     //probably call small view???
-    Column(Modifier.fillMaxWidth()) {
+    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.SpaceBetween) {
         Row() {
             Text(
                 recipe.title,
@@ -63,11 +63,11 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
-//            Column() {
-//
-//                Text(recipe.difficulty.toString())
-//                Text(recipe.time)
-//            }
+            Column() {
+
+                Text(text = stringResource(id = R.string.difficulty, recipe.difficulty.toString()))
+                Text(text = stringResource(id = R.string.cook_time, recipe.time.toString()))
+            }
         }
     }
 }

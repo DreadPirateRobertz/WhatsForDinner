@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -68,19 +69,16 @@ fun RecipeSearchScreen(
                 .fillMaxWidth()
                 .weight(1.0f)) {
 
-                if(recipeList == null) {
-                    Log.d(LOG_TAG, "recipeList is null")
+                if(recipeList == emptyList<Recipe>()) {
+                    Log.d(LOG_TAG, "recipeList is empty")
                 } else {
                     Log.d(LOG_TAG, "recipeList has size ${recipeList.size}")
-                    var recipe: Recipe
                     LazyColumn(){
-                        items(recipeList.size) { index ->
-                            recipe = recipeList[index]
-                            SmallRecipeView(recipe = recipe) {onRequestRecipe(recipe)}
+                        items(recipeList) {
+                            SmallRecipeView(recipe = it) {onRequestRecipe(it)}
                         }
                     }
                 }
-
         }
         Spacer(Modifier.weight(.25f))
     }
