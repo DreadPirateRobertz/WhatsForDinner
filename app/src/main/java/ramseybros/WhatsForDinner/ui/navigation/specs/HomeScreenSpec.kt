@@ -15,7 +15,7 @@ import ramseybros.WhatsForDinner.R
 object HomeScreenSpec : IScreenSpec {
     override val route: String
         get() = "home"
-    override val title: Int = R.string.home_screen_title
+    override val title: Int = R.string.app_name
     override val arguments: List<NamedNavArgument> = emptyList()
 //        listOf(
 //            navArgument(ARG) {type = NavType.StringType }
@@ -40,7 +40,7 @@ object HomeScreenSpec : IScreenSpec {
             recommendedRecipesList = recommendedRecipesList,
             onSelectRecipe =
             { recipe ->
-                navController.navigate(LargeRecipeScreenSpec.navigateTo())
+                navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
             },
             onSelectIngredient = {}
         )

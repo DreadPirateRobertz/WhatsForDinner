@@ -50,7 +50,7 @@ fun RecipeSearchScreen(
 
     val recipeList = viewModel.getApiRecipeList()
     Column(Modifier.fillMaxSize()) {
-        SectionHeader(title = stringResource(id = R.string.recipe_search_screen_title))
+//        SectionHeader(title = stringResource(id = R.string.recipe_search_screen_title))
         Button(
             onClick = {
                 onClick()

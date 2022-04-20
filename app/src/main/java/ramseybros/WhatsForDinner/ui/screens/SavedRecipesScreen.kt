@@ -95,7 +95,7 @@ fun SavedRecipesScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        SavedRecipesSection()
+//        SavedRecipesSection()
         if (savedRecipesList != null) {
             LazyColumn() {
                 items(savedRecipesList) {

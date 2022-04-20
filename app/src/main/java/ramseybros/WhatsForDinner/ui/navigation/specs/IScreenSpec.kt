@@ -2,9 +2,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -18,8 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -208,50 +209,65 @@ sealed interface IScreenSpec {
                         CompositionLocalProvider(
                             LocalContentAlpha provides ContentAlpha.high,
                         ) {
-                            if (navBackStackEntry?.destination?.route != "home") {
-                                if (navBackStackEntry?.destination?.route != "saved")
-                                    if (navBackStackEntry?.destination?.route != "MyKitchenScreen")
-                                        if (navBackStackEntry?.destination?.route != "RecipeSearchScreen")
-
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    textAlign = TextAlign.Start,
-                                    maxLines = 1,
-                                    text = stringResource(id = title),
-                                    color = color
-                                )
-                            }
+//                            if (navBackStackEntry?.destination?.route != "home") {
+//                                if (navBackStackEntry?.destination?.route != "saved")
+//                                    if (navBackStackEntry?.destination?.route != "MyKitchenScreen")
+//                                        if (navBackStackEntry?.destination?.route != "RecipeSearchScreen")
+                        Column() {
+                            Text(
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 30.sp,
+                                fontFamily = FontFamily.Cursive,
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                textAlign = TextAlign.Center,
+                                maxLines = 1,
+                                text = stringResource(id = title),
+                                color = color
+                            )
+                            var padding = 0.dp
+                            if (navBackStackEntry?.destination?.route == "home") padding = 16.dp
+                            Divider(
+                                modifier = Modifier.fillMaxWidth().padding(end = padding),
+                                thickness = 2.dp,
+                                color = colorResource(R.color.teal_200),
+                            )
+                        }
+//                            }
                         }
                     }
-                    if (navBackStackEntry?.destination?.route == "home") {
-                        Icon(
-                            imageVector = Icons.Filled.Home,
-                            contentDescription = null,
-                            tint = color
-                        )
-                    }
-                    else if (navBackStackEntry?.destination?.route == "saved") {
-                        Icon(
-                            imageVector = Icons.Filled.Star,
-                            contentDescription = null,
-                            tint = color
-                        )
-                    }
-                    else if (navBackStackEntry?.destination?.route == "MyKitchenScreen") {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
-                            contentDescription = null,
-                            tint = color
-                        )
-                    }
-                    else if (navBackStackEntry?.destination?.route == "RecipeSearchScreen") {
-                        Icon(
-                            imageVector = Icons.Filled.Search,
-                            contentDescription = null,
-                            tint = color
-                        )
-                    }
+//                    if (navBackStackEntry?.destination?.route == "home") {
+//                        Column(horizontalAlignment = Alignment.End, modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(end = 12.dp)) {
+//                            Icon(
+//                                imageVector = Icons.Filled.Home,
+//                                contentDescription = null,
+//                                tint = color
+//                            )
+//                        }
+//                    }
+//                    else if (navBackStackEntry?.destination?.route == "saved") {
+//                        Icon(
+//                            imageVector = Icons.Filled.Star,
+//                            contentDescription = null,
+//                            tint = color
+//                        )
+//                    }
+//                    else if (navBackStackEntry?.destination?.route == "MyKitchenScreen") {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
+//                            contentDescription = null,
+//                            tint = color
+//                        )
+//                    }
+//                    else if (navBackStackEntry?.destination?.route == "RecipeSearchScreen") {
+//                        Icon(
+//                            imageVector = Icons.Filled.Search,
+//                            contentDescription = null,
+//                            tint = color
+//                        )
+//                    }
                 }
             },
             backgroundColor = bgColor,
