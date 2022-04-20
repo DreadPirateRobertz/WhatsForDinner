@@ -12,22 +12,15 @@ import java.util.*
 abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract val recipeListLiveData: LiveData<List<Recipe>>
     abstract val recipeLiveData: LiveData<Recipe?>
-
     abstract val ingredientListLiveData: LiveData<List<Ingredient>>
     abstract val ingredientLiveData: LiveData<Ingredient?>
     abstract val outputWorkerInfo: LiveData<WorkInfo>
-
     abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipeUtensilList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipe(recipeId: UUID): LiveData<Recipe>?
     abstract fun getApiRecipeList(): SnapshotStateList<Recipe>
     abstract fun getApiRecipeLiveData(): MutableLiveData<Recipe>
     abstract fun setRecipeIdLiveData(recipeId: UUID)
-
     abstract fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>)
-
-    //    abstract fun addCharacter(character: WhatsForDinnerCharacter)
-//    abstract fun loadCharacter(Id: UUID)
-//    abstract fun generateRandomCharacter(): WhatsForDinnerCharacter
     abstract fun requestWebRecipes()
 }

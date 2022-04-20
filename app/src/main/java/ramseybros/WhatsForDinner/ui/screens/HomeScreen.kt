@@ -100,14 +100,20 @@ private fun RecentRecipeRow(onSelectRecipe: (Recipe) -> Any, recentRecipesList: 
             Column(Modifier.fillMaxSize()) {
                 RecentRecipesSection()
                 if (recentRecipesList != null) {
-                    LazyRow {
+                    LazyColumn {
                         items(recentRecipesList) {
-                            Text(text = it.title, modifier = Modifier
-                                .selectable(
-                                    selected = true,
-                                    onClick = { onSelectRecipe(it) }
+                            Card(
+                                modifier = Modifier
+                                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp).clickable { onSelectRecipe(it) }
+                            ) {
+                                Text(text = it.title, modifier = Modifier
+//                                    .selectable(
+//                                        selected = true,
+//                                        onClick = { onSelectRecipe(it) }
+//                                    )
+
                                 )
-                            )
+                            }
                         }
                     }
                 }
