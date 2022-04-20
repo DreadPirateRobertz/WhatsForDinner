@@ -92,11 +92,7 @@ fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addReci
             )
         }
     }
-    Toast.makeText(
-        LocalContext.current,
-        "Currently a PlaceHolder: Will be a shopping list to add items and import items needed from recipes", Toast.LENGTH_SHORT
-    )
-        .show()
+
 }
 
 

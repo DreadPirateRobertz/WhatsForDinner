@@ -185,11 +185,7 @@ fun HomeScreen(
     onSelectRecipe: (Recipe) -> Any,
     onSelectIngredient: (Ingredient) -> Any
 ) {
-    Toast.makeText(
-        LocalContext.current,
-        "L: Saved Recipes, Mid: Kitchen, R: Recipe Search", Toast.LENGTH_SHORT
-    )
-        .show()
+
     Column(
         modifier = Modifier
             .fillMaxSize()

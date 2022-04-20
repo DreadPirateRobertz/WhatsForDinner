@@ -45,11 +45,6 @@ private fun SectionHeader(title: String) {
 }
 @Composable
 fun MyKitchen(onClick: () -> Unit) {
-    Toast.makeText(
-        LocalContext.current,
-        "Currently A Placeholder", Toast.LENGTH_SHORT
-    )
-        .show()
     Column(Modifier.fillMaxSize()) {
         SectionHeader(title = stringResource(id = R.string.my_kitchen_screen_title))
         Box(

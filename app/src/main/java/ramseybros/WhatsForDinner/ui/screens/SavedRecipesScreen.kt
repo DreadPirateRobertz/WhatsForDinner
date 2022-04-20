@@ -89,11 +89,7 @@ fun SavedRecipesScreen(
     savedRecipesList: List<Recipe>?,
     onSelectRecipe: (Recipe) -> Any,
 ) {
-    Toast.makeText(
-        LocalContext.current,
-        "List of Recipes that you save from Recipe Search", Toast.LENGTH_SHORT
-    )
-        .show()
+
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

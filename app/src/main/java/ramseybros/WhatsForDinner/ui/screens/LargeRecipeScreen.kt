@@ -48,11 +48,7 @@ fun LargeRecipeView(
             LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
         }
     }
-    Toast.makeText(
-        LocalContext.current,
-        "Recipe Detail, will soon be more thorough", Toast.LENGTH_SHORT
-    )
-        .show()
+
 }
 
 @Composable

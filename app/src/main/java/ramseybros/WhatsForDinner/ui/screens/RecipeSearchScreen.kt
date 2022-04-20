@@ -82,11 +82,6 @@ fun RecipeSearchScreen(
                 }
 
         }
-        Toast.makeText(
-            LocalContext.current,
-            "Hit Refresh to show Recipes: (Beans, Ckn, & Rice (for now))", Toast.LENGTH_SHORT
-        )
-            .show()
         Spacer(Modifier.weight(.25f))
     }
 }
