@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -43,7 +44,6 @@ fun LargeRecipeView(
         }
         Box(
             Modifier
-                .fillMaxWidth()
                 .weight(0.4f)) {
             LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
         }
@@ -74,8 +74,8 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
 
 @Composable
 fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onBack: () -> Unit) {
-    Row(Modifier.wrapContentHeight()) {
-        Button(onClick = { onSave(recipe) }, Modifier.weight(1.0f)) {
+     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()){
+        Button(onClick = { onSave(recipe) }) {
             Text(stringResource(id = ramseybros.WhatsForDinner.R.string.save_recipe_label))
         }
 
