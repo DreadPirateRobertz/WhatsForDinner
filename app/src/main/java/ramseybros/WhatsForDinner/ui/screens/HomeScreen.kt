@@ -104,6 +104,7 @@ private fun RecentRecipeRow(onSelectRecipe: (Recipe) -> Any, recentRecipesList: 
                         items(recentRecipesList) {
                             Card(
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp).clickable { onSelectRecipe(it) }
                             ) {
 
