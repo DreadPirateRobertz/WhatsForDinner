@@ -31,7 +31,7 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
                 .padding(4.dp)
                 .fillMaxWidth()
                 .clickable { onClick() }
-                .border(2.dp, Color.Black, RoundedCornerShape(10))
+//                .border(2.dp, Color.Black, RoundedCornerShape(10))
             ) {
                 Row {
                     AsyncImage(
