@@ -28,7 +28,7 @@ fun LargeRecipeView(
         Box(
             Modifier
                 .fillMaxWidth()
-                .weight(0.2f)) {
+                .weight(0.4f)) {
             LargeViewRecipeHeader(recipe = recipe)
         }
         Box(
@@ -42,6 +42,7 @@ fun LargeRecipeView(
                 utensilList = utensilList
             )
         }
+        Spacer(modifier = Modifier.weight(0.1f))
         Box(
             Modifier
                 .weight(0.4f)) {
