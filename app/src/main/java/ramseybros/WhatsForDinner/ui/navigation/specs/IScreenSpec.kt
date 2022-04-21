@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -33,7 +34,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import ramseybros.WhatsForDinner.R
-import ramseybros.WhatsForDinner.data.Constants
+import ramseybros.WhatsForDinner.data.NavigationItem
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
@@ -84,11 +85,11 @@ sealed interface IScreenSpec {
 //        }
         @Composable
         fun BottomBar(navController: NavHostController) {
-//            BottomAppBar(            // Defaults to null, that is, No cutout
-//                cutoutShape = MaterialTheme.shapes.small.copy(
-//                    CornerSize(percent = 50)
-//                )
-//            ) {
+            BottomAppBar(            // Defaults to null, that is, No cutout
+                cutoutShape = MaterialTheme.shapes.small.copy(
+                    CornerSize(percent = 50)
+                )
+            ) {
             var color = Color.White
             var bgColor = colorDarkSecondary
             if (isSystemInDarkTheme()) {
@@ -97,9 +98,18 @@ sealed interface IScreenSpec {
             }
             BottomNavigation(
                 backgroundColor = bgColor,
+                contentColor = Color.White //TEST
 
                 ) {
+                    val items = listOf(
+                        NavigationItem.SavedRecipes,
+                        NavigationItem.Kitchen,
+                        NavigationItem.Blank,
+                        NavigationItem.Home,
+                        NavigationItem.RecipeSearch,
 
+
+                    )
                     // observe the backstack
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     // observe current route to change the icon
@@ -108,51 +118,62 @@ sealed interface IScreenSpec {
                     // color,label color when navigated
                     val currentRoute = navBackStackEntry?.destination?.route
                     // Bottom nav items we declared
-                    Constants.BottomNavItems.forEach { navItem ->
-                        // Place the bottom nav items
-                        BottomNavigationItem(
-                            // it currentRoute is equal then its selected route
-                            selected = currentRoute == navItem.route,
-                            selectedContentColor = color,
-                            unselectedContentColor = color.copy(.7f),
-                            // navigate on click
-                            onClick = {
-                                navController.navigate(navItem.route) {
-                                    popUpTo(navItem.route) {
-                                        //savestate = true was disabling buttons
+                    items.forEachIndexed { index, navItem ->
+                        if (index != 2) {
+                            // Place the bottom nav items
+                            BottomNavigationItem(
+                                // it currentRoute is equal then its selected route
+                                selected = currentRoute == navItem.route,
+                                selectedContentColor = color,
+                                unselectedContentColor = color.copy(.6f),
+                                // navigate on click
+                                onClick = {
+                                    navController.navigate(navItem.route) {
+                                        popUpTo(navItem.route) {
+                                            //savestate = true was disabling buttons
+                                        }
+                                        // Navigate to the "search” destination only if we’re not already on
+                                        // the "search" destination, avoiding multiple copies on the top of the
+                                        // back stack
+                                        launchSingleTop = true
                                     }
-                                    // Navigate to the "search” destination only if we’re not already on
-                                    // the "search" destination, avoiding multiple copies on the top of the
-                                    // back stack
-                                    launchSingleTop = true
-                                }
-                            },
-                            // Icon of navItem
-                            icon = {
-                                if (navItem.label == "Kitchen") Icon(
-                                    painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
-                                    contentDescription = navItem.label
-                                )
-                                else Icon(
-                                    imageVector = navItem.icon,
-                                    contentDescription = navItem.label
-                                )
-                            },
-                            // label
-                            label = {
-                                Text(
-                                    fontWeight = FontWeight.ExtraBold,
-                                    fontSize = 12.sp,
-                                    text = navItem.label
-                                )
-                            },
-                            alwaysShowLabel = false
-                        )
+                                },
+                                // Icon of navItem
+                                icon = {
+                                    Row(horizontalArrangement = Arrangement.Start) {
+
+
+                                        Icon(
+                                            painter = painterResource(id = navItem.icon),
+                                            contentDescription = navItem.title
+                                        )
+                                    }
+                                },
+                                // label
+                                label = {
+                                    Text(
+                                        fontWeight = FontWeight.ExtraBold,
+                                        fontSize = 12.sp,
+                                        text = navItem.title
+                                    )
+                                },
+                                alwaysShowLabel = false
+                            )
+                        }
+                        else{
+                            BottomNavigationItem(
+                                icon = {},
+                                label = {  },
+                                selected = false,
+                                onClick = {  },
+                                enabled = false
+                            )
+                        }
                     }
 
                 }
 
-//            }
+            }
         }
 
 
@@ -161,6 +182,7 @@ sealed interface IScreenSpec {
             var color: Color = Color.Black
             if (isSystemInDarkTheme()) color = colorLightSecondary
             FloatingActionButton(
+                elevation = FloatingActionButtonDefaults.elevation(8.dp),
                 contentColor = colorResource(id = R.color.teal_200),
                 backgroundColor = color,
                 onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())
@@ -228,7 +250,9 @@ sealed interface IScreenSpec {
                             var padding = 0.dp
                             if (navBackStackEntry?.destination?.route == "home") padding = 16.dp
                             Divider(
-                                modifier = Modifier.fillMaxWidth().padding(end = padding),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(end = padding),
                                 thickness = 2.dp,
                                 color = colorResource(R.color.teal_200),
                             )

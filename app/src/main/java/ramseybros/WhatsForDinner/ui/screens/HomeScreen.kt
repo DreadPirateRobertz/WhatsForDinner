@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.Toast
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,13 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -184,7 +181,7 @@ private fun RecommendedRecipeRow(
     Box(Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier
-                .padding(24.dp),
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
         ) {
             Column(Modifier.fillMaxSize()) {
                 RecommendedRecipesSection()
@@ -218,7 +215,10 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 8.dp, bottom = 8.dp),
+            .padding(top = 8.dp, bottom = 8.dp)
+            .verticalScroll(rememberScrollState())
+        ,
+
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
@@ -252,7 +252,7 @@ fun HomeScreen(
                 recommendedRecipesList = recommendedRecipesList
             )
         }
-        Spacer(Modifier.weight(.5f))
+        Spacer(Modifier.weight(.2f))
     }
 }
 

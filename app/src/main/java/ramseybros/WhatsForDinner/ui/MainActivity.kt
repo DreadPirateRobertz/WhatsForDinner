@@ -4,10 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -61,8 +58,11 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                         if (checkRoute(navController = navController) != 2) {
                             FloatingButton(navController = navController)
                         }
+
                 },
-//                isFloatingActionButtonDocked = true,
+                isFloatingActionButtonDocked = true,
+                floatingActionButtonPosition = FabPosition.Center,
+//
                 topBar = {
                     if (checkRoute(navController = navController) != 2) {
                         WhatsForDinnerTopBar(navController = navController)
@@ -77,6 +77,7 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                         BottomBar(navController = navController)
 
                     }
+
                 }
 
             )
