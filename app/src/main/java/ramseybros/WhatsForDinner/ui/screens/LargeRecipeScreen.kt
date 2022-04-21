@@ -39,7 +39,7 @@ fun LargeRecipeView(
         Box(
             Modifier
                 .fillMaxWidth()
-                .weight(0.7f)) {
+                .weight(0.8f)) {
             LargeViewRecipeHeader(recipe = recipe)
         }
         Box(
@@ -78,7 +78,6 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
                 fontSize = 24.sp
             )
             Column() {
-
                 Text(text = stringResource(id = R.string.difficulty, recipe.difficulty.toString()))
                 Text(text = stringResource(id = R.string.cook_time, recipe.time.toString()))
             }
