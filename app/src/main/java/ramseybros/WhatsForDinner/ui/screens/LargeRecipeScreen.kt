@@ -59,6 +59,7 @@ fun LargeRecipeView(
                 .weight(0.4f)) {
             LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
         }
+        Spacer(modifier = Modifier.weight(0.2f))
     }
 
 }

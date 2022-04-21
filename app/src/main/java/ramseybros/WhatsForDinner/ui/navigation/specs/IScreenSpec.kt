@@ -86,8 +86,10 @@ sealed interface IScreenSpec {
         @Composable
         fun BottomBar(navController: NavHostController) {
             BottomAppBar(            // Defaults to null, that is, No cutout
+                modifier = Modifier.fillMaxWidth(),
                 cutoutShape = MaterialTheme.shapes.small.copy(
-                    CornerSize(percent = 50)
+                    CornerSize(percent = 50),
+
                 )
             ) {
             var color = Color.White
@@ -98,7 +100,7 @@ sealed interface IScreenSpec {
             }
             BottomNavigation(
                 backgroundColor = bgColor,
-                contentColor = Color.White //TEST
+
 
                 ) {
                     val items = listOf(
