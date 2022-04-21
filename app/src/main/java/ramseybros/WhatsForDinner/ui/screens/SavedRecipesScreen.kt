@@ -40,7 +40,11 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.Ingredient
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 
@@ -76,9 +80,24 @@ private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any)
     Box(modifier = Modifier.fillMaxWidth()) {
         Card(modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+            .clickable { onSelectRecipe(savedRecipe) }
         ) {
-            Column (Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
-                Text(fontSize = 16.sp, text = savedRecipe.title, modifier = Modifier.clickable { onSelectRecipe(savedRecipe) })
+            Row (Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(savedRecipe.imageLink)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.pot_image),
+                    contentDescription = "recipe image",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10))
+                        .align(Alignment.CenterVertically)
+                        .padding(4.dp)
+                        .size(100.dp)
+                )
+                Text(fontSize = 16.sp, text = savedRecipe.title, modifier = Modifier.padding(4.dp), textAlign = TextAlign.Center)
             }
         }
     }
@@ -96,13 +115,16 @@ fun SavedRecipesScreen(
     )
     {
 //        SavedRecipesSection()
-        if (savedRecipesList != null) {
-            LazyColumn() {
-                items(savedRecipesList) {
-                    SavedRecipeRow(savedRecipe = it, onSelectRecipe = onSelectRecipe)
+        Box(Modifier.fillMaxWidth().weight(1f)) {
+            if (savedRecipesList != null) {
+                LazyColumn() {
+                    items(savedRecipesList) {
+                        SavedRecipeRow(savedRecipe = it, onSelectRecipe = onSelectRecipe)
+                    }
                 }
             }
         }
+        Spacer(Modifier.weight(0.2f))
     }
 }
 

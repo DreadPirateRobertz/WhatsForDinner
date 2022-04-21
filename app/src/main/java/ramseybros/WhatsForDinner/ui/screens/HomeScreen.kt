@@ -42,8 +42,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -105,10 +109,33 @@ private fun RecentRecipeRow(onSelectRecipe: (Recipe) -> Any, recentRecipesList: 
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp).clickable { onSelectRecipe(it) }
+                                    .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
+                                    .clickable { onSelectRecipe(it) }
                             ) {
+                                Row() {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(LocalContext.current)
+                                            .data(it.imageLink)
+                                            .crossfade(true)
+                                            .build(),
+                                        placeholder = painterResource(R.drawable.pot_image),
+                                        contentDescription = "recipe image",
+                                        contentScale = ContentScale.Fit,
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(10))
+                                            .align(Alignment.CenterVertically)
+                                            .padding(4.dp)
+                                            .size(100.dp)
+                                    )
+                                    Text(
+                                        text = it.title,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterVertically)
+                                            .padding(end = 8.dp),
+                                        textAlign = TextAlign.Center
+                                    )
 
-                                Text(text = it.title, modifier = Modifier)
+                                }
                             }
                         }
                     }
@@ -157,7 +184,7 @@ private fun RecommendedRecipeRow(
     Box(Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                .padding(24.dp),
         ) {
             Column(Modifier.fillMaxSize()) {
                 RecommendedRecipesSection()
