@@ -54,7 +54,7 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
             Scaffold(
                 //Could not do an && on complex function call so resolved with two conditionals
                 floatingActionButton = {
-                    if (checkRoute(navController = navController) != 1)
+//                    if (checkRoute(navController = navController) != 1)
                         if (checkRoute(navController = navController) != 2) {
                             FloatingButton(navController = navController)
                         }

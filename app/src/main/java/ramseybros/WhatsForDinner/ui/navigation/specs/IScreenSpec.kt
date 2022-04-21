@@ -179,6 +179,7 @@ sealed interface IScreenSpec {
 
         @Composable
         fun FloatingButton(navController: NavHostController) {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
             var color: Color = Color.Black
             if (isSystemInDarkTheme()) color = colorLightSecondary
             FloatingActionButton(
@@ -186,14 +187,23 @@ sealed interface IScreenSpec {
                 contentColor = colorResource(id = R.color.teal_200),
                 backgroundColor = color,
                 onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())
-            {
+            { launchSingleTop = true
                 popUpTo(ShoppingListScreenSpec.route)
             }
             }) {
-                Icon(
-                    imageVector = Icons.Filled.ShoppingCart,
-                    contentDescription = null
-                )
+                if(navBackStackEntry?.destination?.route != "ShoppingList") {
+                    Icon(
+                        imageVector = Icons.Filled.ShoppingCart,
+                        contentDescription = null
+                    )
+                }
+                else{
+                    Icon( //TODO: Will have to do a separate OnClick for adding an item to list
+                        painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                        contentDescription = null
+                    )
+
+                }
             }
         }
     }

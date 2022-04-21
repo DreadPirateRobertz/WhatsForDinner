@@ -52,27 +52,27 @@ fun SectionList(itemList: List<String>, header: String) {
 @Composable
 fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addRecipe: () -> Unit) {
     Column() {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.End
-        ) {
-            var color: Color = Color.Black
-            if (isSystemInDarkTheme()) color = colorLightSecondary
-            FloatingActionButton(
-                backgroundColor = color,
-                onClick = { addRecipe() },
-                modifier = Modifier.padding(top = 10.dp, end= 16.dp),
-                shape = CircleShape,
-                contentColor = colorResource(id = R.color.teal_200)
-            )
-            {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                    contentDescription = null
-                )
-            }
-        }
+//        Column(
+//            modifier = Modifier
+//                .fillMaxWidth(),
+//            horizontalAlignment = Alignment.End
+//        ) {
+//            var color: Color = Color.Black
+//            if (isSystemInDarkTheme()) color = colorLightSecondary
+//            FloatingActionButton(
+//                backgroundColor = color,
+//                onClick = { addRecipe() },
+//                modifier = Modifier.padding(top = 10.dp, end= 16.dp),
+//                shape = CircleShape,
+//                contentColor = colorResource(id = R.color.teal_200)
+//            )
+//            {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+//                    contentDescription = null
+//                )
+//            }
+//        }
         Column(Modifier.fillMaxSize()) {
             Box(
                 Modifier
