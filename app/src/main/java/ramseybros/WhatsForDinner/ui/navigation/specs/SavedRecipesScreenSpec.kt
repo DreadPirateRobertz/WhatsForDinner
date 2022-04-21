@@ -33,6 +33,7 @@ object SavedRecipesScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
+
         val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
         SavedRecipesScreen(
             savedRecipesList = savedRecipesList,

@@ -81,7 +81,13 @@ object LargeRecipeScreenSpec : IScreenSpec {
                 }
             }
         }
+        var saveButtonFlag = true
+        viewModel.recipeListLiveData.value?.forEach {
+            if(recipe == it) saveButtonFlag = false
+        }
+
         LargeRecipeView(
+            saveButtonFlag = saveButtonFlag,
             recipe = recipe,
             onSave = { viewModel.addRecipe(recipe,ingredientList,utensilList)},
             onBack = { navController.navigate(RecipeSearchScreenSpec.navigateTo()) },
@@ -89,6 +95,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
             ingredientList = utensilList,
             utensilList = utensilList
         )
+        saveButtonFlag = true
     }
 
 }
