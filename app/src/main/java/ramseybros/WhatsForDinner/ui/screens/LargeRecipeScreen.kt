@@ -71,7 +71,7 @@ fun LargeRecipeView(
 @Composable
 fun LargeViewRecipeHeader(recipe: Recipe) {
     //probably call small view???
-    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceAround) {
         Row() {
             Text(
                 recipe.title,

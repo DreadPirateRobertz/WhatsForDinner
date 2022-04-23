@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.content.res.Configuration
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +27,17 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
 fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
+    var size = 0.dp
+    val configuration = LocalConfiguration.current
+    size = when(configuration.orientation){
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            180.dp
+        }
+        else ->{
+            128.dp
+
+        }
+    }
     Box(Modifier.fillMaxWidth()) {
         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween) {
             Card(modifier = Modifier
@@ -47,7 +60,7 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
                             .align(Alignment.CenterVertically)
 //                            .border(1.dp, Color.Black, RoundedCornerShape(10))
                             .padding(16.dp)
-                            .size(128.dp)
+                            .size(size)
 
                     )
                     Text(

@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
@@ -55,7 +56,6 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                         if (checkRoute(navController = navController) != 2) {
                             WhatsForDinnerFAB(navController = navController)
                         }
-
                 },
                 isFloatingActionButtonDocked = true,
                 floatingActionButtonPosition = FabPosition.Center,
@@ -66,7 +66,6 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                     }
                 },
                 content = {
-//                        HorizontalSwiper()
                         WhatsForDinnerNavHost(navController = navController, viewModel = model)
                 },
                 bottomBar = {

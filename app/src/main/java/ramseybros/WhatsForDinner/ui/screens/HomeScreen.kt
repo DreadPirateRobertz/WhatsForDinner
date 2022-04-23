@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.content.res.Configuration
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -73,10 +75,24 @@ private fun RecommendedIngredientsSection() {
 @Composable
 private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: List<Recipe>?) {
     //Clicking A recipe will take you to how to make it...
+    val configuration = LocalConfiguration.current
+    var padding = 0.dp
+    var size = 0.dp
+    when(configuration.orientation){
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            padding = 4.dp
+            size = 100.dp
+        }
+        else ->{
+            padding = 16.dp
+            size = 75.dp
+
+        }
+    }
     Box(Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                .padding(start = padding, end = padding, top = 8.dp, bottom = 8.dp)
         ) {
             Column(Modifier.fillMaxSize()) {
                 SavedRecipesSection()
@@ -102,7 +118,7 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: L
                                             .clip(RoundedCornerShape(10))
                                             .align(Alignment.CenterVertically)
                                             .padding(4.dp)
-                                            .size(75.dp)
+                                            .size(size)
                                     )
                                     Text(
                                         text = it.title,
@@ -191,50 +207,84 @@ fun HomeScreen(
     onSelectRecipe: (Recipe) -> Any,
     onSelectIngredient: (Ingredient) -> Any
 ) {
+    val configuration = LocalConfiguration.current
+    when(configuration.orientation){
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp, bottom = 60.dp)
+                  /*  .verticalScroll(rememberScrollState())*/
+                ,
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 8.dp, bottom = 8.dp)
-            .verticalScroll(rememberScrollState())
-        ,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Row(
+                )
+                {
 
-        horizontalAlignment = Alignment.CenterHorizontally
-    )
-    {
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        RecommendedRecipeRow(
+                            onSelectRecipe = onSelectRecipe,
+                            recommendedRecipesList = recommendedRecipesList
+                        )
+                    }
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        SavedRecipesRow(
+                            onSelectRecipe = onSelectRecipe,
+                            savedRecipesList = savedRecipesList
+                        )
 
-//        Box(
-//            Modifier
-//                .fillMaxWidth()
-//                .weight(1f)
-//        ) {
-//            RecommendedIngredientRow(
-//                onSelectIngredient = onSelectIngredient,
-//                recentIngredientsList = recommendedIngredientsList
-//            )
-//        }
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            RecommendedRecipeRow(
-                onSelectRecipe = onSelectRecipe,
-                recommendedRecipesList = recommendedRecipesList
-            )
+                    }
+
+                }
+            }
         }
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            SavedRecipesRow(
-                onSelectRecipe = onSelectRecipe,
-                savedRecipesList = savedRecipesList
+        else ->{
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp, bottom = 8.dp)
+                    .verticalScroll(rememberScrollState())
+                ,
+
+                horizontalAlignment = Alignment.CenterHorizontally
             )
+            {
+
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    RecommendedRecipeRow(
+                        onSelectRecipe = onSelectRecipe,
+                        recommendedRecipesList = recommendedRecipesList
+                    )
+                }
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
+                    SavedRecipesRow(
+                        onSelectRecipe = onSelectRecipe,
+                        savedRecipesList = savedRecipesList
+                    )
+                }
+                Spacer(Modifier.weight(.2f))
+            }
         }
-        Spacer(Modifier.weight(.3f))
     }
+
 }
 
 
