@@ -81,12 +81,11 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: L
     when(configuration.orientation){
         Configuration.ORIENTATION_LANDSCAPE -> {
             padding = 4.dp
-            size = 100.dp
+            size = 50.dp
         }
         else ->{
             padding = 16.dp
             size = 75.dp
-
         }
     }
     Box(Modifier.fillMaxWidth()) {

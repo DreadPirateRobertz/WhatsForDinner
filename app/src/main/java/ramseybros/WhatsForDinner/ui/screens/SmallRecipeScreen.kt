@@ -27,19 +27,19 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
 fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
-    var size = 0.dp
+    var size = 160.dp
     val configuration = LocalConfiguration.current
     size = when(configuration.orientation){
         Configuration.ORIENTATION_LANDSCAPE -> {
-            180.dp
+            128.dp
         }
         else ->{
-            128.dp
+            160.dp
 
         }
     }
     Box(Modifier.fillMaxWidth()) {
-        Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween) {
+        Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceAround) {
             Card(modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth()
@@ -61,6 +61,7 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
 //                            .border(1.dp, Color.Black, RoundedCornerShape(10))
                             .padding(16.dp)
                             .size(size)
+                            .weight(1.4f)
 
                     )
                     Text(
@@ -71,6 +72,7 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
                             .align(Alignment.CenterVertically)
 //                            .border(1.dp, Color.Black, RoundedCornerShape(10))
                             .padding(6.dp)
+                            .weight(1f)
                     )
 //                    Column(
 //                    ) {
