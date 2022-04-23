@@ -7,9 +7,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
 
 @Composable
-fun WhatsForDinnerTopBar(navController: NavHostController){
+fun WhatsForDinnerFAB(navController: NavHostController){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    IScreenSpec.TopBar(
+    IScreenSpec.FAB(
         navController = navController,
         navBackStackEntry = navBackStackEntry
     )

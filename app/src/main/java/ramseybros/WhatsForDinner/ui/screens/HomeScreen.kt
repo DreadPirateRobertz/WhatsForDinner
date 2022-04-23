@@ -1,58 +1,38 @@
 package ramseybros.WhatsForDinner.ui.screens
 
-import android.content.Context
-import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.Ingredient
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
 @Composable
 private fun SectionHeader(title: String) {
-    Column() {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             title,
             fontSize = 25.sp,
@@ -66,10 +46,10 @@ private fun SectionHeader(title: String) {
 
 
 @Composable
-private fun RecentRecipesSection() {
+private fun SavedRecipesSection() {
     Column(
     ) {
-        SectionHeader(title = stringResource(id = R.string.recent_recipes_header))
+        SectionHeader(title = stringResource(id = R.string.saved_recipes_header))
     }
 }
 
@@ -91,7 +71,7 @@ private fun RecommendedIngredientsSection() {
 
 
 @Composable
-private fun RecentRecipeRow(onSelectRecipe: (Recipe) -> Any, recentRecipesList: List<Recipe>?) {
+private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: List<Recipe>?) {
     //Clicking A recipe will take you to how to make it...
     Box(Modifier.fillMaxWidth()) {
         Card(
@@ -99,10 +79,10 @@ private fun RecentRecipeRow(onSelectRecipe: (Recipe) -> Any, recentRecipesList: 
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
         ) {
             Column(Modifier.fillMaxSize()) {
-                RecentRecipesSection()
-                if (recentRecipesList != null) {
+                SavedRecipesSection()
+                if (savedRecipesList != null) {
                     LazyColumn {
-                        items(recentRecipesList) {
+                        items(savedRecipesList) {
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -122,7 +102,7 @@ private fun RecentRecipeRow(onSelectRecipe: (Recipe) -> Any, recentRecipesList: 
                                             .clip(RoundedCornerShape(10))
                                             .align(Alignment.CenterVertically)
                                             .padding(4.dp)
-                                            .size(100.dp)
+                                            .size(75.dp)
                                     )
                                     Text(
                                         text = it.title,
@@ -205,7 +185,7 @@ private fun RecommendedRecipeRow(
 
 @Composable
 fun HomeScreen(
-    recentRecipesList: List<Recipe>?,
+    savedRecipesList: List<Recipe>?,
     recommendedIngredientsList: List<Ingredient>?,
     recommendedRecipesList: List<Recipe>?,
     onSelectRecipe: (Recipe) -> Any,
@@ -222,26 +202,17 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            RecentRecipeRow(
-                onSelectRecipe = onSelectRecipe,
-                recentRecipesList = recentRecipesList
-            )
-        }
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            RecommendedIngredientRow(
-                onSelectIngredient = onSelectIngredient,
-                recentIngredientsList = recommendedIngredientsList
-            )
-        }
+
+//        Box(
+//            Modifier
+//                .fillMaxWidth()
+//                .weight(1f)
+//        ) {
+//            RecommendedIngredientRow(
+//                onSelectIngredient = onSelectIngredient,
+//                recentIngredientsList = recommendedIngredientsList
+//            )
+//        }
         Box(
             Modifier
                 .fillMaxWidth()
@@ -252,7 +223,17 @@ fun HomeScreen(
                 recommendedRecipesList = recommendedRecipesList
             )
         }
-        Spacer(Modifier.weight(.2f))
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            SavedRecipesRow(
+                onSelectRecipe = onSelectRecipe,
+                savedRecipesList = savedRecipesList
+            )
+        }
+        Spacer(Modifier.weight(.3f))
     }
 }
 
@@ -260,12 +241,12 @@ fun HomeScreen(
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-    val recentRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
+    val savedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
     val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
     val recommendedIngredientsList: List<Ingredient> =
         listOf(RecipeGenerator.placeHolderIngredients())
     HomeScreen(
-        recentRecipesList = recentRecipesList,
+        savedRecipesList = savedRecipesList,
         recommendedIngredientsList = recommendedIngredientsList,
         recommendedRecipesList = recommendedRecipesList,
         onSelectRecipe = {},

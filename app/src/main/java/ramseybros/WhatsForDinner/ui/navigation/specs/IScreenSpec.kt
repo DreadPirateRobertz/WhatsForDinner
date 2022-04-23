@@ -61,7 +61,25 @@ sealed interface IScreenSpec {
                 navBackStackEntry
             )
 
-            //&& route != "home"
+
+        }
+
+        @Composable
+        fun BottomBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+            val route = navBackStackEntry?.destination?.route ?: ""
+            if (route != "") map[route]?.BottomAppBarContent(
+                navController = navController,
+                navBackStackEntry
+            )
+        }
+        @Composable
+        fun FAB(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+            val route = navBackStackEntry?.destination?.route ?: ""
+            if (route != "") map[route]?.FAB_Content(
+                navController = navController,
+                navBackStackEntry
+            )
+
         }
 
 
@@ -83,129 +101,9 @@ sealed interface IScreenSpec {
 //                }
 //            }
 //        }
-        @Composable
-        fun BottomBar(navController: NavHostController) {
-            BottomAppBar(            // Defaults to null, that is, No cutout
-                modifier = Modifier.fillMaxWidth(),
-                cutoutShape = MaterialTheme.shapes.small.copy(
-                    CornerSize(percent = 50),
-
-                )
-            ) {
-            var color = Color.White
-            var bgColor = colorDarkSecondary
-            if (isSystemInDarkTheme()) {
-                color = Color.Black
-                bgColor = colorLightSecondary
-            }
-            BottomNavigation(
-                backgroundColor = bgColor,
 
 
-                ) {
-                    val items = listOf(
-                        NavigationItem.SavedRecipes,
-                        NavigationItem.Kitchen,
-                        NavigationItem.Blank,
-                        NavigationItem.Home,
-                        NavigationItem.RecipeSearch,
-                    )
-                    // observe the backstack
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    // observe current route to change the icon
-                    // color,label color when navigated
-                    // observe current route to change the icon
-                    // color,label color when navigated
-                    val currentRoute = navBackStackEntry?.destination?.route
-                    // Bottom nav items we declared
-                    items.forEachIndexed { index, navItem ->
-                        if (index != 2) {
-                            // Place the bottom nav items
-                            BottomNavigationItem(
-                                // it currentRoute is equal then its selected route
-                                selected = currentRoute == navItem.route,
-                                selectedContentColor = color,
-                                unselectedContentColor = color.copy(.6f),
-                                // navigate on click
-                                onClick = {
-                                    navController.navigate(navItem.route) {
-                                        popUpTo(navItem.route) {
-                                            //savestate = true was disabling buttons
-                                        }
-                                        // Navigate to the "search” destination only if we’re not already on
-                                        // the "search" destination, avoiding multiple copies on the top of the
-                                        // back stack
-                                        launchSingleTop = true
-                                    }
-                                },
-                                // Icon of navItem
-                                icon = {
-                                    Row(horizontalArrangement = Arrangement.Start) {
 
-
-                                        Icon(
-                                            painter = painterResource(id = navItem.icon),
-                                            contentDescription = navItem.title
-                                        )
-                                    }
-                                },
-                                // label
-                                label = {
-                                    Text(
-                                        fontWeight = FontWeight.ExtraBold,
-                                        fontSize = 12.sp,
-                                        text = navItem.title
-                                    )
-                                },
-                                alwaysShowLabel = false
-                            )
-                        }
-                        else{
-                            BottomNavigationItem(
-                                icon = {},
-                                label = {  },
-                                selected = false,
-                                onClick = {  },
-                                enabled = false
-                            )
-                        }
-                    }
-
-                }
-
-            }
-        }
-
-
-        @Composable
-        fun FloatingButton(navController: NavHostController) {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            var color: Color = Color.Black
-            if (isSystemInDarkTheme()) color = colorLightSecondary
-            FloatingActionButton(
-                elevation = FloatingActionButtonDefaults.elevation(8.dp),
-                contentColor = colorResource(id = R.color.teal_200),
-                backgroundColor = color,
-                onClick = { navController.navigate(ShoppingListScreenSpec.navigateTo())
-            { launchSingleTop = true
-                popUpTo(ShoppingListScreenSpec.route)
-            }
-            }) {
-                if(navBackStackEntry?.destination?.route != "ShoppingList") {
-                    Icon(
-                        imageVector = Icons.Filled.ShoppingCart,
-                        contentDescription = null
-                    )
-                }
-                else{
-                    Icon( //TODO: Will have to do a separate OnClick for adding an item to list
-                        painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                        contentDescription = null
-                    )
-
-                }
-            }
-        }
     }
 
 
@@ -241,87 +139,178 @@ sealed interface IScreenSpec {
                         CompositionLocalProvider(
                             LocalContentAlpha provides ContentAlpha.high,
                         ) {
-//                            if (navBackStackEntry?.destination?.route != "home") {
-//                                if (navBackStackEntry?.destination?.route != "saved")
-//                                    if (navBackStackEntry?.destination?.route != "MyKitchenScreen")
-//                                        if (navBackStackEntry?.destination?.route != "RecipeSearchScreen")
-                        Column() {
-                            Text(
-                                fontWeight = FontWeight.ExtraBold,
-                                fontSize = 30.sp,
-                                fontFamily = FontFamily.Cursive,
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                textAlign = TextAlign.Center,
-                                maxLines = 1,
-                                text = stringResource(id = title),
-                                color = color
-                            )
-                            var padding = 0.dp
-                            if (navBackStackEntry?.destination?.route == "home") padding = 16.dp
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(end = padding),
-                                thickness = 2.dp,
-                                color = colorResource(R.color.teal_200),
-                            )
-                        }
+                            Column() {
+                                Text(
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 30.sp,
+                                    fontFamily = FontFamily.Cursive,
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1,
+                                    text = stringResource(id = title),
+                                    color = color
+                                )
+                                Divider(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(end = 16.dp),
+                                    thickness = 2.dp,
+                                    color = colorResource(R.color.teal_200),
+                                )
+                            }
 //                            }
                         }
                     }
-//                    if (navBackStackEntry?.destination?.route == "home") {
-//                        Column(horizontalAlignment = Alignment.End, modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(end = 12.dp)) {
-//                            Icon(
-//                                imageVector = Icons.Filled.Home,
-//                                contentDescription = null,
-//                                tint = color
-//                            )
-//                        }
-//                    }
-//                    else if (navBackStackEntry?.destination?.route == "saved") {
-//                        Icon(
-//                            imageVector = Icons.Filled.Star,
-//                            contentDescription = null,
-//                            tint = color
-//                        )
-//                    }
-//                    else if (navBackStackEntry?.destination?.route == "MyKitchenScreen") {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.ic_baseline_kitchen_24),
-//                            contentDescription = null,
-//                            tint = color
-//                        )
-//                    }
-//                    else if (navBackStackEntry?.destination?.route == "RecipeSearchScreen") {
-//                        Icon(
-//                            imageVector = Icons.Filled.Search,
-//                            contentDescription = null,
-//                            tint = color
-//                        )
-//                    }
                 }
             },
             backgroundColor = bgColor,
             modifier = Modifier.fillMaxWidth(),
-            navigationIcon =
-            if (navController.previousBackStackEntry != null) {
-                {
-                    IconButton(onClick = { navController.navigateUp()}) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = null,
-                            tint = color
+//            navigationIcon =
+//            if (navController.previousBackStackEntry != null) {
+//                {
+//                    IconButton(onClick = { navController.navigateUp()}) {
+//                        Icon(
+//                            imageVector = Icons.Filled.ArrowBack,
+//                            contentDescription = null,
+//                            tint = color
+//                        )
+//                    }
+//                }
+//            } else {
+//                null
+//            },
+//            actions = { TopAppBarActions(navController = navController) },
+        )
+    }
+
+    @Composable
+    private fun BottomAppBarContent(
+        navController: NavHostController,
+        navBackStackEntry: NavBackStackEntry?
+    ) {
+        BottomAppBar(            // Defaults to null, that is, No cutout
+            modifier = Modifier.fillMaxWidth(),
+            cutoutShape = MaterialTheme.shapes.small.copy(
+                CornerSize(percent = 50),
+
+                )
+        ) {
+            var color = Color.White
+            var bgColor = colorDarkSecondary
+            if (isSystemInDarkTheme()) {
+                color = Color.Black
+                bgColor = colorLightSecondary
+            }
+            BottomNavigation(
+                backgroundColor = bgColor,
+
+
+                ) {
+                val items = listOf(
+                    NavigationItem.SavedRecipes,
+                    NavigationItem.Kitchen,
+                    NavigationItem.Blank,
+                    NavigationItem.Home,
+                    NavigationItem.RecipeSearch,
+                )
+                // observe the backstack
+                // observe current route to change the icon
+                // color,label color when navigated
+                // observe current route to change the icon
+                // color,label color when navigated
+                val currentRoute = navBackStackEntry?.destination?.route
+                // Bottom nav items we declared
+                items.forEachIndexed { index, navItem ->
+                    if (index != 2) {
+                        // Place the bottom nav items
+                        BottomNavigationItem(
+                            // it currentRoute is equal then its selected route
+                            selected = currentRoute == navItem.route,
+                            selectedContentColor = color,
+                            unselectedContentColor = color.copy(.6f),
+                            // navigate on click
+                            onClick = {
+                                navController.navigate(navItem.route) {
+                                    popUpTo(navItem.route) {
+                                        //savestate = true was disabling buttons
+                                    }
+                                    // Navigate to the "search” destination only if we’re not already on
+                                    // the "search" destination, avoiding multiple copies on the top of the
+                                    // back stack
+                                    launchSingleTop = true
+                                }
+                            },
+                            // Icon of navItem
+                            icon = {
+                                Row(horizontalArrangement = Arrangement.Start) {
+
+
+                                    Icon(
+                                        painter = painterResource(id = navItem.icon),
+                                        contentDescription = navItem.title
+                                    )
+                                }
+                            },
+                            // label
+                            label = {
+                                Text(
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 12.sp,
+                                    text = navItem.title
+                                )
+                            },
+                            alwaysShowLabel = false
+                        )
+                    } else {
+                        BottomNavigationItem(
+                            icon = {},
+                            label = { },
+                            selected = false,
+                            onClick = { },
+                            enabled = false
                         )
                     }
                 }
+
+            }
+        }
+    }
+
+    @Composable
+    private fun FAB_Content(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+        var color: Color = Color.Black
+        if (isSystemInDarkTheme()) color = colorLightSecondary
+        FloatingActionButton(
+            elevation = FloatingActionButtonDefaults.elevation(8.dp),
+            contentColor = colorResource(id = R.color.teal_200),
+            backgroundColor = color,
+            onClick = {
+                if (navBackStackEntry?.destination?.route != "ShoppingList" && navBackStackEntry?.destination?.route != "LargeRecipeScreen") {
+                    //Current form will not let you nav from LargeRecipeScreen to Shopping list, will fix
+                    navController.navigate(ShoppingListScreenSpec.navigateTo())
+                    {
+                        launchSingleTop = true
+                        popUpTo(ShoppingListScreenSpec.route)
+                    }
+                }
+                //TODO: else -> Add to Shopping list
+            }
+
+        ) {
+            if (navBackStackEntry?.destination?.route != "ShoppingList" && navBackStackEntry?.destination?.route != "LargeRecipeScreen") {
+                Icon(
+                    imageVector = Icons.Filled.ShoppingCart,
+                    contentDescription = null
+                )
             } else {
-                null
-            },
-            actions = { TopAppBarActions(navController = navController) },
-        )
+                Icon( //TODO: Will have to do a separate OnClick for adding an item to list
+                    painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                    contentDescription = null
+                )
+
+            }
+        }
     }
 
     fun navigateTo(vararg args: String?): String

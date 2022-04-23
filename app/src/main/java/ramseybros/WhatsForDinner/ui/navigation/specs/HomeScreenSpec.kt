@@ -27,7 +27,7 @@ object HomeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val recentRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value //This is essentially the saved Recipes
+        val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value //This is essentially the saved Recipes
         val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
         val recommendedIngredientsList: List<Ingredient> =
             listOf(RecipeGenerator.placeHolderIngredients())
@@ -35,7 +35,7 @@ object HomeScreenSpec : IScreenSpec {
 
         HomeScreen(
             ////////TODO: FIX PlaceHolder
-            recentRecipesList = recentRecipesList,
+            savedRecipesList = savedRecipesList,
             recommendedIngredientsList = recommendedIngredientsList,
             recommendedRecipesList = recommendedRecipesList,
             onSelectRecipe =

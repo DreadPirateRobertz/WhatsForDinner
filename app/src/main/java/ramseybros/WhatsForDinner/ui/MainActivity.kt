@@ -13,13 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.rememberPagerState
+import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerBottomBar
+import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerFAB
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerTopBar
-import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.BottomBar
-import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.FloatingButton
-//import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec.Companion.HorizontalSwiper
 import ramseybros.WhatsForDinner.ui.theme.WhatsForDinnerTheme
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerFactory
@@ -39,7 +36,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@OptIn(ExperimentalPagerApi::class)
+
 @Composable
 private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
 
@@ -56,7 +53,7 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                 floatingActionButton = {
 //                    if (checkRoute(navController = navController) != 1)
                         if (checkRoute(navController = navController) != 2) {
-                            FloatingButton(navController = navController)
+                            WhatsForDinnerFAB(navController = navController)
                         }
 
                 },
@@ -74,14 +71,10 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                 },
                 bottomBar = {
                     if (checkRoute(navController = navController) != 2) {
-                        BottomBar(navController = navController)
-
+                        WhatsForDinnerBottomBar(navController = navController)
                     }
-
                 }
-
             )
-
         }
     }
 }
