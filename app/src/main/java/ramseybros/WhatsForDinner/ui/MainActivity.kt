@@ -1,15 +1,18 @@
 package ramseybros.WhatsForDinner.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -40,6 +43,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
+    val configuration = LocalConfiguration.current
 
     WhatsForDinnerTheme {
         // A surface container using the 'background' color from the theme
@@ -62,6 +66,7 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
 //
                 topBar = {
                     if (checkRoute(navController = navController) != 2) {
+                        if(checkRoute(navController = navController) != 3 && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
                         WhatsForDinnerTopBar(navController = navController)
                     }
                 },
@@ -69,7 +74,11 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                         WhatsForDinnerNavHost(navController = navController, viewModel = model)
                 },
                 bottomBar = {
+
                     if (checkRoute(navController = navController) != 2) {
+
+
+
                         WhatsForDinnerBottomBar(navController = navController)
                     }
                 }
@@ -97,7 +106,8 @@ fun checkRoute(navController: NavHostController): Int {
     val x = navBackStackEntry?.destination?.route
     if (x == "ShoppingList") return 1
     else if (x == "splash") return 2
-    else if (x == null) return 3
-    else return 4
+    else if (x == "LargeRecipeScreen") return 3
+    else if (x == null) return 4
+    else return 5
 
 }

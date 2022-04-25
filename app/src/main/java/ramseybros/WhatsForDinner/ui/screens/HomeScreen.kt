@@ -76,16 +76,14 @@ private fun RecommendedIngredientsSection() {
 private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: List<Recipe>?) {
     //Clicking A recipe will take you to how to make it...
     val configuration = LocalConfiguration.current
-    var padding = 0.dp
+    var padding = 16.dp
     var size = 0.dp
-    when(configuration.orientation){
+    size = when(configuration.orientation){
         Configuration.ORIENTATION_LANDSCAPE -> {
-            padding = 4.dp
-            size = 50.dp
+            50.dp
         }
         else ->{
-            padding = 16.dp
-            size = 75.dp
+            75.dp
         }
     }
     Box(Modifier.fillMaxWidth()) {

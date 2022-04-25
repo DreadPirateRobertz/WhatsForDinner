@@ -76,7 +76,7 @@ object KitchenSubmenuScreenSpec : IScreenSpec {
         IconButton(
             onClick = { navController.navigate(HomeScreenSpec.navigateTo()){
                 popUpTo(HomeScreenSpec.route){
-                    inclusive = true
+                    inclusive = false
                 }
             } }
         ) {

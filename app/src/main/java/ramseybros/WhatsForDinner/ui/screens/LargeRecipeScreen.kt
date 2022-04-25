@@ -1,11 +1,14 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,9 +40,17 @@ fun LargeRecipeView(
     ingredientList: List<String>, utensilList: List<String>,
     onSave: (Recipe) -> Unit, onBack: () -> Unit
 ) {
+    //TODO: Make this look good in Landscape
+    val configuration = LocalConfiguration.current
+    when(configuration.orientation){
+        Configuration.ORIENTATION_LANDSCAPE ->{
+
+        }
+    }
     Column(Modifier.fillMaxSize()) {
         Box(
             Modifier
+//                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
                 .weight(0.8f)) {
             LargeViewRecipeHeader(recipe = recipe)
@@ -85,23 +97,26 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
                 Text(text = stringResource(id = R.string.cook_time, recipe.time.toString()))
             }
         }
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(recipe.imageLink)
-                .crossfade(true)
-                .build(),
-            placeholder = painterResource(R.drawable.pot_image),
-            contentDescription = "recipe image",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
+        val configuration = LocalConfiguration.current
+        if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(recipe.imageLink)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(R.drawable.pot_image),
+                contentDescription = "recipe image",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
 
-                .clip(RoundedCornerShape(10))
-                .align(Alignment.CenterHorizontally)
-                .padding(4.dp)
-                .size(400.dp)
+                    .clip(RoundedCornerShape(10))
+                    .align(Alignment.CenterHorizontally)
+                    .padding(4.dp)
+                    .size(200.dp)
                 //TODO: Scale image on click
 
-        )
+            )
+        }
     }
 }
 
