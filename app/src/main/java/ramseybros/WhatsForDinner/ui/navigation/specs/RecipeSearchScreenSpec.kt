@@ -5,8 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -16,6 +15,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -146,6 +147,63 @@ object RecipeSearchScreenSpec : IScreenSpec {
             focusRequester.requestFocus()
         }
     }
+
+    @Composable
+    fun NoSearchResults() {
+
+        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
+            horizontalAlignment = CenterHorizontally
+        ) {
+            Text("No matches found")
+        }
+    }
+
+    @ExperimentalComposeUiApi
+    @Composable
+    fun SearchBarUI(
+        searchText: String,
+        placeholderText: String = "",
+        onSearchTextChanged: (String) -> Unit = {},
+        onClearClick: () -> Unit = {},
+        onNavigateBack: () -> Unit = {},
+        matchesFound: Boolean,
+        results: @Composable () -> Unit = {}
+    ) {
+
+        Box {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+
+                SearchBar(
+                    searchText,
+                    placeholderText,
+                    onSearchTextChanged,
+                    onClearClick,
+                    onNavigateBack
+                )
+
+                if (matchesFound) {
+                    Text("Results", modifier = Modifier.padding(8.dp), fontWeight = FontWeight.Bold)
+                    results()
+                } else {
+                    if (searchText.isNotEmpty()) {
+                        NoSearchResults()
+                    }
+
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 

@@ -12,10 +12,9 @@ import androidx.lifecycle.Transformations
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import ramseybros.WhatsForDinner.data.Ingredient
-import ramseybros.WhatsForDinner.data.Recipe
-import ramseybros.WhatsForDinner.data.RecipeIngredientListXRef
-import ramseybros.WhatsForDinner.data.RecipeUtensil
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.ui.navigation.specs.LargeRecipeScreenSpec
 import ramseybros.WhatsForDinner.util.RecipeGenerator
@@ -92,6 +91,36 @@ class WhatsForDinnerViewModel(
         override fun requestWebRecipes() {
         TODO("Not yet implemented")
     }
+    private var allRecipes = mutableListOf<LiveData<Recipe>>()
+    private val searchText: MutableStateFlow<String> = MutableStateFlow("")
+    private var showProgressBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private var matchedRcipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(emptyList())
+//Testing Search Bar Implementation
+    override val RecipeSearchModelState = combine(
+        searchText,
+        matchedRcipes,
+        showProgressBar
 
+    ){
+        text, matchedRecipes, showProgress ->
+        ramseybros.WhatsForDinner.data.RecipeSearchModelState(
+           text,
+           matchedRecipes,
+           showProgress
+        )
+}
+    init{
+        retrieveRecipes()
+    }
+    private fun retrieveRecipes(){
+        //TODO: Wrong recipe getter right here NOT connected to API for TESTING
+        val recipes = whatsForDinnerRepository.getRecipes()
+        if(recipes != emptyList<Recipe>() ){
+            allRecipes.addAll(recipes)
+            }
+    }
+}
+
+private fun <E> MutableList<E>.addAll(elements: LiveData<List<Recipe>>) {
 
 }

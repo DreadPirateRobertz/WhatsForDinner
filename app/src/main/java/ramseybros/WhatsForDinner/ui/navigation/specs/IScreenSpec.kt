@@ -6,8 +6,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +22,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
+import ramseybros.WhatsForDinner.data.AnimatableIcon
 import ramseybros.WhatsForDinner.data.NavigationItem
 import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
@@ -175,88 +175,79 @@ sealed interface IScreenSpec {
         navController: NavHostController,
         navBackStackEntry: NavBackStackEntry?
     ) {
+        var color = Color.White
+        var bgColor = colorDarkSecondary
+        if (isSystemInDarkTheme()) {
+            color = Color.Black
+            bgColor = colorLightSecondary
+        }
         BottomAppBar(            // Defaults to null, that is, No cutout
-            modifier = Modifier.fillMaxWidth(),
             cutoutShape = MaterialTheme.shapes.small.copy(
-                CornerSize(percent = 50),
-
-                )
+                CornerSize(percent = 50)),
+            backgroundColor = bgColor
         ) {
-            var color = Color.White
-            var bgColor = colorDarkSecondary
-            if (isSystemInDarkTheme()) {
-                color = Color.Black
-                bgColor = colorLightSecondary
-            }
-            BottomNavigation(
-                backgroundColor = bgColor,
+            Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+                BottomNavigation(
+                    backgroundColor = bgColor,
+                    modifier = Modifier.fillMaxSize(),
 
-
-                ) {
-                val items = listOf(
-                    NavigationItem.SavedRecipes,
-                    NavigationItem.Kitchen,
-                    NavigationItem.Blank,
-                    NavigationItem.Home,
-                    NavigationItem.RecipeSearch,
-                )
-                // observe the backstack
-                // observe current route to change the icon
-                // color,label color when navigated
-                // observe current route to change the icon
-                // color,label color when navigated
-                val currentRoute = navBackStackEntry?.destination?.route
-                // Bottom nav items we declared
-                items.forEachIndexed { index, navItem ->
-                    if (index != 2) {
-                        // Place the bottom nav items
-                        BottomNavigationItem(
-                            // it currentRoute is equal then its selected route
-                            selected = currentRoute == navItem.route,
-                            selectedContentColor = color,
-                            unselectedContentColor = color.copy(.6f),
-                            // navigate on click
-                            onClick = {
-                                navController.navigate(navItem.route) {
-                                    popUpTo(navItem.route) {
-                                        //savestate = true was disabling buttons
-                                    }
-                                    // Navigate to the "search” destination only if we’re not already on
-                                    // the "search" destination, avoiding multiple copies on the top of the
-                                    // back stack
-                                    launchSingleTop = true
-                                }
-                            },
-                            // Icon of navItem
-                            icon = {
-                                Row(horizontalArrangement = Arrangement.Start) {
-
-
-                                    Icon(
-                                        painter = painterResource(id = navItem.icon),
-                                        contentDescription = navItem.title
-                                    )
-                                }
-                            },
-                            // label
-                            label = {
-                                Text(
-                                    fontWeight = FontWeight.ExtraBold,
-                                    fontSize = 12.sp,
-                                    text = navItem.title
-                                )
-                            },
-                            alwaysShowLabel = false
-                        )
-                    } else {
-                        BottomNavigationItem(
-                            icon = {},
-                            label = { },
-                            selected = false,
-                            onClick = { },
-                            enabled = false
-                        )
+                    ) {
+                    val items = listOf(
+                        NavigationItem.SavedRecipes,
+                        NavigationItem.Kitchen,
+                        NavigationItem.Blank,
+                        NavigationItem.Home,
+                        NavigationItem.RecipeSearch,
+                    )
+                    //                                        )
+                    var selectedIndex by remember {
+                        mutableStateOf(0)
                     }
+                    val currentRoute = navBackStackEntry?.destination?.route
+                    items.forEachIndexed { index, navItem ->
+                        if (index != 2) {
+                            BottomNavigationItem(
+                                selected = currentRoute == navItem.route,
+                                selectedContentColor = color,
+                                unselectedContentColor = color.copy(.6f),
+                                onClick = {
+                                    navController.navigate(navItem.route) {
+                                        popUpTo(navItem.route) {
+                                            //savestate = true was disabling buttons
+                                        }
+                                        // Navigate to the "search” destination only if we’re not already on
+                                        // the "search" destination, avoiding multiple copies on the top of the
+                                        // back stack
+                                        launchSingleTop = true
+                                    }
+                                },
+                                icon = {
+                                    Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            painter = painterResource(id = navItem.icon),
+                                            contentDescription = navItem.title)
+                                    }
+                                },
+                                label = {
+                                    Text(
+                                        fontWeight = FontWeight.ExtraBold,
+                                        fontSize = 12.sp,
+                                        text = navItem.title
+                                    )
+                                },
+                                alwaysShowLabel = false
+                            )
+                        } else {
+                            BottomNavigationItem(
+                                icon = {},
+                                label = { },
+                                selected = false,
+                                onClick = { },
+                                enabled = false
+                            )
+                        }
+                    }
+
                 }
 
             }

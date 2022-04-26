@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.work.WorkInfo
+import kotlinx.coroutines.flow.Flow
 import ramseybros.WhatsForDinner.data.*
 import java.util.*
 
@@ -23,4 +24,6 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun setRecipeIdLiveData(recipeId: UUID)
     abstract fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>)
     abstract fun requestWebRecipes()
+    //Testing new Search Bar Implementation
+    abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
 }
