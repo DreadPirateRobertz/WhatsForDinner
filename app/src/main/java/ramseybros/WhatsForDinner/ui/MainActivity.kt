@@ -54,21 +54,25 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                 //Could not do an && on complex function call so resolved with two conditionals
                 floatingActionButton = {
 //                    if (checkRoute(navController = navController) != 1)
-                        if (checkRoute(navController = navController) != 2) {
-                            WhatsForDinnerFAB(navController = navController)
-                        }
+                    if (checkRoute(navController = navController) != 2) {
+                        WhatsForDinnerFAB(navController = navController)
+                    }
                 },
                 isFloatingActionButtonDocked = true,
                 floatingActionButtonPosition = FabPosition.Center,
 //
                 topBar = {
-//                   if(checkRoute(navController = navController) == 5 || configuration.orientation != Configuration.ORIENTATION_LANDSCAPE  ){
-                       if(checkRoute(navController = navController) != 2)
+                    if ((checkRoute(navController = navController) != 2 && configuration.orientation == Configuration.ORIENTATION_PORTRAIT)) {
                         WhatsForDinnerTopBar(navController = navController)
-//                    }
+                    }
+                    //Tried to combine these 2 conditions with an || and was getting a compiler bug
+                    if (checkRoute(navController = navController) == 5 && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+                    ) {
+                        WhatsForDinnerTopBar(navController = navController)
+                    }
                 },
                 content = {
-                        WhatsForDinnerNavHost(navController = navController, viewModel = model, it)
+                    WhatsForDinnerNavHost(navController = navController, viewModel = model, it)
                 },
                 bottomBar = {
                     if (checkRoute(navController = navController) != 2) {
@@ -104,6 +108,6 @@ fun checkRoute(navController: NavHostController): Int {
     else if (x == NavigationItem.SavedRecipes.route) return 4
     else if (x == NavigationItem.RecipeSearch.route) return 5
     else if (x == null) return 6
-    else return 5
+    else return 7
 
 }

@@ -47,24 +47,19 @@ private fun SectionHeader(title: String) {
 @Composable
 fun MyKitchen(onClick: () -> Unit) {
     Column(Modifier.fillMaxSize()) {
-//        SectionHeader(title = stringResource(id = R.string.my_kitchen_screen_title))
         Box(
             Modifier
                 .fillMaxWidth()
-                .weight(.75f)) {
+        )
             LazyColumn() {
                 items(10) {
                     IngredientRow {}
                 }
             }
         }
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .weight(.25f))
-
     }
-}
+
+
 
 
 @Composable
