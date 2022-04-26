@@ -24,6 +24,7 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun setRecipeIdLiveData(recipeId: UUID)
     abstract fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>)
     abstract fun requestWebRecipes()
+    abstract fun deleteRecipe(recipe: Recipe);
     //Testing new Search Bar Implementation
     abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
 }

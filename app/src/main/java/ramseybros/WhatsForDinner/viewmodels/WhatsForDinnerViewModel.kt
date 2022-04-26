@@ -91,6 +91,14 @@ class WhatsForDinnerViewModel(
         override fun requestWebRecipes() {
         TODO("Not yet implemented")
     }
+
+    override fun deleteRecipe(recipe: Recipe) {
+        whatsForDinnerRepository.deleteRecipeFromList(recipe.id)
+        whatsForDinnerRepository.deleteRecipeFromUtensils(recipe.id)
+        whatsForDinnerRepository.deleteRecipe(recipe)
+    }
+
+
     private var allRecipes = mutableListOf<LiveData<Recipe>>()
     private val searchText: MutableStateFlow<String> = MutableStateFlow("")
     private var showProgressBar: MutableStateFlow<Boolean> = MutableStateFlow(false)

@@ -67,13 +67,23 @@ object LargeRecipeScreenSpec : IScreenSpec {
         }
         var saveButtonFlag = true
         viewModel.recipeListLiveData.value?.forEach {
-            if(recipe == it) saveButtonFlag = false
+            if(recipe.title == it.title &&
+                recipe.time == it.time &&
+                recipe.imageLink == it.imageLink) {
+                saveButtonFlag = false
+                recipe = it
+            }
+
         }
 
         LargeRecipeView(
             saveButtonFlag = saveButtonFlag,
             recipe = recipe,
             onSave = { viewModel.addRecipe(recipe,ingredientList,utensilList)},
+            onDelete = {
+                viewModel.deleteRecipe(recipe = recipe)
+                navController.popBackStack()
+            },
             onBack = { navController.navigate(RecipeSearchScreenSpec.navigateTo()) },
             inKitchenList = listOf("Garlic", "Paprika", "Ground Black Pepper", "Spoon", "Whisk"),
             ingredientList = utensilList,

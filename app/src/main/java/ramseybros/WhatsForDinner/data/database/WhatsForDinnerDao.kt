@@ -56,4 +56,14 @@ interface WhatsForDinnerDao {
 
     @Query("SELECT name FROM utensil WHERE utensil.recipeId=(:recipeId)")
     fun getUtensilList(recipeId: UUID): LiveData<List<String>>
+
+    @Query("DELETE FROM recipe_ingredient_list_xref WHERE recipeId=(:recipeId)")
+    fun deleteRecipeFromList(recipeId: UUID)
+
+    @Query("DELETE FROM utensil WHERE recipeId=(:recipeId)")
+    fun deleteRecipeFromUtensils(recipeId: UUID)
+
+    @Query("DELETE FROM recipe_ingredient_list_xref WHERE ingredientName=(:ingredientName) AND recipeId=(:recipeId)")
+    fun deleteIngredientFromRecipe(ingredientName: String, recipeId: UUID)
+
 }

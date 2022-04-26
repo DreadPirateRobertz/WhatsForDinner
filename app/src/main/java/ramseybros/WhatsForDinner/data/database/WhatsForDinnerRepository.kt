@@ -67,8 +67,16 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
     fun getRecipe(id: UUID): LiveData<Recipe>? = whatsForDinnerDao.getRecipe(id)
     fun getIngredients(): LiveData<List<Ingredient>> = whatsForDinnerDao.getIngredients()
     fun getIngredient(name: String): LiveData<Ingredient>? = whatsForDinnerDao.getIngredient(name)
-    fun deleteRecipe(recipe: Recipe) = whatsForDinnerDao.deleteRecipe(recipe)
-    fun deleteIngredient(ingredient: Ingredient) = whatsForDinnerDao.deleteIngredient(ingredient)
+    fun deleteRecipe(recipe: Recipe) {
+        executor.execute {
+            whatsForDinnerDao.deleteRecipe(recipe)
+        }
+    }
+    fun deleteIngredient(ingredient: Ingredient) {
+        executor.execute {
+            whatsForDinnerDao.deleteIngredient(ingredient)
+        }
+    }
 
     fun getIngredientList(recipeId: UUID): LiveData<List<String>> =
         whatsForDinnerDao.getIngredientList(recipeId)
@@ -76,4 +84,21 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
     fun getUtensilList(recipeId: UUID): LiveData<List<String>> =
         whatsForDinnerDao.getUtensilList(recipeId)
 
+    fun deleteRecipeFromList(recipeId: UUID) {
+        executor.execute {
+            whatsForDinnerDao.deleteRecipeFromList(recipeId)
+        }
+    }
+
+    fun deleteRecipeFromUtensils(recipeId: UUID) {
+        executor.execute {
+            whatsForDinnerDao.deleteRecipeFromUtensils(recipeId)
+        }
+    }
+
+    fun deleteIngredientFromRecipe(ingredientName: String, recipeId: UUID) {
+        executor.execute {
+            whatsForDinnerDao.deleteIngredientFromRecipe(ingredientName, recipeId)
+        }
+    }
 }

@@ -38,14 +38,14 @@ fun LargeRecipeView(
     saveButtonFlag: Boolean,
     recipe: Recipe, inKitchenList: List<String>,
     ingredientList: List<String>, utensilList: List<String>,
-    onSave: (Recipe) -> Unit, onBack: () -> Unit
+    onSave: (Recipe) -> Unit, onDelete: (Recipe) -> Unit, onBack: () -> Unit
 ) {
     //TODO: Make this look good in Landscape
     val configuration = LocalConfiguration.current
     var headerWeight = .8f
     when(configuration.orientation){
         Configuration.ORIENTATION_LANDSCAPE ->{
-           headerWeight = .4f
+            headerWeight = .4f
         }
     }
     Column(Modifier.fillMaxSize()) {
@@ -72,9 +72,9 @@ fun LargeRecipeView(
         Box(
             Modifier
                 .weight(0.4f)) {
-            if(saveButtonFlag) LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onBack = onBack)
+            LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onDelete = onDelete, onBack = onBack, saveButtonFlag = saveButtonFlag)
         }
-        if(saveButtonFlag) Spacer(modifier = Modifier.weight(0.3f))
+        Spacer(modifier = Modifier.weight(0.3f))
     }
 
 }
@@ -121,12 +121,17 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
 }
 
 @Composable
-fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onBack: () -> Unit) {
-     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()){
-        Button(onClick = { onSave(recipe) }) {
-            Text(stringResource(id = ramseybros.WhatsForDinner.R.string.save_recipe_label))
+fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onDelete: (Recipe) -> Unit, onBack: () -> Unit, saveButtonFlag: Boolean) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()){
+        if(saveButtonFlag) {
+            Button(onClick = { onSave(recipe) }) {
+                Text(stringResource(id = ramseybros.WhatsForDinner.R.string.save_recipe_label))
+            }
+        } else {
+            Button(onClick = { onDelete(recipe) }) {
+                Text(stringResource(id = ramseybros.WhatsForDinner.R.string.delete_recipe_label))
+            }
         }
-
     }
 }
 
@@ -141,6 +146,7 @@ fun PreviewLargeRecipeView() {
         RecipeGenerator.singleRecipe(),
         inKitchenList = inKitchenList,
         onSave = fun(recipe: Recipe) {},
+        onDelete = fun(recipe: Recipe) {},
         onBack = {},
         ingredientList = inKitchenList,
         utensilList = listOf("spoon")
