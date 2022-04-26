@@ -1,17 +1,32 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -66,25 +81,73 @@ object RecipeSearchScreenSpec : IScreenSpec {
     }
 
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
-        var color: Color = colorDarkError
-        if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
-        else color = colorResource(id = R.color.black)
-        IconButton(
-            onClick = { navController.navigate(HomeScreenSpec.navigateTo()){
-                popUpTo(HomeScreenSpec.route){
-                    inclusive = true
+        SearchBar(searchText = "", "SEARCH BAR", {}, {}, {})
+        }
+
+
+
+
+    @OptIn(ExperimentalComposeUiApi::class)
+    @Composable fun SearchBar(searchText: String,
+                              placeholderText: String = "",
+                              onSearchTextChanged: (String) -> Unit = {},
+                              onClearClick: () -> Unit = {},
+                              onNavigateBack: () -> Unit = {}
+    ) {
+        var showClearButton by remember { mutableStateOf(false) }
+        val keyboardController = LocalSoftwareKeyboardController.current
+        val focusRequester = remember { FocusRequester() }
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp)
+                .onFocusChanged { focusState ->
+                    showClearButton = (focusState.isFocused)
                 }
-            } }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Home,
-                contentDescription = null,
-                tint = color
-            )
+                .focusRequester(focusRequester),
+            value = searchText,
+            onValueChange = onSearchTextChanged,
+            placeholder = {
+                Text(text = placeholderText)
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                backgroundColor = Color.Transparent,
+                cursorColor = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+            ),
+            trailingIcon = {
+                AnimatedVisibility(
+                    visible = showClearButton,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    IconButton(onClick = { onClearClick() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Close,
+                            contentDescription = "Clear PlaceHolder"
+                        )
+                    }
+
+                }
+            },
+            maxLines = 1,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            }),
+        )
+
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
         }
     }
+
+
 
     override fun navigateTo(vararg args: String?): String {
         return route

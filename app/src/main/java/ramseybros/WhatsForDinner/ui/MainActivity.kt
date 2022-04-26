@@ -5,18 +5,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import ramseybros.WhatsForDinner.data.NavigationItem
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerBottomBar
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerFAB
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
@@ -38,8 +37,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
 
 @Composable
 private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
@@ -65,23 +62,20 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                 floatingActionButtonPosition = FabPosition.Center,
 //
                 topBar = {
-                    if (checkRoute(navController = navController) != 2) {
-                        if(checkRoute(navController = navController) != 3 && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+//                   if(checkRoute(navController = navController) == 5 || configuration.orientation != Configuration.ORIENTATION_LANDSCAPE  ){
+                       if(checkRoute(navController = navController) != 2)
                         WhatsForDinnerTopBar(navController = navController)
-                    }
+//                    }
                 },
                 content = {
-                        WhatsForDinnerNavHost(navController = navController, viewModel = model)
+                        WhatsForDinnerNavHost(navController = navController, viewModel = model, it)
                 },
                 bottomBar = {
-
                     if (checkRoute(navController = navController) != 2) {
-
-
-
                         WhatsForDinnerBottomBar(navController = navController)
                     }
                 }
+
             )
         }
     }
@@ -107,7 +101,9 @@ fun checkRoute(navController: NavHostController): Int {
     if (x == "ShoppingList") return 1
     else if (x == "splash") return 2
     else if (x == "LargeRecipeScreen") return 3
-    else if (x == null) return 4
+    else if (x == NavigationItem.SavedRecipes.route) return 4
+    else if (x == NavigationItem.RecipeSearch.route) return 5
+    else if (x == null) return 6
     else return 5
 
 }

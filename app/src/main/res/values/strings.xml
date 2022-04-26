@@ -17,7 +17,7 @@
     <string name="home_screen_title">Home</string>
     <string name="kitchen_submenu_screen_title">Kitchen Submenu</string>
     <string name="large_recipe_screen_title">Let\'s Cook</string>
-    <string name="my_kitchen_screen_title">My Kitchen</string>
+    <string name="my_kitchen_screen_title">Pantry</string>
     <string name="recipe_info_screen_title">Recipe Information</string>
     <string name="recipe_search_screen_title">Recipe Search</string>
     <string name="saved_recipes_screen_title">Saved Recipes</string>

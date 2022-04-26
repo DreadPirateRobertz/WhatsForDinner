@@ -42,17 +42,17 @@ fun LargeRecipeView(
 ) {
     //TODO: Make this look good in Landscape
     val configuration = LocalConfiguration.current
+    var headerWeight = .8f
     when(configuration.orientation){
         Configuration.ORIENTATION_LANDSCAPE ->{
-
+           headerWeight = .4f
         }
     }
     Column(Modifier.fillMaxSize()) {
         Box(
             Modifier
-//                .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
-                .weight(0.8f)) {
+                .weight(headerWeight)) {
             LargeViewRecipeHeader(recipe = recipe)
         }
         var weight = 1f
@@ -82,8 +82,8 @@ fun LargeRecipeView(
 
 @Composable
 fun LargeViewRecipeHeader(recipe: Recipe) {
-    //probably call small view???
-    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceAround) {
+
+    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
         Row() {
             Text(
                 recipe.title,
@@ -94,7 +94,7 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
             )
             Column() {
                 Text(text = stringResource(id = R.string.difficulty, recipe.difficulty.toString()))
-                Text(text = stringResource(id = R.string.cook_time, recipe.time.toString()))
+                Text(text = stringResource(id = R.string.cook_time, recipe.time))
             }
         }
         val configuration = LocalConfiguration.current

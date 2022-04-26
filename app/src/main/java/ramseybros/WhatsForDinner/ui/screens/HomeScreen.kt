@@ -210,7 +210,7 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 8.dp, bottom = 60.dp)
+//                    .padding(top = 8.dp, bottom = 60.dp)
                   /*  .verticalScroll(rememberScrollState())*/
                 ,
 
@@ -249,7 +249,7 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 8.dp, bottom = 8.dp)
+//                    .padding(top = 8.dp, bottom = 8.dp)
                     .verticalScroll(rememberScrollState())
                 ,
 
@@ -277,7 +277,7 @@ fun HomeScreen(
                         savedRecipesList = savedRecipesList
                     )
                 }
-                Spacer(Modifier.weight(.2f))
+                Spacer(Modifier.weight(.1f))
             }
         }
     }

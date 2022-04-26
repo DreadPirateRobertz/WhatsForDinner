@@ -33,22 +33,6 @@ object LargeRecipeScreenSpec : IScreenSpec {
 
     @Composable
     override fun TopAppBarActions(navController: NavHostController) {
-        var color: Color = colorDarkError
-        if (!isSystemInDarkTheme()) color = colorResource(R.color.white)
-        else color = colorResource(id = R.color.black)
-        IconButton(
-            onClick = { navController.navigate(HomeScreenSpec.navigateTo()){
-                popUpTo(HomeScreenSpec.route){
-                    inclusive = true
-                }
-            } }
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Home,
-                contentDescription = null,
-                tint = color
-            )
-        }
     }
 
 

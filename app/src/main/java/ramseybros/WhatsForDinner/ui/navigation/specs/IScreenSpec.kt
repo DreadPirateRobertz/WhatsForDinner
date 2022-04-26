@@ -1,6 +1,5 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -9,8 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,28 +15,17 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.NavigationItem
-import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
-import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
-import ramseybros.WhatsForDinner.ui.theme.colorLightTextSecondary
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 
@@ -50,13 +36,13 @@ sealed interface IScreenSpec {
 
     companion object {
         val start: String = SplashScreenSpec.route
-        val map = IScreenSpec::class.sealedSubclasses
+        val allScreens = IScreenSpec::class.sealedSubclasses
             .associate { it.objectInstance?.route to it.objectInstance }
 
         @Composable
         fun TopBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
             val route = navBackStackEntry?.destination?.route ?: ""
-            if (route != "") map[route]?.TopAppBarContent(
+            if (route != "") allScreens[route]?.TopAppBarContent(
                 navController = navController,
                 navBackStackEntry
             )
@@ -67,7 +53,7 @@ sealed interface IScreenSpec {
         @Composable
         fun BottomBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
             val route = navBackStackEntry?.destination?.route ?: ""
-            if (route != "") map[route]?.BottomAppBarContent(
+            if (route != "") allScreens[route]?.BottomAppBarContent(
                 navController = navController,
                 navBackStackEntry
             )
@@ -75,7 +61,7 @@ sealed interface IScreenSpec {
         @Composable
         fun FAB(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
             val route = navBackStackEntry?.destination?.route ?: ""
-            if (route != "") map[route]?.FAB_Content(
+            if (route != "") allScreens[route]?.FAB_Content(
                 navController = navController,
                 navBackStackEntry
             )
@@ -180,7 +166,7 @@ sealed interface IScreenSpec {
 //            } else {
 //                null
 //            },
-//            actions = { TopAppBarActions(navController = navController) },
+            actions = { TopAppBarActions(navController = navController) },
         )
     }
 

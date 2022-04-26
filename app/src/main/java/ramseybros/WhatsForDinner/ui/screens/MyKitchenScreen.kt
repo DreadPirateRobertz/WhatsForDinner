@@ -43,6 +43,7 @@ private fun SectionHeader(title: String) {
         )
     }
 }
+
 @Composable
 fun MyKitchen(onClick: () -> Unit) {
     Column(Modifier.fillMaxSize()) {

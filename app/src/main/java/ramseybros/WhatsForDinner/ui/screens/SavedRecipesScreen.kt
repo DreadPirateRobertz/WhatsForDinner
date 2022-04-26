@@ -129,7 +129,7 @@ fun SavedRecipesScreen(
     )
     {
 //        SavedRecipesSection()
-        Box(Modifier.fillMaxWidth().weight(1f)) {
+        Box(Modifier.fillMaxSize()) {
             if (savedRecipesList != null) {
                 LazyColumn() {
                     items(savedRecipesList) {

@@ -66,8 +66,8 @@ fun RecipeSearchScreen(
         Spacer(Modifier.weight(0.1f))
         Box(
             Modifier
-                .fillMaxWidth()
-                .weight(1.0f)) {
+                .fillMaxSize()
+                ) {
 
                 if(recipeList == emptyList<Recipe>()) {
                     Log.d(LOG_TAG, "recipeList is empty")
