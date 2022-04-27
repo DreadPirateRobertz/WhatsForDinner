@@ -43,6 +43,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
     override val title: Int = R.string.recipe_search_screen_title
     private val LOG_TAG = "ramseybros.RecipeSearchScreenSpec"
 
+
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -87,13 +88,9 @@ object RecipeSearchScreenSpec : IScreenSpec {
             { onRequestList() },
             onRequestRecipe = fun(recipe: Recipe) {
                 coroutineScope.launch {
-                    val apiData =
-                        withContext(Dispatchers.IO) { viewModel.makeApiRecipeRequest(recipe) }
-                    withContext(Dispatchers.IO) { viewModel.parseRecipeJSON(apiData, recipe) }
-                    recipeLiveData.value = recipe
                     Log.d(
                         LOG_TAG,
-                        "Calling navigateTo() with ${recipe.searchId} on ${Thread.currentThread().name}"
+                        "Calling navigateTo()"
                     )
                     withContext(Dispatchers.Main) {
                         navController.navigate(

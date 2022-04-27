@@ -156,7 +156,10 @@ class WhatsForDinnerViewModel(
                 searchId = recipeObject.getInt("id")
             )
             Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
-            recipeList.add(recipe)
+            val newApiData = makeApiRecipeRequest(recipe)
+            if (parseRecipeJSON(newApiData, recipe, viewModel)) {
+                recipeList.add(recipe)
+            }
         }
         return recipeList
     }
@@ -181,15 +184,13 @@ class WhatsForDinnerViewModel(
         return apiData!!
     }
 
-    override fun parseRecipeJSON(apiData: String, recipe: Recipe) {
+    override fun parseRecipeJSON(apiData: String, recipe: Recipe, viewModel: I_WhatsForDinnerViewModel) : Boolean {
         Log.d(LOG_TAG, "parseRecipeJSON() function called")
+        val recipeList = viewModel.getApiRecipeList()
         Log.d(LOG_TAG, "apiData contains $apiData")
         val properties = JSONObject(apiData)
         recipe.recipeText = checkNotNull(properties.getString("instructions"))
         Log.d("Idk anymore", "recipeText = ${recipe.recipeText}")
-        if (recipe.recipeText == "null") {
-            recipe.recipeText = ""
-        }
         val ingredientList = properties.getJSONArray("extendedIngredients")
         for (i in (0 until ingredientList.length())) {
             val ingredientInfo = ingredientList.getJSONObject(i)
@@ -197,6 +198,7 @@ class WhatsForDinnerViewModel(
             Log.d("ViewModel", "$ingredient")
         }
         recipe.time = properties.getString("readyInMinutes")
+        return (recipe.recipeText != "null")
     }
 
 

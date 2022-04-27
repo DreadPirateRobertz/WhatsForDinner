@@ -26,7 +26,7 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun requestWebRecipes()
     abstract fun deleteRecipe(recipe: Recipe)
     abstract fun makeApiRecipeRequest(recipe: Recipe): String
-    abstract fun parseRecipeJSON(apiData: String, recipe: Recipe)
+    abstract fun parseRecipeJSON(apiData: String, recipe: Recipe, viewModel: I_WhatsForDinnerViewModel): Boolean
     abstract fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe>
     abstract fun makeApiListRequest(string: String): String
     abstract fun onSearchTextChanged(changedSearchText: String)
