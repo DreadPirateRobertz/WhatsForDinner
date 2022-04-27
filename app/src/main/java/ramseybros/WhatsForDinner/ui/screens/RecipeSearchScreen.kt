@@ -47,28 +47,12 @@ fun RecipeSearchScreen(
     onClick: () -> Unit,
     onRequestRecipe: (Recipe) -> Unit
 ) {
-
     val recipeList = viewModel.getApiRecipeList()
     Column(Modifier.fillMaxSize()) {
-//        SectionHeader(title = stringResource(id = R.string.recipe_search_screen_title))
-        Button(
-            onClick = {
-                onClick()
-            }
-        ) {
-            Text(
-                textAlign = TextAlign.Center,
-                text = "Refresh",
-                fontSize = 24.sp
-            )
-        }
-
-        Spacer(Modifier.weight(0.1f))
         Box(
             Modifier
                 .fillMaxSize()
                 ) {
-
                 if(recipeList == emptyList<Recipe>()) {
                     Log.d(LOG_TAG, "recipeList is empty")
                 } else {
@@ -80,7 +64,6 @@ fun RecipeSearchScreen(
                     }
                 }
         }
-        Spacer(Modifier.weight(.25f))
     }
 }
 

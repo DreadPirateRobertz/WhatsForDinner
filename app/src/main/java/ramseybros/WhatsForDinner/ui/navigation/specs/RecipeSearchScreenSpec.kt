@@ -52,27 +52,56 @@ object RecipeSearchScreenSpec : IScreenSpec {
     ) {
         val recipeLiveData = viewModel.getApiRecipeLiveData()
         val coroutineScope = rememberCoroutineScope()
+
+        //        fun onRequestList() {
+//            coroutineScope.launch {
+//                viewModel.RecipeSearchModelState.collect{
+//                    val apiData = withContext(Dispatchers.IO) { viewModel.makeApiListRequest(it.searchText) }
+//                    withContext(Dispatchers.IO) { viewModel.parseListJSON(apiData, viewModel) } //updates snapshotstatelist in viewModel, no need to return
+//                }
+//            }
+//        }
         fun onRequestList() {
             coroutineScope.launch {
-                viewModel.RecipeSearchModelState.collect{
-                    val apiData = withContext(Dispatchers.IO) { viewModel.makeApiListRequest(it.searchText) }
-                    withContext(Dispatchers.IO) { viewModel.parseListJSON(apiData, viewModel) } //updates snapshotstatelist in viewModel, no need to return
-
+                var str: String = ""
+                Log.d(LOG_TAG, "0 " + str)
+                viewModel.RecipeSearchModelState.collect {
+                    if (str == "") {
+                        str = it.searchText
+                        Log.d(LOG_TAG, "2 " + str)
+                        val apiData =
+                            withContext(Dispatchers.IO) { viewModel.makeApiListRequest(str) }
+                        withContext(Dispatchers.IO) {
+                            viewModel.parseListJSON(
+                                apiData,
+                                viewModel
+                            )
+                        } //updates snapshotstatelist in viewModel, no need to return
+                    }
                 }
-
             }
         }
 
         RecipeSearchScreen(
             viewModel,
             { onRequestList() },
-            onRequestRecipe = fun (recipe: Recipe) {
+            onRequestRecipe = fun(recipe: Recipe) {
                 coroutineScope.launch {
-                    val apiData = withContext(Dispatchers.IO) { viewModel.makeApiRecipeRequest(recipe)}
-                    withContext(Dispatchers.IO) { viewModel.parseRecipeJSON(apiData,recipe) }
+                    val apiData =
+                        withContext(Dispatchers.IO) { viewModel.makeApiRecipeRequest(recipe) }
+                    withContext(Dispatchers.IO) { viewModel.parseRecipeJSON(apiData, recipe) }
                     recipeLiveData.value = recipe
-                    Log.d(LOG_TAG, "Calling navigateTo() with ${recipe.searchId} on ${Thread.currentThread().name}")
-                    withContext(Dispatchers.Main){navController.navigate(LargeRecipeScreenSpec.navigateTo("search"))}
+                    Log.d(
+                        LOG_TAG,
+                        "Calling navigateTo() with ${recipe.searchId} on ${Thread.currentThread().name}"
+                    )
+                    withContext(Dispatchers.Main) {
+                        navController.navigate(
+                            LargeRecipeScreenSpec.navigateTo(
+                                "search"
+                            )
+                        )
+                    }
                 }
             }
         )
@@ -87,20 +116,48 @@ object RecipeSearchScreenSpec : IScreenSpec {
     ) {
 //        val recipeSearchModelState by rememberFlowWithLifecycle(viewModel.RecipeSearchModelState)
 //            .collectAsState(initial = RecipeSearchModelState.Empty)
-        val x = viewModel.RecipeSearchModelState.collectAsState(initial = RecipeSearchModelState.Empty)
-
-        SearchBar(searchText = x.value.searchText, stringResource(id = R.string.placeholder_search_bar), {viewModel.onSearchTextChanged(it)}, {viewModel.onClearText()}, {})
+        val x =
+            viewModel.RecipeSearchModelState.collectAsState(initial = RecipeSearchModelState.Empty)
+        //        }
+        val coroutineScope = rememberCoroutineScope()
+        fun onRequestList() {
+            coroutineScope.launch {
+                var str: String = ""
+                Log.d(LOG_TAG, "0 " + str)
+                viewModel.RecipeSearchModelState.collect {
+                    if (str == "") {
+                        str = it.searchText
+                        Log.d(LOG_TAG, "2 " + str)
+                        val apiData =
+                            withContext(Dispatchers.IO) { viewModel.makeApiListRequest(str) }
+                        withContext(Dispatchers.IO) {
+                            viewModel.parseListJSON(
+                                apiData,
+                                viewModel
+                            )
+                        } //updates snapshotstatelist in viewModel, no need to return
+                    }
+                }
+            }
         }
-
-
-
+        SearchBar(
+            searchText = x.value.searchText,
+            stringResource(id = R.string.placeholder_search_bar),
+            { viewModel.onSearchTextChanged(it) },
+            { viewModel.onClearText() },
+            {onRequestList()},
+            {})
+    }
 
     @OptIn(ExperimentalComposeUiApi::class)
-    @Composable fun SearchBar(searchText: String,
-                              placeholderText: String = "",
-                              onSearchTextChanged: (String) -> Unit = {},
-                              onClearClick: () -> Unit = {},
-                              onNavigateBack: () -> Unit = {}
+    @Composable
+    fun SearchBar(
+        searchText: String,
+        placeholderText: String = "",
+        onSearchTextChanged: (String) -> Unit = {},
+        onClearClick: () -> Unit = {},
+        onDone: () -> Unit,
+        onNavigateBack: () -> Unit = {}
     ) {
         var showClearButton by remember { mutableStateOf(false) }
         val keyboardController = LocalSoftwareKeyboardController.current
@@ -144,10 +201,13 @@ object RecipeSearchScreenSpec : IScreenSpec {
             maxLines = 1,
             singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                keyboardController?.hide()
-                Log.d(LOG_TAG, "DONE" )
-            },),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    onDone()
+                    keyboardController?.hide()
+                    Log.d(LOG_TAG, "SEARCH DONE")
+                },
+            ),
         )
 
         LaunchedEffect(Unit) {
@@ -155,67 +215,10 @@ object RecipeSearchScreenSpec : IScreenSpec {
         }
     }
 
-    @Composable
-    fun NoSearchResults() {
-
-        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center,
-            horizontalAlignment = CenterHorizontally
-        ) {
-            Text("No matches found")
-        }
-    }
-
-    @ExperimentalComposeUiApi
-    @Composable
-    fun SearchBarUI(
-        searchText: String,
-        placeholderText: String = "",
-        onSearchTextChanged: (String) -> Unit = {},
-        onClearClick: () -> Unit = {},
-        onNavigateBack: () -> Unit = {},
-        matchesFound: Boolean,
-        results: @Composable () -> Unit = {}
-    ) {
-
-        Box {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-
-                SearchBar(
-                    searchText,
-                    placeholderText,
-                    onSearchTextChanged,
-                    onClearClick,
-                    onNavigateBack
-                )
-
-                if (matchesFound) {
-                    Text("Results", modifier = Modifier.padding(8.dp), fontWeight = FontWeight.Bold)
-                    results()
-                } else {
-                    if (searchText.isNotEmpty()) {
-                        NoSearchResults()
-                    }
-
-                }
-            }
-        }
-    }
-
-
-
-
-
-
-
-
 
     override fun navigateTo(vararg args: String?): String {
         return route
     }
-
 
 
 }
