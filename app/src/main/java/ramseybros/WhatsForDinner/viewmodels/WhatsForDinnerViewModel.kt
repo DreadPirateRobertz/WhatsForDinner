@@ -138,6 +138,7 @@ class WhatsForDinnerViewModel(
         Log.d(LOG_TAG, "parseListJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
         Log.d(LOG_TAG, "apiData contains $apiData")
+        recipeList.clear()
         val items = JSONArray(apiData)
         for (i in (0 until items.length())) {
             val recipeObject = items.getJSONObject(i)
