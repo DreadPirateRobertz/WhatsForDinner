@@ -5,12 +5,11 @@ package ramseybros.WhatsForDinner.viewmodels
 import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,9 +20,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
-import ramseybros.WhatsForDinner.ui.navigation.specs.LargeRecipeScreenSpec
-import ramseybros.WhatsForDinner.ui.navigation.specs.RecipeSearchScreenSpec
-import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.util.RecipeWorker
 
 import java.util.*
@@ -109,9 +105,14 @@ class WhatsForDinnerViewModel(
 
     override fun makeApiListRequest(string: String): String {
         Log.d(LOG_TAG, "makeApiListRequest() function called")
-        val ingredients: String = string
-        if(string.contains(',')){
-            string.replace(',', '%2C')
+        var ingredients: String = string.lowercase()
+        if(ingredients.contains(',')) {
+            ingredients = ingredients.replace(",","%2C")
+            ingredients = ingredients.replace(" ", "")
+        }
+        if(ingredients.contains(" ")){
+            ingredients = ingredients.replace(" ", "%2C")
+            ingredients = ingredients.replace(" ", "")
         }
         val client = OkHttpClient()
         val apiData: String?
