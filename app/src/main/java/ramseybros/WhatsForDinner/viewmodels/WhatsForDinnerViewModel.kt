@@ -180,7 +180,17 @@ class WhatsForDinnerViewModel(
         Log.d(LOG_TAG, "parseRecipeJSON() function called")
         Log.d(LOG_TAG, "apiData contains $apiData")
         val properties = JSONObject(apiData)
-        recipe.recipeText = properties.getString("instructions")
+        recipe.recipeText = checkNotNull(properties.getString("instructions"))
+        Log.d("Idk anymore", "recipeText = ${recipe.recipeText}")
+        if (recipe.recipeText == "null") {
+            recipe.recipeText = ""
+        }
+        val ingredientList = properties.getJSONArray("extendedIngredients")
+        for (i in (0 until ingredientList.length())) {
+            val ingredientInfo = ingredientList.getJSONObject(i)
+            val ingredient = ingredientInfo.getString("amount") + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString("name")
+            Log.d("ViewModel", "$ingredient")
+        }
         recipe.time = properties.getString("readyInMinutes")
     }
 
