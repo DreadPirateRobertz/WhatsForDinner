@@ -18,11 +18,13 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
+import ramseybros.WhatsForDinner.Secrets
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.RecipeWorker
 
 import java.util.*
+import javax.crypto.SecretKey
 
 
 class WhatsForDinnerViewModel(
@@ -116,11 +118,14 @@ class WhatsForDinnerViewModel(
         }
         val client = OkHttpClient()
         val apiData: String?
+        val key = Secrets().getYvoqmyCS("ramseybros.WhatsForDinner")
+
+        //61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c/
         val request: Request = Request.Builder()
             .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=$ingredients&number=10&ignorePantry=true&ranking=1")
             .get()
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-            .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
+            .addHeader("x-rapidapi-key",key)
             .build()
         //should be fine as a blocking call since this function executes on IO coroutine
         val response = client.newCall(request).execute()

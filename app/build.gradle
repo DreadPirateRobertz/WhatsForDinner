@@ -3,11 +3,18 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id "com.klaxit.hiddensecrets" version "0.1.5"
 }
 
 android {
     compileSdk 32
-
+    // Enable NDK build
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
     defaultConfig {
         applicationId "ramseybros.WhatsForDinner"
         minSdk 26
