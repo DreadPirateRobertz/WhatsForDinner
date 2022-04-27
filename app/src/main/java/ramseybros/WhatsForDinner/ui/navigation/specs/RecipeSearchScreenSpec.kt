@@ -43,7 +43,6 @@ object RecipeSearchScreenSpec : IScreenSpec {
     override val title: Int = R.string.recipe_search_screen_title
     private val LOG_TAG = "ramseybros.RecipeSearchScreenSpec"
 
-
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -53,6 +52,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         val recipeLiveData = viewModel.getApiRecipeLiveData()
         val coroutineScope = rememberCoroutineScope()
 
+        //ASYNC CODE
         //        fun onRequestList() {
 //            coroutineScope.launch {
 //                viewModel.RecipeSearchModelState.collect{

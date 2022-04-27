@@ -10,6 +10,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +21,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -68,13 +71,12 @@ fun LargeRecipeView(
                 utensilList = utensilList
             )
         }
-        Spacer(modifier = Modifier.weight(0.1f))
         Box(
             Modifier
-                .weight(0.4f)) {
+                .weight(0.15f)) {
             LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onDelete = onDelete, onBack = onBack, saveButtonFlag = saveButtonFlag)
         }
-        Spacer(modifier = Modifier.weight(0.3f))
+        Spacer(Modifier.weight(.05f))
     }
 
 }
@@ -122,14 +124,23 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
 
 @Composable
 fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onDelete: (Recipe) -> Unit, onBack: () -> Unit, saveButtonFlag: Boolean) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()){
-        if(saveButtonFlag) {
-            Button(onClick = { onSave(recipe) }) {
-                Text(stringResource(id = ramseybros.WhatsForDinner.R.string.save_recipe_label))
+    Column(horizontalAlignment = Alignment.Start,) {
+        if (saveButtonFlag) {
+            IconButton(onClick = { onSave(recipe) }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_data_saver_on_24),
+                    contentDescription = null,
+                    tint = colorResource(id = R.color.teal_200)
+
+                )
             }
         } else {
-            Button(onClick = { onDelete(recipe) }) {
-                Text(stringResource(id = ramseybros.WhatsForDinner.R.string.delete_recipe_label))
+            IconButton(onClick = { onDelete(recipe) }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_delete_24),
+                    contentDescription = null,
+                    tint = colorResource(id = R.color.teal_200)
+                )
             }
         }
     }
