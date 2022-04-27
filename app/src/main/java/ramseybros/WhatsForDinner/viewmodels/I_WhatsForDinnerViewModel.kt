@@ -30,6 +30,7 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe>
     abstract fun makeApiListRequest(string: String): String
     abstract fun onSearchTextChanged(changedSearchText: String)
+    abstract fun onClearText()
     //Testing new Search Bar Implementation
     abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
 }

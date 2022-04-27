@@ -221,20 +221,10 @@ class WhatsForDinnerViewModel(
 
     override fun onSearchTextChanged(changedSearchText: String) {
         searchText.value = changedSearchText
-        if (changedSearchText.isEmpty()) {
-            matchedRecipes.value = emptyList()
-            return
-        }
-//        val recipesFromSearch
+    }
 
-//            allRecipes.filter { x ->
-//            x.username.contains(changedSearchText, true) ||
-//                    x.email.contains(changedSearchText, true) || x.name.contains(
-//                changedSearchText,
-//                true
-//            )
-//        }
-//        matchedRecipes.value= recipesFromSearch
+    override fun onClearText(){
+        searchText.value = ""
     }
 }
 

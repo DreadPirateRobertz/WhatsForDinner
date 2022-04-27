@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import android.util.Log
+import android.view.KeyEvent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -19,6 +20,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.flowWithLifecycle
@@ -87,7 +89,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
 //            .collectAsState(initial = RecipeSearchModelState.Empty)
         val x = viewModel.RecipeSearchModelState.collectAsState(initial = RecipeSearchModelState.Empty)
 
-        SearchBar(searchText = x.value.searchText, "SEARCH BAR", {viewModel.onSearchTextChanged(it)}, {}, {})
+        SearchBar(searchText = x.value.searchText, stringResource(id = R.string.placeholder_search_bar), {viewModel.onSearchTextChanged(it)}, {viewModel.onClearText()}, {})
         }
 
 
@@ -114,13 +116,14 @@ object RecipeSearchScreenSpec : IScreenSpec {
             value = searchText,
             onValueChange = onSearchTextChanged,
             placeholder = {
-                Text(text = placeholderText)
+                Text(text = placeholderText, color = Color.White)
             },
             colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                backgroundColor = Color.Transparent,
-                cursorColor = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                focusedIndicatorColor = Color.White,
+                unfocusedIndicatorColor = Color.White,
+                backgroundColor = Color.White,
+                cursorColor = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                textColor = Color.White
             ),
             trailingIcon = {
                 AnimatedVisibility(
@@ -131,7 +134,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
                     IconButton(onClick = { onClearClick() }) {
                         Icon(
                             imageVector = Icons.Filled.Close,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = Color.White
                         )
                     }
 
@@ -142,7 +146,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = {
                 keyboardController?.hide()
-            }),
+                Log.d(LOG_TAG, "DONE" )
+            },),
         )
 
         LaunchedEffect(Unit) {

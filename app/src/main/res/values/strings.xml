@@ -26,4 +26,5 @@
     <string name="shopping_list_screen_title">Shopping List</string>
     <string name="difficulty">Difficulty: %1$s</string>
     <string name="cook_time">Cook Time: %1$sm</string>
+    <string name="placeholder_search_bar">Search by Ingredients</string>
 </resources>
