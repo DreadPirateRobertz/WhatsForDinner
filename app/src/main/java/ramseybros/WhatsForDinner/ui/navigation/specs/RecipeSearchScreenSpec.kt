@@ -88,6 +88,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
             { onRequestList() },
             onRequestRecipe = fun(recipe: Recipe) {
                 coroutineScope.launch {
+                    recipeLiveData.value = recipe
                     Log.d(
                         LOG_TAG,
                         "Calling navigateTo()"
