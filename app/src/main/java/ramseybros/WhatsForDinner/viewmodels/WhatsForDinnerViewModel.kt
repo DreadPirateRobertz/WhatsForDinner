@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.viewmodels
 
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -14,9 +15,14 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONArray
+import org.json.JSONObject
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.ui.navigation.specs.LargeRecipeScreenSpec
+import ramseybros.WhatsForDinner.ui.navigation.specs.RecipeSearchScreenSpec
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.util.RecipeWorker
 
@@ -27,11 +33,13 @@ class WhatsForDinnerViewModel(
     private val whatsForDinnerRepository: WhatsForDinnerRepository,
     context: Context
 ) : I_WhatsForDinnerViewModel() {
+
     private val workManager = WorkManager.getInstance(context)
     private val workRequest = RecipeWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
 
+    private val LOG_TAG = "ramseybros.RecipeSearchScreenSpec"
     private val _apiRecipeListLiveData = mutableStateListOf<Recipe>()
 
     private val _apiRecipeLiveData =
@@ -99,14 +107,95 @@ class WhatsForDinnerViewModel(
     }
 
 
+    override fun makeApiListRequest(string: String): String {
+        Log.d(LOG_TAG, "makeApiListRequest() function called")
+        val ingredients: String = string
+        if(string.contains(',')){
+            string.replace(',', '%2C')
+        }
+        val client = OkHttpClient()
+        val apiData: String?
+        val request: Request = Request.Builder()
+            .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=$ingredients&number=10&ignorePantry=true&ranking=1")
+            .get()
+            .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+            .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
+            .build()
+        //should be fine as a blocking call since this function executes on IO coroutine
+        val response = client.newCall(request).execute()
+        apiData = response.body?.string()
+        response.close()
+        if (apiData != null) {
+            Log.d(LOG_TAG, "Got result $apiData")
+            Log.d(LOG_TAG, "Length ${apiData.length}")
+        }
+        return apiData!!
+    }
+
+    override fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe> {
+        //parses the JSON response
+        Log.d(LOG_TAG, "parseListJSON() function called")
+        val recipeList = viewModel.getApiRecipeList()
+        Log.d(LOG_TAG, "apiData contains $apiData")
+        val items = JSONArray(apiData)
+        for (i in (0 until items.length())) {
+            val recipeObject = items.getJSONObject(i)
+            val recipe = Recipe(
+                imageLink = recipeObject.getString("image"),
+                title = recipeObject.getString("title"),
+                difficulty = 0,
+                time = "Click for more",
+                recipeText = "Click for more", //TODO: use separate API call for these
+                searchId = recipeObject.getInt("id")
+            )
+            Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
+            recipeList.add(recipe)
+        }
+        return recipeList
+    }
+
+    override fun makeApiRecipeRequest(recipe: Recipe) : String {
+        Log.d(LOG_TAG, "makeApiRecipeRequest() function called")
+        val client = OkHttpClient()
+        val apiData: String?
+        val request: Request = Request.Builder()
+            .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipe.searchId}/information?includeNutrition=false")
+            .get()
+            .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+            .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
+            .build()
+        //same as above, this function executes on IO dispatcher. Won't block UI thread
+        val response = client.newCall(request).execute()
+        apiData = response.body?.string()
+        if (apiData != null) {
+            Log.d(LOG_TAG, "Got result $apiData")
+            Log.d(LOG_TAG, "Length ${apiData.length}")
+        }
+        return apiData!!
+    }
+
+    override fun parseRecipeJSON(apiData: String, recipe: Recipe) {
+        Log.d(LOG_TAG, "parseRecipeJSON() function called")
+        Log.d(LOG_TAG, "apiData contains $apiData")
+        val properties = JSONObject(apiData)
+        recipe.recipeText = properties.getString("instructions")
+        recipe.time = properties.getString("readyInMinutes")
+    }
+
+
+
+
+    //TESTING SEARCH BAR
+
+
     private var allRecipes = mutableListOf<LiveData<Recipe>>()
     private val searchText: MutableStateFlow<String> = MutableStateFlow("")
     private var showProgressBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    private var matchedRcipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(emptyList())
+    private var matchedRecipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(emptyList())
 //Testing Search Bar Implementation
     override val RecipeSearchModelState = combine(
         searchText,
-        matchedRcipes,
+        matchedRecipes,
         showProgressBar
 
     ){
@@ -126,6 +215,24 @@ class WhatsForDinnerViewModel(
         if(recipes != emptyList<Recipe>() ){
             allRecipes.addAll(recipes)
             }
+    }
+
+    override fun onSearchTextChanged(changedSearchText: String) {
+        searchText.value = changedSearchText
+        if (changedSearchText.isEmpty()) {
+            matchedRecipes.value = emptyList()
+            return
+        }
+//        val recipesFromSearch
+
+//            allRecipes.filter { x ->
+//            x.username.contains(changedSearchText, true) ||
+//                    x.email.contains(changedSearchText, true) || x.name.contains(
+//                changedSearchText,
+//                true
+//            )
+//        }
+//        matchedRecipes.value= recipesFromSearch
     }
 }
 

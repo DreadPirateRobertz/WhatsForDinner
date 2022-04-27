@@ -1,19 +1,11 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.ui.screens.MyKitchen
-import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object MyKitchenScreenSpec : IScreenSpec {
@@ -32,7 +24,10 @@ object MyKitchenScreenSpec : IScreenSpec {
     }
 
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {
+    override fun TopAppBarActions(
+        navController: NavHostController,
+        viewModel: I_WhatsForDinnerViewModel
+    ) {
     }
 
     override fun navigateTo(vararg args: String?): String {

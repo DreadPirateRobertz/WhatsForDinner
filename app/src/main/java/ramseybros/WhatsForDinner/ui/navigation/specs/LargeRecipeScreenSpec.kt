@@ -1,16 +1,8 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import android.util.Log
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.core.content.PackageManagerCompat.LOG_TAG
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -18,10 +10,7 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.LargeRecipeView
-import ramseybros.WhatsForDinner.ui.theme.colorDarkError
-import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
-import java.util.*
 
 object LargeRecipeScreenSpec : IScreenSpec {
     override val route: String = "LargeRecipeScreen"
@@ -32,7 +21,10 @@ object LargeRecipeScreenSpec : IScreenSpec {
     var ID: String = ""
 
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {
+    override fun TopAppBarActions(
+        navController: NavHostController,
+        viewModel: I_WhatsForDinnerViewModel
+    ) {
     }
 
 

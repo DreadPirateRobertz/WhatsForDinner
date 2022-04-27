@@ -63,12 +63,12 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
 //
                 topBar = {
                     if ((checkRoute(navController = navController) != 2 && configuration.orientation == Configuration.ORIENTATION_PORTRAIT)) {
-                        WhatsForDinnerTopBar(navController = navController)
+                        WhatsForDinnerTopBar(navController = navController, viewModel = model)
                     }
                     //Tried to combine these 2 conditions with an || and was getting a compiler bug
                     if (checkRoute(navController = navController) == 5 && configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
                     ) {
-                        WhatsForDinnerTopBar(navController = navController)
+                        WhatsForDinnerTopBar(navController = navController, viewModel = model)
                     }
                 },
                 content = {

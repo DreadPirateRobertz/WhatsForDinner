@@ -22,7 +22,6 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
-import ramseybros.WhatsForDinner.data.AnimatableIcon
 import ramseybros.WhatsForDinner.data.NavigationItem
 import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
@@ -40,11 +39,16 @@ sealed interface IScreenSpec {
             .associate { it.objectInstance?.route to it.objectInstance }
 
         @Composable
-        fun TopBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+        fun TopBar(
+            navController: NavHostController,
+            navBackStackEntry: NavBackStackEntry?,
+            viewModel: I_WhatsForDinnerViewModel
+        ) {
             val route = navBackStackEntry?.destination?.route ?: ""
             if (route != "") allScreens[route]?.TopAppBarContent(
                 navController = navController,
-                navBackStackEntry
+                navBackStackEntry,
+                viewModel = viewModel
             )
 
 
@@ -101,12 +105,13 @@ sealed interface IScreenSpec {
     )
 
     @Composable
-    fun TopAppBarActions(navController: NavHostController)
+    fun TopAppBarActions(navController: NavHostController, viewModel: I_WhatsForDinnerViewModel)
 
     @Composable
     private fun TopAppBarContent(
         navController: NavHostController,
-        navBackStackEntry: NavBackStackEntry?
+        navBackStackEntry: NavBackStackEntry?,
+        viewModel: I_WhatsForDinnerViewModel
     ) {
         var color = Color.White
         var bgColor = colorDarkSecondary
@@ -166,7 +171,7 @@ sealed interface IScreenSpec {
 //            } else {
 //                null
 //            },
-            actions = { TopAppBarActions(navController = navController) },
+            actions = { TopAppBarActions(navController = navController, viewModel = viewModel) },
         )
     }
 

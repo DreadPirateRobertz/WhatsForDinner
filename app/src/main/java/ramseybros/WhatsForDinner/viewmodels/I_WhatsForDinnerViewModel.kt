@@ -24,7 +24,12 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun setRecipeIdLiveData(recipeId: UUID)
     abstract fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>)
     abstract fun requestWebRecipes()
-    abstract fun deleteRecipe(recipe: Recipe);
+    abstract fun deleteRecipe(recipe: Recipe)
+    abstract fun makeApiRecipeRequest(recipe: Recipe): String
+    abstract fun parseRecipeJSON(apiData: String, recipe: Recipe)
+    abstract fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe>
+    abstract fun makeApiListRequest(string: String): String
+    abstract fun onSearchTextChanged(changedSearchText: String)
     //Testing new Search Bar Implementation
     abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
 }

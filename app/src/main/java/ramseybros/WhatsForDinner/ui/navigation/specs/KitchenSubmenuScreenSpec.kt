@@ -1,22 +1,11 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.ui.screens.KitchenList
-import ramseybros.WhatsForDinner.ui.screens.ShoppingList
-import ramseybros.WhatsForDinner.ui.theme.colorDarkError
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 object KitchenSubmenuScreenSpec : IScreenSpec {
@@ -69,6 +58,9 @@ object KitchenSubmenuScreenSpec : IScreenSpec {
     }
 
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {
+    override fun TopAppBarActions(
+        navController: NavHostController,
+        viewModel: I_WhatsForDinnerViewModel
+    ) {
     }
 }

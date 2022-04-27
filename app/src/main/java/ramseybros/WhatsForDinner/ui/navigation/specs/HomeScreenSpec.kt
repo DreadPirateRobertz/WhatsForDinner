@@ -1,6 +1,5 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.*
@@ -9,7 +8,6 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.HomeScreen
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
-import java.util.jar.Attributes
 import ramseybros.WhatsForDinner.R
 
 object HomeScreenSpec : IScreenSpec {
@@ -48,7 +46,10 @@ object HomeScreenSpec : IScreenSpec {
     }
 
     @Composable
-    override fun TopAppBarActions(navController: NavHostController) {
+    override fun TopAppBarActions(
+        navController: NavHostController,
+        viewModel: I_WhatsForDinnerViewModel
+    ) {
     }
 
     override fun navigateTo(vararg args: String?): String {
