@@ -59,7 +59,6 @@ object RecipeSearchScreenSpec : IScreenSpec {
                     withContext(Dispatchers.IO) { viewModel.parseListJSON(apiData, viewModel) } //updates snapshotstatelist in viewModel, no need to return
 
                 }
-
             }
         }
 
@@ -71,7 +70,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
                     val apiData = withContext(Dispatchers.IO) { viewModel.makeApiRecipeRequest(recipe)}
                     withContext(Dispatchers.IO) { viewModel.parseRecipeJSON(apiData,recipe) }
                     recipeLiveData.value = recipe
-                    Log.d(LOG_TAG, "Calling navigateTo() with ${recipe.searchId} on ${Thread.currentThread().name}")
+                    Log.d(LOG_TAG, "Calling navigateTo() with ${recipe.title}")
                     withContext(Dispatchers.Main){navController.navigate(LargeRecipeScreenSpec.navigateTo("search"))}
                 }
             }
