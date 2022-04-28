@@ -64,15 +64,10 @@ fun RecipeSearchScreen(
 ) {
     val recipeList = viewModel.getApiRecipeList()
     Column(Modifier.fillMaxSize()) {
-        val context = LocalContext.current
-        Button(onClick = { AskSpeechInput(context) }) {
-        }
-
         Box(
             Modifier
                 .fillMaxSize()
                 ) {
-            Text(text = viewModel.talk)
                 if(recipeList == emptyList<Recipe>()) {
                     Log.d(LOG_TAG, "recipeList is empty")
                 } else {
@@ -87,24 +82,7 @@ fun RecipeSearchScreen(
     }
 }
 
-fun AskSpeechInput(context: Context){
-    if(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
-        } else {
-            !SpeechRecognizer.isRecognitionAvailable(context)  //Remote
-        }
-    ){
-        Toast.makeText(context, "Speech Unavailable", Toast.LENGTH_SHORT).show()
-    }
-    else{
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "This will allow this app to recognize your speech")
 
-        ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
-    }
-}
 
 
 @Preview

@@ -8,20 +8,20 @@ import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -31,6 +31,7 @@ import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerBottomBar
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerFAB
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerTopBar
+import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.WhatsForDinnerTheme
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerFactory
@@ -48,13 +49,21 @@ class MainActivity : ComponentActivity() {
             MainActivityContent(model = viewModel)
         }
     }
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         super.onActivityResult(requestCode, resultCode, data)
-
         if(requestCode == 102 && resultCode == Activity.RESULT_OK){
             val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             viewModel.onSearchTextChanged(result?.get(0).toString())
+//            val imm: InputMethodManager
+//            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            imm.showSoftInput(RecipeSearchScreen(
+//                viewModel = ,
+//                onClick = { /*TODO*/ },
+//                onRequestRecipe =
+//            ), InputMethodManager.SHOW_IMPLICIT)
+
         }
     }
 }
