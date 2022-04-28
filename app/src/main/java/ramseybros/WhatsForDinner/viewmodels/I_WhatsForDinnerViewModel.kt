@@ -39,7 +39,7 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun onSearchTextChanged(changedSearchText: String)
     abstract fun onClearText()
     abstract fun askSpeechInput(context: Context)
-    abstract fun updateRecipeRecommended(recipeId: UUID)
+    abstract fun updateRecipe(recipe: Recipe)
     abstract fun updateRecipeNOTRecommended(recipeId: UUID)
 
 }

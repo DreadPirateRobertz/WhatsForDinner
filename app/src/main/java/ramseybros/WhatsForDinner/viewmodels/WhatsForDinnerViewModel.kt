@@ -113,8 +113,8 @@ class WhatsForDinnerViewModel(
         whatsForDinnerRepository.deleteRecipe(recipe)
     }
 
-    override fun updateRecipeRecommended(recipeId: UUID){
-        whatsForDinnerRepository.updateRecipeRecommended(recipeId)
+    override fun updateRecipe(recipe: Recipe){
+        whatsForDinnerRepository.updateRecipe(recipe)
     }
     override fun updateRecipeNOTRecommended(recipeId: UUID){
         whatsForDinnerRepository.updateRecipeNOTRecommended(recipeId)

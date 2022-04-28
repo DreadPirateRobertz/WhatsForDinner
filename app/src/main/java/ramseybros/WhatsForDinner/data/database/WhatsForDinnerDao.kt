@@ -24,8 +24,9 @@ interface WhatsForDinnerDao {
     @Query("SELECT * FROM recipe WHERE id=(:id)")
     fun getRecipe(id: UUID): LiveData<Recipe>?
 
-    @Query("UPDATE recipe SET recommended = 1 WHERE recipe.id=(:recipeId)")
-    fun updateRecipeRecommended(recipeId: UUID)
+//    @Query("UPDATE recipe SET recommended = 1 WHERE recipe.id=(:recipeId)")
+    @Update
+    fun updateRecipe(recipe: Recipe)
 
     @Query("UPDATE recipe SET recommended = 0 WHERE recipe.id=(:recipeId)")
     fun updateRecipeNOTRecommended(recipeId: UUID)

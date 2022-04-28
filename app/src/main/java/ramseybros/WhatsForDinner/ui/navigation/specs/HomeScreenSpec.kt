@@ -40,13 +40,15 @@ object HomeScreenSpec : IScreenSpec {
                     }
                         if(recommendedRecipesList?.size!! > 10) {
                             val recipe = recommendedRecipesList[0]
-                            viewModel.updateRecipeNOTRecommended(recipe.id)//Probably not working either
+                            recipe.recommended = false
+                            viewModel.updateRecipe(recipe)//Probably not working either
                             recommendedRecipesList.remove(recipe)
                             if(qRecommendedRecipes.contains(recipe)) {//Queue may be worthless at this point but helping with debug
                                 qRecommendedRecipes.remove(recipe)
                             }
                         }
-                        viewModel.updateRecipeRecommended(apiRecipe.id)//Not Updating
+                        apiRecipe.recommended = true
+                        viewModel.updateRecipe(apiRecipe)//Not Updating
                         qRecommendedRecipes.add(apiRecipe)
 
                 }
