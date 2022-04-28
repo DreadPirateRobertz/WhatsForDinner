@@ -143,18 +143,18 @@ fun SavedRecipesScreen(
 }
 
 
-@Preview
-@Composable
-private fun SavedRecipesScreenPreview() {
-    val savedRecipesList = mutableListOf(RecipeGenerator.placeHolderRecipe())
-    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
-    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
-    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
-    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
-    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
-    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
-    SavedRecipesScreen(
-        savedRecipesList = savedRecipesList,
-        onSelectRecipe = {},
-    )
-}
+//@Preview
+//@Composable
+//private fun SavedRecipesScreenPreview() {
+//    val savedRecipesList = mutableListOf(RecipeGenerator.placeHolderRecipe())
+//    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+//    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+//    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+//    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+//    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+//    savedRecipesList.add(RecipeGenerator.placeHolderRecipe())
+//    SavedRecipesScreen(
+//        savedRecipesList = savedRecipesList,
+//        onSelectRecipe = {},
+//    )
+//}

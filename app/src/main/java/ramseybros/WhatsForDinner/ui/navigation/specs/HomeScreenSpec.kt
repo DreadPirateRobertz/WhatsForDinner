@@ -9,6 +9,7 @@ import ramseybros.WhatsForDinner.ui.screens.HomeScreen
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.R
+import java.util.*
 
 object HomeScreenSpec : IScreenSpec {
     override val route: String
@@ -25,23 +26,40 @@ object HomeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value //This is essentially the saved Recipes
-        val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
+        val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
+        val recommendedRecipesList: MutableList<Recipe>? = viewModel.recommendedRecipeListLiveData.observeAsState().value
         val recommendedIngredientsList: List<Ingredient> =
             listOf(RecipeGenerator.placeHolderIngredients())
+        val recipeList = viewModel.getApiRecipeList()
+        val qRecommendedRecipes: Queue<Recipe> = LinkedList()
+        if(recipeList != emptyList<Recipe>()){
+            recipeList.forEach { apiRecipe ->
+                savedRecipesList?.forEach{ savedRecipe ->
+                    if(apiRecipe != savedRecipe && !qRecommendedRecipes.contains(apiRecipe)){
+                        if(qRecommendedRecipes.size == 20) {
+                            val recipe = qRecommendedRecipes.poll()
+                            viewModel.updateRecipeNOTRecommended(recipe.id)
+                            qRecommendedRecipes.remove()
+                        }
+                        viewModel.updateRecipeRecommended(apiRecipe.id)
+                        qRecommendedRecipes.add(apiRecipe)
+                    }
+                }
+            }
+        }
+        recommendedRecipesList?.addAll(qRecommendedRecipes)
 
-
-        HomeScreen(
-            ////////TODO: FIX PlaceHolder
-            savedRecipesList = savedRecipesList,
-            recommendedIngredientsList = recommendedIngredientsList,
-            recommendedRecipesList = recommendedRecipesList,
-            onSelectRecipe =
-            { recipe ->
-                navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
-            },
-            onSelectIngredient = {}
-        )
+        recommendedRecipesList?.let {
+            HomeScreen(
+                savedRecipesList = savedRecipesList,
+                recommendedIngredientsList = recommendedIngredientsList,
+                recommendedRecipesList = it,
+                onSelectRecipe =
+                { recipe ->
+                    navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
+                }
+            ) {}
+        }
 
     }
 

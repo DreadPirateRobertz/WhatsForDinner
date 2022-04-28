@@ -169,24 +169,61 @@ private fun RecommendedIngredientRow(
 @Composable
 private fun RecommendedRecipeRow(
     onSelectRecipe: (Recipe) -> Any,
-    recommendedRecipesList: List<Recipe>?
+    recommendedRecipesList: List<Recipe>
 ) {
+    //Clicking A recipe will take you to how to make it...
+    val configuration = LocalConfiguration.current
+    var padding = 16.dp
+    var size = 0.dp
+    size = when(configuration.orientation){
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            50.dp
+        }
+        else ->{
+            75.dp
+        }
+    }
     Box(Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                .padding(start = padding, end = padding, top = 8.dp, bottom = 8.dp)
         ) {
             Column(Modifier.fillMaxSize()) {
                 RecommendedRecipesSection()
-                if (recommendedRecipesList != null) {
-                    LazyRow() {
+                if (recommendedRecipesList != emptyList<Recipe>()) {
+                    LazyColumn() {
                         items(recommendedRecipesList) {
-                            Text(text = it.title, modifier = Modifier
-                                .selectable(
-                                    selected = true,
-                                    onClick = { onSelectRecipe(it) }
-                                )
-                            )
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
+                                    .clickable { onSelectRecipe(it) }
+                            ) {
+                                Row() {
+                                    AsyncImage(
+                                        model = ImageRequest.Builder(LocalContext.current)
+                                            .data(it.imageLink)
+                                            .crossfade(true)
+                                            .build(),
+                                        placeholder = painterResource(R.drawable.pot_image),
+                                        contentDescription = "recipe image",
+                                        contentScale = ContentScale.Fit,
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(10))
+                                            .align(Alignment.CenterVertically)
+                                            .padding(4.dp)
+                                            .size(size)
+                                    )
+                                    Text(
+                                        text = it.title,
+                                        modifier = Modifier
+                                            .align(Alignment.CenterVertically)
+                                            .padding(end = 8.dp),
+                                        textAlign = TextAlign.Center
+                                    )
+
+                                }
+                            }
                         }
                     }
                 }
@@ -200,7 +237,7 @@ private fun RecommendedRecipeRow(
 fun HomeScreen(
     savedRecipesList: List<Recipe>?,
     recommendedIngredientsList: List<Ingredient>?,
-    recommendedRecipesList: List<Recipe>?,
+    recommendedRecipesList: List<Recipe>,
     onSelectRecipe: (Recipe) -> Any,
     onSelectIngredient: (Ingredient) -> Any
 ) {
@@ -285,21 +322,20 @@ fun HomeScreen(
 }
 
 
-@Preview
-@Composable
-private fun HomeScreenPreview() {
-    val savedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
-    val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
-    val recommendedIngredientsList: List<Ingredient> =
-        listOf(RecipeGenerator.placeHolderIngredients())
-    HomeScreen(
-        savedRecipesList = savedRecipesList,
-        recommendedIngredientsList = recommendedIngredientsList,
-        recommendedRecipesList = recommendedRecipesList,
-        onSelectRecipe = {},
-        onSelectIngredient = {}
-    )
-}
+//@Preview
+//@Composable
+//private fun HomeScreenPreview() {
+//    val savedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
+//    val recommendedRecipesList: List<Recipe> = listOf(RecipeGenerator.placeHolderRecipe())
+//    val recommendedIngredientsList: List<Ingredient> =
+//        listOf(RecipeGenerator.placeHolderIngredients())
+//    HomeScreen(
+//        savedRecipesList = savedRecipesList,
+//        recommendedIngredientsList = recommendedIngredientsList,
+//        recommendedRecipesList = recommendedRecipesList,
+//        onSelectRecipe = {}
+//    ) {}
+//}
 
 
 

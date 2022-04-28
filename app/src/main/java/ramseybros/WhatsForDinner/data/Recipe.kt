@@ -7,6 +7,7 @@ import java.util.*
 
 @Entity(tableName = "recipe")
 class Recipe(
+    var recommended: Boolean = false,
     var imageLink: String,
     var title: String,
     var difficulty: Int,

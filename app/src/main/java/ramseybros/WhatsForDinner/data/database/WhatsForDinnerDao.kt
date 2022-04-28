@@ -18,11 +18,17 @@ interface WhatsForDinnerDao {
     @Query("SELECT * FROM recipe")
     fun getRecipes(): LiveData<List<Recipe>>
 
+    @Query("SELECT * FROM recipe WHERE recipe.recommended = 1")
+    fun getRecommendedRecipes(): LiveData<MutableList<Recipe>>
+
     @Query("SELECT * FROM recipe WHERE id=(:id)")
     fun getRecipe(id: UUID): LiveData<Recipe>?
 
-    @Update
-    fun updateRecipe(recipe: Recipe)
+    @Query("UPDATE recipe SET recommended = 1 WHERE recipe.id=(:recipeId)")
+    fun updateRecipeRecommended(recipeId: UUID)
+
+    @Query("UPDATE recipe SET recommended = 0 WHERE recipe.id=(:recipeId)")
+    fun updateRecipeNOTRecommended(recipeId: UUID)
 
     @Delete
     fun deleteRecipe(recipe: Recipe)

@@ -39,11 +39,18 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
         }
     }
 
-    fun updateRecipe(recipe: Recipe) {
+    fun updateRecipeRecommended(recipe: UUID) {
         executor.execute {
-            whatsForDinnerDao.updateRecipe(recipe)
+            whatsForDinnerDao.updateRecipeRecommended(recipe)
         }
     }
+
+    fun updateRecipeNOTRecommended(recipe: UUID) {
+        executor.execute {
+            whatsForDinnerDao.updateRecipeRecommended(recipe)
+        }
+    }
+
 
     fun updateIngredient(ingredient: Ingredient) {
         executor.execute {
@@ -62,7 +69,7 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
             whatsForDinnerDao.addUtensilToList(recipeIngredient = recipeIngredient)
         }
     }
-
+    fun getRecommendedRecipes(): LiveData<MutableList<Recipe>> = whatsForDinnerDao.getRecommendedRecipes()
     fun getRecipes(): LiveData<List<Recipe>> = whatsForDinnerDao.getRecipes()
     fun getRecipe(id: UUID): LiveData<Recipe>? = whatsForDinnerDao.getRecipe(id)
     fun getIngredients(): LiveData<List<Ingredient>> = whatsForDinnerDao.getIngredients()

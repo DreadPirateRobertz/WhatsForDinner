@@ -15,6 +15,7 @@ import java.util.*
 
 abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract val recipeListLiveData: LiveData<List<Recipe>>
+    abstract val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>>
     abstract val recipeLiveData: LiveData<Recipe?>
     abstract val ingredientListLiveData: LiveData<List<Ingredient>>
     abstract val ingredientLiveData: LiveData<Ingredient?>
@@ -22,7 +23,6 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
 
     abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
 
-    abstract val talk: String
     abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipeUtensilList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipe(recipeId: UUID): LiveData<Recipe>?
@@ -38,5 +38,8 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun makeApiListRequest(string: String): String
     abstract fun onSearchTextChanged(changedSearchText: String)
     abstract fun onClearText()
-    abstract fun AskSpeechInput(context: Context)
+    abstract fun askSpeechInput(context: Context)
+    abstract fun updateRecipeRecommended(recipeId: UUID)
+    abstract fun updateRecipeNOTRecommended(recipeId: UUID)
+
 }

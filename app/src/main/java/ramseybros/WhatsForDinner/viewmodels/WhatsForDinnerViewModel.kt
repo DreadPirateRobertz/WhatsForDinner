@@ -38,7 +38,6 @@ class WhatsForDinnerViewModel(
     context: Context
 ) : I_WhatsForDinnerViewModel() {
 
-    override var talk = ""
     private val workManager = WorkManager.getInstance(context)
     private val workRequest = RecipeWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
@@ -57,8 +56,10 @@ class WhatsForDinnerViewModel(
         MutableLiveData<String>()
 
     override val recipeListLiveData = whatsForDinnerRepository.getRecipes()
-    override val ingredientListLiveData = whatsForDinnerRepository.getIngredients()
 
+    override val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>> = whatsForDinnerRepository.getRecommendedRecipes()
+
+    override val ingredientListLiveData = whatsForDinnerRepository.getIngredients()
 
     override val recipeLiveData = Transformations.switchMap(_recipeIdLiveData) { recipeId ->
         whatsForDinnerRepository.getRecipe(recipeId)
@@ -110,6 +111,13 @@ class WhatsForDinnerViewModel(
         whatsForDinnerRepository.deleteRecipeFromList(recipe.id)
         whatsForDinnerRepository.deleteRecipeFromUtensils(recipe.id)
         whatsForDinnerRepository.deleteRecipe(recipe)
+    }
+
+    override fun updateRecipeRecommended(recipeId: UUID){
+        whatsForDinnerRepository.updateRecipeRecommended(recipeId)
+    }
+    override fun updateRecipeNOTRecommended(recipeId: UUID){
+        whatsForDinnerRepository.updateRecipeNOTRecommended(recipeId)
     }
 
 
@@ -245,7 +253,7 @@ class WhatsForDinnerViewModel(
     }
 
   
-    override fun AskSpeechInput(context: Context) {
+    override fun askSpeechInput(context: Context) {
         if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
             } else {

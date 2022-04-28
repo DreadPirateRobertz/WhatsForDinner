@@ -17,8 +17,8 @@ object RecipeGenerator {
     )
 
 
-    fun placeHolderRecipe() =
-        Recipe("Generating Recipe...", "Generating Recipe...", -1, "", "", searchId = 0)
+//    fun placeHolderRecipe() =
+//        Recipe("Generating Recipe...", "Generating Recipe...", -1, "", "", searchId = 0)
 
     fun placeHolderIngredients() = Ingredient("Genereating Ingredient...", 1, IngredientType.SPICE)
     fun singleRecipe(): Recipe {

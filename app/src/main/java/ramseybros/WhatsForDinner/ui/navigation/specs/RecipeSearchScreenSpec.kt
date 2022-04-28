@@ -1,14 +1,6 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.os.Build
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import android.util.Log
-import android.view.KeyEvent
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -19,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -31,21 +22,16 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.RecipeSearchModelState
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
-import java.util.*
 
 object RecipeSearchScreenSpec : IScreenSpec {
     override val route: String
@@ -196,7 +182,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
                 textColor = Color.White
             ),
             leadingIcon = {
-                IconButton(onClick = { viewModel.AskSpeechInput(context) }) {///Blah
+                IconButton(onClick = { viewModel.askSpeechInput(context) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_mic_24),
                         contentDescription = null,
