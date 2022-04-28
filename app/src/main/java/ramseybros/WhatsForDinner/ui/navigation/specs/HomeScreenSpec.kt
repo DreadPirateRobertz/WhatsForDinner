@@ -36,7 +36,7 @@ object HomeScreenSpec : IScreenSpec {
             recipeList.forEach { apiRecipe ->
                 savedRecipesList?.forEach{ savedRecipe ->
                     if(apiRecipe != savedRecipe && !qRecommendedRecipes.contains(apiRecipe)){
-                        if(qRecommendedRecipes.size == 20) {
+                        if(qRecommendedRecipes.size > 20) {
                             val recipe = qRecommendedRecipes.poll()
                             viewModel.updateRecipeNOTRecommended(recipe.id)
                             qRecommendedRecipes.remove()
