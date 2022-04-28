@@ -10,7 +10,5 @@ class Secrets {
             System.loadLibrary("secrets")
         }
     }
-
-
     external fun getYvoqmyCS(packageName: String): String
 }

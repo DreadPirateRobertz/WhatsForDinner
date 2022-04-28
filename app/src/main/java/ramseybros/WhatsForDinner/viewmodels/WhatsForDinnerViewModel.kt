@@ -4,9 +4,8 @@ package ramseybros.WhatsForDinner.viewmodels
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -24,7 +23,6 @@ import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.RecipeWorker
 
 import java.util.*
-import javax.crypto.SecretKey
 
 
 class WhatsForDinnerViewModel(
@@ -32,6 +30,7 @@ class WhatsForDinnerViewModel(
     context: Context
 ) : I_WhatsForDinnerViewModel() {
 
+    override var talk = ""
     private val workManager = WorkManager.getInstance(context)
     private val workRequest = RecipeWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
@@ -168,11 +167,12 @@ class WhatsForDinnerViewModel(
         Log.d(LOG_TAG, "makeApiRecipeRequest() function called")
         val client = OkHttpClient()
         val apiData: String?
+        val key = Secrets().getYvoqmyCS("ramseybros.WhatsForDinner")
         val request: Request = Request.Builder()
             .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipe.searchId}/information?includeNutrition=false")
             .get()
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-            .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
+            .addHeader("x-rapidapi-key", key)
             .build()
         //same as above, this function executes on IO dispatcher. Won't block UI thread
         val response = client.newCall(request).execute()
@@ -201,17 +201,9 @@ class WhatsForDinnerViewModel(
         return (recipe.recipeText != "null")
     }
 
-
-
-
-    //TESTING SEARCH BAR
-
-
-    private var allRecipes = mutableListOf<LiveData<Recipe>>()
     private val searchText: MutableStateFlow<String> = MutableStateFlow("")
     private var showProgressBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private var matchedRecipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(emptyList())
-//Testing Search Bar Implementation
     override val RecipeSearchModelState = combine(
         searchText,
         matchedRecipes,
@@ -225,16 +217,6 @@ class WhatsForDinnerViewModel(
            showProgress
         )
 }
-    init{
-        retrieveRecipes()
-    }
-    private fun retrieveRecipes(){
-        //TODO: Wrong recipe getter right here NOT connected to API for TESTING
-        val recipes = whatsForDinnerRepository.getRecipes()
-        if(recipes != emptyList<Recipe>() ){
-            allRecipes.addAll(recipes)
-            }
-    }
 
     override fun onSearchTextChanged(changedSearchText: String) {
         searchText.value = changedSearchText
