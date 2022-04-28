@@ -38,6 +38,5 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun makeApiListRequest(string: String): String
     abstract fun onSearchTextChanged(changedSearchText: String)
     abstract fun onClearText()
-    @Composable
     abstract fun AskSpeechInput(context: Context)
 }
