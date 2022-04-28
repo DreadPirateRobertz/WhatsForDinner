@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +28,7 @@ import ramseybros.WhatsForDinner.Secrets
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.RecipeWorker
+import ramseybros.WhatsForDinner.R
 
 import java.util.*
 
@@ -227,7 +229,7 @@ class WhatsForDinnerViewModel(
         showProgressBar
 
     ) { text, matchedRecipes, showProgress ->
-        ramseybros.WhatsForDinner.data.RecipeSearchModelState(
+        RecipeSearchModelState(
             text,
             matchedRecipes,
             showProgress
@@ -259,8 +261,8 @@ class WhatsForDinnerViewModel(
             )
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             intent.putExtra(
-                RecognizerIntent.EXTRA_PROMPT,
-                "This will allow this app to recognize your speech"
+                RecognizerIntent.EXTRA_PROMPT, "Journey to Gastronomic Delight Beings Here"
+
             )
 
             ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)

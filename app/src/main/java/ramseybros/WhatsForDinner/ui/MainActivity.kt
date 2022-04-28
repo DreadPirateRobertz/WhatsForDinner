@@ -56,14 +56,6 @@ class MainActivity : ComponentActivity() {
         if(requestCode == 102 && resultCode == Activity.RESULT_OK){
             val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             viewModel.onSearchTextChanged(result?.get(0).toString())
-//            val imm: InputMethodManager
-//            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//            imm.showSoftInput(RecipeSearchScreen(
-//                viewModel = ,
-//                onClick = { /*TODO*/ },
-//                onRequestRecipe =
-//            ), InputMethodManager.SHOW_IMPLICIT)
-
         }
     }
 }
