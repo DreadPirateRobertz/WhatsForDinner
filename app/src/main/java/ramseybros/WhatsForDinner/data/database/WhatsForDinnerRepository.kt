@@ -39,15 +39,15 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
         }
     }
 
-    fun updateRecipeRecommended(recipe: UUID) {
+    fun updateRecipeRecommended(recipeId: UUID) {
         executor.execute {
-            whatsForDinnerDao.updateRecipeRecommended(recipe)
+            whatsForDinnerDao.updateRecipeRecommended(recipeId)
         }
     }
 
-    fun updateRecipeNOTRecommended(recipe: UUID) {
+    fun updateRecipeNOTRecommended(recipeId: UUID) {
         executor.execute {
-            whatsForDinnerDao.updateRecipeRecommended(recipe)
+            whatsForDinnerDao.updateRecipeNOTRecommended(recipeId)
         }
     }
 

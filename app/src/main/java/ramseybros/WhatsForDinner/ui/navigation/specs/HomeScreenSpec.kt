@@ -34,20 +34,24 @@ object HomeScreenSpec : IScreenSpec {
         val qRecommendedRecipes: Queue<Recipe> = LinkedList()
         if(recipeList != emptyList<Recipe>()){
             recipeList.forEach { apiRecipe ->
-                savedRecipesList?.forEach{ savedRecipe ->
-                    if(apiRecipe != savedRecipe && !qRecommendedRecipes.contains(apiRecipe)){
-                        if(qRecommendedRecipes.size > 20) {
-                            val recipe = qRecommendedRecipes.poll()
-                            viewModel.updateRecipeNOTRecommended(recipe.id)
-                            qRecommendedRecipes.remove()
-                        }
-                        viewModel.updateRecipeRecommended(apiRecipe.id)
-                        qRecommendedRecipes.add(apiRecipe)
+                savedRecipesList?.forEach lamb@{ savedRecipe ->
+                    if(apiRecipe.id == savedRecipe.id ) {
+                        return@lamb
                     }
+                        if(recommendedRecipesList?.size!! > 10) {
+                            val recipe = recommendedRecipesList[0]
+                            viewModel.updateRecipeNOTRecommended(recipe.id)//Probably not working either
+                            recommendedRecipesList.remove(recipe)
+                            if(qRecommendedRecipes.contains(recipe)) {//Queue may be worthless at this point but helping with debug
+                                qRecommendedRecipes.remove(recipe)
+                            }
+                        }
+                        viewModel.updateRecipeRecommended(apiRecipe.id)//Not Updating
+                        qRecommendedRecipes.add(apiRecipe)
+
                 }
             }
         }
-        recommendedRecipesList?.addAll(qRecommendedRecipes)
 
         recommendedRecipesList?.let {
             HomeScreen(
