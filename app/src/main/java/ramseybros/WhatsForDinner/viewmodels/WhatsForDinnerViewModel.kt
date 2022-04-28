@@ -244,7 +244,7 @@ class WhatsForDinnerViewModel(
         searchText.value = ""
     }
 
-
+    @Composable
     override fun AskSpeechInput(context: Context) {
         if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
@@ -260,11 +260,7 @@ class WhatsForDinnerViewModel(
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH
             )
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            intent.putExtra(
-                RecognizerIntent.EXTRA_PROMPT, "Journey to Gastronomic Delight Beings Here"
-
-            )
-
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.google_search_prompt)
             ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
         }
     }

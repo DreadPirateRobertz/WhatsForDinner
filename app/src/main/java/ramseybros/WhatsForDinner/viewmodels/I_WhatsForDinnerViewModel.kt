@@ -2,6 +2,7 @@ package ramseybros.WhatsForDinner.viewmodels
 
 
 import android.content.Context
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
@@ -37,5 +38,6 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun makeApiListRequest(string: String): String
     abstract fun onSearchTextChanged(changedSearchText: String)
     abstract fun onClearText()
+    @Composable
     abstract fun AskSpeechInput(context: Context)
 }

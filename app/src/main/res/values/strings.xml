@@ -27,4 +27,5 @@
     <string name="difficulty">Difficulty: %1$s</string>
     <string name="cook_time">Cook Time: %1$sm</string>
     <string name="placeholder_search_bar">Search by Ingredients</string>
+    <string name="google_search_prompt">Journey to Gastronomic Delight Beings Here</string>
 </resources>
