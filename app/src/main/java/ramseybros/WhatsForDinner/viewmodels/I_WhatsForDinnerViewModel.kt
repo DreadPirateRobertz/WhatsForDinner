@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.viewmodels
 
 
+import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
@@ -18,6 +19,7 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract val ingredientLiveData: LiveData<Ingredient?>
     abstract val outputWorkerInfo: LiveData<WorkInfo>
 
+    abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
 
     abstract val talk: String
     abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
@@ -35,6 +37,5 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun makeApiListRequest(string: String): String
     abstract fun onSearchTextChanged(changedSearchText: String)
     abstract fun onClearText()
-    //Testing new Search Bar Implementation
-    abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
+    abstract fun AskSpeechInput(context: Context)
 }

@@ -1,11 +1,17 @@
 package ramseybros.WhatsForDinner.viewmodels
 
 
-
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -62,12 +68,13 @@ class WhatsForDinnerViewModel(
         }
 
     override fun setRecipeIdLiveData(uuid: UUID) {
-       _recipeIdLiveData.value = uuid
+        _recipeIdLiveData.value = uuid
     }
 
     override fun getRecipe(recipeId: UUID): LiveData<Recipe>? {
-       return whatsForDinnerRepository.getRecipe(recipeId)
+        return whatsForDinnerRepository.getRecipe(recipeId)
     }
+
     override fun getRecipeIngredientList(recipeId: UUID) =
         whatsForDinnerRepository.getIngredientList(recipeId)
 
@@ -79,7 +86,7 @@ class WhatsForDinnerViewModel(
 
     override fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) {
         whatsForDinnerRepository.addRecipe(recipe)
-        for(ingredient in ingredients) {
+        for (ingredient in ingredients) {
             whatsForDinnerRepository.addIngredient(ingredient)
             whatsForDinnerRepository.addIngredientToList(
                 RecipeIngredientListXRef(
@@ -88,12 +95,12 @@ class WhatsForDinnerViewModel(
                 )
             )
         }
-        for(utensil in utensils) {
-            whatsForDinnerRepository.addUtensilToList(RecipeUtensil(utensil,recipe.id))
+        for (utensil in utensils) {
+            whatsForDinnerRepository.addUtensilToList(RecipeUtensil(utensil, recipe.id))
         }
     }
 
-        override fun requestWebRecipes() {
+    override fun requestWebRecipes() {
         TODO("Not yet implemented")
     }
 
@@ -107,11 +114,11 @@ class WhatsForDinnerViewModel(
     override fun makeApiListRequest(string: String): String {
         Log.d(LOG_TAG, "makeApiListRequest() function called")
         var ingredients: String = string.lowercase()
-        if(ingredients.contains(',')) {
-            ingredients = ingredients.replace(",","%2C")
+        if (ingredients.contains(',')) {
+            ingredients = ingredients.replace(",", "%2C")
             ingredients = ingredients.replace(" ", "")
         }
-        if(ingredients.contains(" ")){
+        if (ingredients.contains(" ")) {
             ingredients = ingredients.replace(" ", "%2C")
             ingredients = ingredients.replace(" ", "")
         }
@@ -124,7 +131,7 @@ class WhatsForDinnerViewModel(
             .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=$ingredients&number=10&ignorePantry=true&ranking=1")
             .get()
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-            .addHeader("x-rapidapi-key",key)
+            .addHeader("x-rapidapi-key", key)
             .build()
         //should be fine as a blocking call since this function executes on IO coroutine
         val response = client.newCall(request).execute()
@@ -137,7 +144,10 @@ class WhatsForDinnerViewModel(
         return apiData!!
     }
 
-    override fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe> {
+    override fun parseListJSON(
+        apiData: String,
+        viewModel: I_WhatsForDinnerViewModel
+    ): SnapshotStateList<Recipe> {
         //parses the JSON response
         Log.d(LOG_TAG, "parseListJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
@@ -163,7 +173,7 @@ class WhatsForDinnerViewModel(
         return recipeList
     }
 
-    override fun makeApiRecipeRequest(recipe: Recipe) : String {
+    override fun makeApiRecipeRequest(recipe: Recipe): String {
         Log.d(LOG_TAG, "makeApiRecipeRequest() function called")
         val client = OkHttpClient()
         val apiData: String?
@@ -184,7 +194,11 @@ class WhatsForDinnerViewModel(
         return apiData!!
     }
 
-    override fun parseRecipeJSON(apiData: String, recipe: Recipe, viewModel: I_WhatsForDinnerViewModel) : Boolean {
+    override fun parseRecipeJSON(
+        apiData: String,
+        recipe: Recipe,
+        viewModel: I_WhatsForDinnerViewModel
+    ): Boolean {
         Log.d(LOG_TAG, "parseRecipeJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
         Log.d(LOG_TAG, "apiData contains $apiData")
@@ -194,7 +208,10 @@ class WhatsForDinnerViewModel(
         val ingredientList = properties.getJSONArray("extendedIngredients")
         for (i in (0 until ingredientList.length())) {
             val ingredientInfo = ingredientList.getJSONObject(i)
-            val ingredient = ingredientInfo.getString("amount") + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString("name")
+            val ingredient =
+                ingredientInfo.getString("amount") + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString(
+                    "name"
+                )
             Log.d("ViewModel", "$ingredient")
         }
         recipe.time = properties.getString("readyInMinutes")
@@ -209,24 +226,51 @@ class WhatsForDinnerViewModel(
         matchedRecipes,
         showProgressBar
 
-    ){
-        text, matchedRecipes, showProgress ->
+    ) { text, matchedRecipes, showProgress ->
         ramseybros.WhatsForDinner.data.RecipeSearchModelState(
-           text,
-           matchedRecipes,
-           showProgress
+            text,
+            matchedRecipes,
+            showProgress
         )
-}
+    }
 
     override fun onSearchTextChanged(changedSearchText: String) {
         searchText.value = changedSearchText
     }
 
-    override fun onClearText(){
+    override fun onClearText() {
         searchText.value = ""
+    }
+
+
+    override fun AskSpeechInput(context: Context) {
+        if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
+            } else {
+                !SpeechRecognizer.isRecognitionAvailable(context)  //Remote
+            }
+        ) {
+            Toast.makeText(context, "Speech Unavailable", Toast.LENGTH_SHORT).show()
+        } else {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH
+            )
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            intent.putExtra(
+                RecognizerIntent.EXTRA_PROMPT,
+                "This will allow this app to recognize your speech"
+            )
+
+            ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
+        }
     }
 }
 
-private fun <E> MutableList<E>.addAll(elements: LiveData<List<Recipe>>) {
 
-}
+
+
+
+
+

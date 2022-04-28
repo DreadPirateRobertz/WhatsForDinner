@@ -155,7 +155,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
             { viewModel.onSearchTextChanged(it) },
             { viewModel.onClearText() },
             {onRequestList()},
-            {})
+            {},
+            viewModel)
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
@@ -166,7 +167,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
         onSearchTextChanged: (String) -> Unit = {},
         onClearClick: () -> Unit = {},
         onDone: () -> Unit,
-        onNavigateBack: () -> Unit = {}
+        onNavigateBack: () -> Unit = {},
+        viewModel: I_WhatsForDinnerViewModel
     ) {
         val context = LocalContext.current
         var showClearButton by remember { mutableStateOf(false) }
@@ -193,7 +195,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
                 textColor = Color.White
             ),
             leadingIcon = {
-                IconButton(onClick = { AskSpeechInput(context) }) {
+                IconButton(onClick = { viewModel.AskSpeechInput(context) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_mic_24),
                         contentDescription = null,
@@ -231,24 +233,6 @@ object RecipeSearchScreenSpec : IScreenSpec {
 
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
-        }
-    }
-    fun AskSpeechInput(context: Context){
-        if(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
-            } else {
-                !SpeechRecognizer.isRecognitionAvailable(context)  //Remote
-            }
-        ){
-            Toast.makeText(context, "Speech Unavailable", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "This will allow this app to recognize your speech")
-
-            ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
         }
     }
 
