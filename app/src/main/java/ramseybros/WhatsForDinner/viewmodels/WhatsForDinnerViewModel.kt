@@ -244,7 +244,7 @@ class WhatsForDinnerViewModel(
         searchText.value = ""
     }
 
-    @Composable
+  
     override fun AskSpeechInput(context: Context) {
         if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
