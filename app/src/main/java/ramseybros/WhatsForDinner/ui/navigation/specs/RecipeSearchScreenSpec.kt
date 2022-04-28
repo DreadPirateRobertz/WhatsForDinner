@@ -196,7 +196,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
                 textColor = Color.White
             ),
             leadingIcon = {
-                IconButton(onClick = { viewModel.AskSpeechInput(context) }) {
+                IconButton(onClick = { viewModel.AskSpeechInput(context) }) {///Blah
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_mic_24),
                         contentDescription = null,
