@@ -1,5 +1,11 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -18,12 +24,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
+import java.util.*
 
 private const val LOG_TAG = "ramseybros.RecipeSearchScreen.kt"
+
+
+
+
+
+
 
 @Composable
 private fun SectionHeader(title: String) {
@@ -66,6 +81,7 @@ fun RecipeSearchScreen(
         }
     }
 }
+
 
 
 

@@ -1,12 +1,18 @@
 package ramseybros.WhatsForDinner.viewmodels
 
 
-
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
+import android.widget.Toast
+import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.text.toLowerCase
+import androidx.compose.ui.res.stringResource
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -22,9 +28,9 @@ import ramseybros.WhatsForDinner.Secrets
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.RecipeWorker
+import ramseybros.WhatsForDinner.R
 
 import java.util.*
-import javax.crypto.SecretKey
 
 
 class WhatsForDinnerViewModel(
@@ -32,6 +38,7 @@ class WhatsForDinnerViewModel(
     context: Context
 ) : I_WhatsForDinnerViewModel() {
 
+    override var talk = ""
     private val workManager = WorkManager.getInstance(context)
     private val workRequest = RecipeWorker.buildOneTimeWorkRequest()
     override val outputWorkerInfo: LiveData<WorkInfo> =
@@ -63,12 +70,13 @@ class WhatsForDinnerViewModel(
         }
 
     override fun setRecipeIdLiveData(uuid: UUID) {
-       _recipeIdLiveData.value = uuid
+        _recipeIdLiveData.value = uuid
     }
 
     override fun getRecipe(recipeId: UUID): LiveData<Recipe>? {
-       return whatsForDinnerRepository.getRecipe(recipeId)
+        return whatsForDinnerRepository.getRecipe(recipeId)
     }
+
     override fun getRecipeIngredientList(recipeId: UUID) =
         whatsForDinnerRepository.getIngredientList(recipeId)
 
@@ -80,7 +88,7 @@ class WhatsForDinnerViewModel(
 
     override fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>) {
         whatsForDinnerRepository.addRecipe(recipe)
-        for(ingredient in ingredients) {
+        for (ingredient in ingredients) {
             whatsForDinnerRepository.addIngredient(ingredient)
             whatsForDinnerRepository.addIngredientToList(
                 RecipeIngredientListXRef(
@@ -89,12 +97,12 @@ class WhatsForDinnerViewModel(
                 )
             )
         }
-        for(utensil in utensils) {
-            whatsForDinnerRepository.addUtensilToList(RecipeUtensil(utensil,recipe.id))
+        for (utensil in utensils) {
+            whatsForDinnerRepository.addUtensilToList(RecipeUtensil(utensil, recipe.id))
         }
     }
 
-        override fun requestWebRecipes() {
+    override fun requestWebRecipes() {
         TODO("Not yet implemented")
     }
 
@@ -108,11 +116,11 @@ class WhatsForDinnerViewModel(
     override fun makeApiListRequest(string: String): String {
         Log.d(LOG_TAG, "makeApiListRequest() function called")
         var ingredients: String = string.lowercase()
-        if(ingredients.contains(',')) {
-            ingredients = ingredients.replace(",","%2C")
+        if (ingredients.contains(',')) {
+            ingredients = ingredients.replace(",", "%2C")
             ingredients = ingredients.replace(" ", "")
         }
-        if(ingredients.contains(" ")){
+        if (ingredients.contains(" ")) {
             ingredients = ingredients.replace(" ", "%2C")
             ingredients = ingredients.replace(" ", "")
         }
@@ -125,7 +133,7 @@ class WhatsForDinnerViewModel(
             .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=$ingredients&number=10&ignorePantry=true&ranking=1")
             .get()
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-            .addHeader("x-rapidapi-key",key)
+            .addHeader("x-rapidapi-key", key)
             .build()
         //should be fine as a blocking call since this function executes on IO coroutine
         val response = client.newCall(request).execute()
@@ -138,7 +146,10 @@ class WhatsForDinnerViewModel(
         return apiData!!
     }
 
-    override fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe> {
+    override fun parseListJSON(
+        apiData: String,
+        viewModel: I_WhatsForDinnerViewModel
+    ): SnapshotStateList<Recipe> {
         //parses the JSON response
         Log.d(LOG_TAG, "parseListJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
@@ -164,15 +175,16 @@ class WhatsForDinnerViewModel(
         return recipeList
     }
 
-    override fun makeApiRecipeRequest(recipe: Recipe) : String {
+    override fun makeApiRecipeRequest(recipe: Recipe): String {
         Log.d(LOG_TAG, "makeApiRecipeRequest() function called")
         val client = OkHttpClient()
         val apiData: String?
+        val key = Secrets().getYvoqmyCS("ramseybros.WhatsForDinner")
         val request: Request = Request.Builder()
             .url("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipe.searchId}/information?includeNutrition=false")
             .get()
             .addHeader("x-rapidapi-host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
-            .addHeader("x-rapidapi-key", "61306f5afemsh027abae29051434p12c68bjsnd2f5b7c20c9c")
+            .addHeader("x-rapidapi-key", key)
             .build()
         //same as above, this function executes on IO dispatcher. Won't block UI thread
         val response = client.newCall(request).execute()
@@ -184,7 +196,11 @@ class WhatsForDinnerViewModel(
         return apiData!!
     }
 
-    override fun parseRecipeJSON(apiData: String, recipe: Recipe, viewModel: I_WhatsForDinnerViewModel) : Boolean {
+    override fun parseRecipeJSON(
+        apiData: String,
+        recipe: Recipe,
+        viewModel: I_WhatsForDinnerViewModel
+    ): Boolean {
         Log.d(LOG_TAG, "parseRecipeJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
         Log.d(LOG_TAG, "apiData contains $apiData")
@@ -194,57 +210,65 @@ class WhatsForDinnerViewModel(
         val ingredientList = properties.getJSONArray("extendedIngredients")
         for (i in (0 until ingredientList.length())) {
             val ingredientInfo = ingredientList.getJSONObject(i)
-            val ingredient = ingredientInfo.getString("amount") + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString("name")
+            val ingredient =
+                ingredientInfo.getString("amount") + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString(
+                    "name"
+                )
             Log.d("ViewModel", "$ingredient")
         }
         recipe.time = properties.getString("readyInMinutes")
         return (recipe.recipeText != "null")
     }
 
-
-
-
-    //TESTING SEARCH BAR
-
-
-    private var allRecipes = mutableListOf<LiveData<Recipe>>()
     private val searchText: MutableStateFlow<String> = MutableStateFlow("")
     private var showProgressBar: MutableStateFlow<Boolean> = MutableStateFlow(false)
     private var matchedRecipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(emptyList())
-//Testing Search Bar Implementation
     override val RecipeSearchModelState = combine(
         searchText,
         matchedRecipes,
         showProgressBar
 
-    ){
-        text, matchedRecipes, showProgress ->
-        ramseybros.WhatsForDinner.data.RecipeSearchModelState(
-           text,
-           matchedRecipes,
-           showProgress
+    ) { text, matchedRecipes, showProgress ->
+        RecipeSearchModelState(
+            text,
+            matchedRecipes,
+            showProgress
         )
-}
-    init{
-        retrieveRecipes()
-    }
-    private fun retrieveRecipes(){
-        //TODO: Wrong recipe getter right here NOT connected to API for TESTING
-        val recipes = whatsForDinnerRepository.getRecipes()
-        if(recipes != emptyList<Recipe>() ){
-            allRecipes.addAll(recipes)
-            }
     }
 
     override fun onSearchTextChanged(changedSearchText: String) {
         searchText.value = changedSearchText
     }
 
-    override fun onClearText(){
+    override fun onClearText() {
         searchText.value = ""
+    }
+
+    @Composable
+    override fun AskSpeechInput(context: Context) {
+        if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
+            } else {
+                !SpeechRecognizer.isRecognitionAvailable(context)  //Remote
+            }
+        ) {
+            Toast.makeText(context, "Speech Unavailable", Toast.LENGTH_SHORT).show()
+        } else {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH
+            )
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.google_search_prompt)
+            ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
+        }
     }
 }
 
-private fun <E> MutableList<E>.addAll(elements: LiveData<List<Recipe>>) {
 
-}
+
+
+
+
+

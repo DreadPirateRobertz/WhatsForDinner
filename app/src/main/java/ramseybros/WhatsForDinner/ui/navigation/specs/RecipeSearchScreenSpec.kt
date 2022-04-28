@@ -1,7 +1,14 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.util.Log
 import android.view.KeyEvent
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -19,10 +26,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
@@ -34,6 +45,7 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.RecipeSearchModelState
 import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
+import java.util.*
 
 object RecipeSearchScreenSpec : IScreenSpec {
     override val route: String
@@ -144,7 +156,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
             { viewModel.onSearchTextChanged(it) },
             { viewModel.onClearText() },
             {onRequestList()},
-            {})
+            {},
+            viewModel)
     }
 
     @OptIn(ExperimentalComposeUiApi::class)
@@ -155,8 +168,10 @@ object RecipeSearchScreenSpec : IScreenSpec {
         onSearchTextChanged: (String) -> Unit = {},
         onClearClick: () -> Unit = {},
         onDone: () -> Unit,
-        onNavigateBack: () -> Unit = {}
+        onNavigateBack: () -> Unit = {},
+        viewModel: I_WhatsForDinnerViewModel
     ) {
+        val context = LocalContext.current
         var showClearButton by remember { mutableStateOf(false) }
         val keyboardController = LocalSoftwareKeyboardController.current
         val focusRequester = remember { FocusRequester() }
@@ -175,11 +190,20 @@ object RecipeSearchScreenSpec : IScreenSpec {
             },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.White,
-                unfocusedIndicatorColor = Color.White,
+                unfocusedIndicatorColor = Color.Transparent,
                 backgroundColor = Color.White,
-                cursorColor = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                cursorColor = colorResource(id = R.color.teal_200),
                 textColor = Color.White
             ),
+            leadingIcon = {
+                IconButton(onClick = { viewModel.AskSpeechInput(context) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_mic_24),
+                        contentDescription = null,
+                        tint = colorResource(id = R.color.teal_200)
+                    )
+                }
+            },
             trailingIcon = {
                 AnimatedVisibility(
                     visible = showClearButton,
@@ -190,7 +214,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
                         Icon(
                             imageVector = Icons.Filled.Close,
                             contentDescription = null,
-                            tint = Color.White
+                            tint = colorResource(id = R.color.teal_200)
                         )
                     }
 
@@ -212,7 +236,6 @@ object RecipeSearchScreenSpec : IScreenSpec {
             focusRequester.requestFocus()
         }
     }
-
 
     override fun navigateTo(vararg args: String?): String {
         return route
