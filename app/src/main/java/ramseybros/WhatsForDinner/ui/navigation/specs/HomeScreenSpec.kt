@@ -3,6 +3,7 @@ package ramseybros.WhatsForDinner.ui.navigation.specs
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation.*
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
@@ -27,56 +28,16 @@ object HomeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
+        val savedRecipesList: MutableList<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
+        val apiRecipeList = viewModel.getApiRecipeList()
+
         val recommendedRecipesList: MutableList<Recipe>? =
-            viewModel.recommendedRecipeListLiveData.observeAsState().value
-        val recommendedIngredientsList: List<Ingredient> =
-            listOf(RecipeGenerator.placeHolderIngredients())
-        val recipeList = viewModel.getApiRecipeList()
-        recommendedRecipesList?.forEach {
-            Log.d("recommended", "r = ${it.recommended}")
-        }
-//        savedRecipesList?.forEach {
-//            Log.d("recommended", "l = ${it.recommended}")
-//        }
-        if (viewModel.onHomeFlag) {
-            if (recipeList != emptyList<Recipe>() && savedRecipesList != emptyList<Recipe>()) {
-                recipeList.forEach { apiRecipe ->
-                    savedRecipesList?.forEach lamb@{ savedRecipe ->
-                        if (apiRecipe.title == savedRecipe.title && apiRecipe.time == savedRecipe.time) {
-                            savedRecipe.recommended = false
-                            viewModel.updateRecipe(savedRecipe)
-                            return@lamb
-                        }
-                        if (recommendedRecipesList?.size!! > 10) {
-                            val recipe = recommendedRecipesList[0]
-                            recipe.recommended = false
-                            viewModel.deleteRecipe(recipe)
-                        }
-                        //Log.d("recommended", "p = ${apiRecipe.recommended}")
-                        apiRecipe.recommended = true
-                        viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
-                    }
-                }
-            }
-            else if (recipeList != emptyList<Recipe>() && savedRecipesList == emptyList<Recipe>()){
-                recipeList.forEach { apiRecipe ->
-                    if (recommendedRecipesList?.size!! > 10) {
-                        val recipe = recommendedRecipesList[0]
-                        recipe.recommended = false
-                        viewModel.deleteRecipe(recipe)
-                    }
-                    //Log.d("recommended", "p = ${apiRecipe.recommended}")
-                    apiRecipe.recommended = true
-                    viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
-                }
-            }
-        }
+            viewModel.buildRecommendedRecipeList(viewModel, apiRecipeList, savedRecipesList)
         viewModel.onHomeFlag = false
         recommendedRecipesList?.let {
             HomeScreen(
-                savedRecipesList = savedRecipesList?.filter { !it.recommended },
-                recommendedIngredientsList = recommendedIngredientsList,
+                savedRecipesList = savedRecipesList,
+                recommendedIngredientsList = emptyList(),
                 recommendedRecipesList = it,
                 onSelectRecipe =
                 { recipe ->
@@ -86,6 +47,8 @@ object HomeScreenSpec : IScreenSpec {
         }
 
     }
+
+
 
     @Composable
     override fun TopAppBarActions(

@@ -10,8 +10,8 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.res.stringResource
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,7 +28,6 @@ import ramseybros.WhatsForDinner.Secrets
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.RecipeWorker
-import ramseybros.WhatsForDinner.R
 
 import java.util.*
 
@@ -273,6 +272,55 @@ class WhatsForDinnerViewModel(
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.google_search_prompt)
             ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
         }
+    }
+    @Composable
+    override fun buildRecommendedRecipeList(
+        viewModel: I_WhatsForDinnerViewModel,
+        apiRecipeList: SnapshotStateList<Recipe>,
+        savedRecipesList: MutableList<Recipe>?
+    ): MutableList<Recipe>? {
+
+        val recommendedRecipesList: MutableList<Recipe>? =
+            viewModel.recommendedRecipeListLiveData.observeAsState().value
+                recommendedRecipesList?.forEach {
+            Log.d("recommended", "r = ${it.recommended}")
+        }
+        savedRecipesList?.forEach {
+            Log.d("recommended", "l = ${it.recommended}")
+        }
+        if (viewModel.onHomeFlag) {
+            if (apiRecipeList != emptyList<Recipe>() && savedRecipesList != emptyList<Recipe>()) {
+                apiRecipeList.forEach { apiRecipe ->
+                    savedRecipesList?.forEach lamb@{ savedRecipe ->
+                        if (apiRecipe.title == savedRecipe.title && apiRecipe.time == savedRecipe.time) {
+                            savedRecipe.recommended = false
+                            viewModel.updateRecipe(savedRecipe)
+                            return@lamb
+                        }
+                        if (recommendedRecipesList?.size!! > 10) {
+                            val recipe = recommendedRecipesList[0]
+                            recipe.recommended = false
+                            viewModel.deleteRecipe(recipe)
+                        }
+                        //Log.d("recommended", "p = ${apiRecipe.recommended}")
+                        apiRecipe.recommended = true
+                        viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
+                    }
+                }
+            } else if (apiRecipeList != emptyList<Recipe>() && savedRecipesList == emptyList<Recipe>()) {
+                apiRecipeList.forEach { apiRecipe ->
+                    if (recommendedRecipesList?.size!! > 10) {
+                        val recipe = recommendedRecipesList[0]
+                        recipe.recommended = false
+                        viewModel.deleteRecipe(recipe)
+                    }
+                    //Log.d("recommended", "p = ${apiRecipe.recommended}")
+                    apiRecipe.recommended = true
+                    viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
+                }
+            }
+        }
+        return recommendedRecipesList
     }
 }
 

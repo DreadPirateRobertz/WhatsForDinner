@@ -14,7 +14,7 @@ import ramseybros.WhatsForDinner.data.*
 import java.util.*
 
 abstract class I_WhatsForDinnerViewModel : ViewModel() {
-    abstract val recipeListLiveData: LiveData<List<Recipe>>
+    abstract val recipeListLiveData: LiveData<MutableList<Recipe>>
     abstract val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>>
     abstract val recipeLiveData: LiveData<Recipe?>
     abstract val ingredientListLiveData: LiveData<List<Ingredient>>
@@ -41,4 +41,10 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun updateRecipe(recipe: Recipe)
     abstract fun updateRecipeNOTRecommended(recipeId: UUID)
 
+    @Composable
+    abstract fun buildRecommendedRecipeList(
+        viewModel: I_WhatsForDinnerViewModel,
+        recipeList: SnapshotStateList<Recipe>,
+        savedRecipesList: MutableList<Recipe>?
+    ): MutableList<Recipe>?
 }
