@@ -55,11 +55,12 @@ sealed interface IScreenSpec {
         }
 
         @Composable
-        fun BottomBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+        fun BottomBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, viewModel: I_WhatsForDinnerViewModel) {
             val route = navBackStackEntry?.destination?.route ?: ""
             if (route != "") allScreens[route]?.BottomAppBarContent(
                 navController = navController,
-                navBackStackEntry
+                navBackStackEntry,
+                viewModel
             )
         }
         @Composable
@@ -178,7 +179,8 @@ sealed interface IScreenSpec {
     @Composable
     private fun BottomAppBarContent(
         navController: NavHostController,
-        navBackStackEntry: NavBackStackEntry?
+        navBackStackEntry: NavBackStackEntry?,
+        viewModel: I_WhatsForDinnerViewModel
     ) {
         var color = Color.White
         var bgColor = colorDarkSecondary
@@ -216,6 +218,7 @@ sealed interface IScreenSpec {
                                 selectedContentColor = color,
                                 unselectedContentColor = color.copy(.6f),
                                 onClick = {
+                                    if(navItem.route == HomeScreenSpec.route) viewModel.onHomeFlag = true
                                     navController.navigate(navItem.route) {
                                         popUpTo(navItem.route) {
                                             //savestate = true was disabling buttons

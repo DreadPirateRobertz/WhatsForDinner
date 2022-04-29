@@ -43,6 +43,8 @@ class WhatsForDinnerViewModel(
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
 
+    override var onHomeFlag: Boolean = true
+
     private val LOG_TAG = "ramseybros.RecipeSearchScreenSpec"
     private val _apiRecipeListLiveData = mutableStateListOf<Recipe>()
 

@@ -58,7 +58,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
             }
         }
         var saveButtonFlag = true
-        viewModel.recipeListLiveData.value?.forEach {
+        viewModel.recipeListLiveData.value?.filter{!it.recommended}?.forEach {
             if(recipe.title == it.title &&
                 recipe.time == it.time &&
                 recipe.imageLink == it.imageLink) {
@@ -71,7 +71,9 @@ object LargeRecipeScreenSpec : IScreenSpec {
         LargeRecipeView(
             saveButtonFlag = saveButtonFlag,
             recipe = recipe,
-            onSave = { viewModel.addRecipe(recipe,ingredientList,utensilList)},
+            onSave = {
+                if(it.recommended) it.recommended = false
+                viewModel.addRecipe(it,ingredientList,utensilList)},
             onDelete = {
                 viewModel.deleteRecipe(recipe = recipe)
                 navController.popBackStack()

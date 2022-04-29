@@ -5,13 +5,15 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 @Composable
-fun WhatsForDinnerBottomBar(navController: NavHostController){
+fun WhatsForDinnerBottomBar(navController: NavHostController, viewModel: I_WhatsForDinnerViewModel){
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     IScreenSpec.BottomBar(
         navController = navController,
-        navBackStackEntry = navBackStackEntry
+        navBackStackEntry = navBackStackEntry,
+        viewModel = viewModel
     )
 
 

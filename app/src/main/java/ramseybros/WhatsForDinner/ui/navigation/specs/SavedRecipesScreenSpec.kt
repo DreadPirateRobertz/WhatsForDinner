@@ -23,7 +23,8 @@ object SavedRecipesScreenSpec : IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
 
-        val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
+        val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value?.filter{!it.recommended}
+
         SavedRecipesScreen(
             savedRecipesList = savedRecipesList,
             onSelectRecipe = { recipe ->

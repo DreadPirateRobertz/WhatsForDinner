@@ -39,34 +39,36 @@ object HomeScreenSpec : IScreenSpec {
 //        savedRecipesList?.forEach {
 //            Log.d("recommended", "l = ${it.recommended}")
 //        }
-
-        if(recipeList != emptyList<Recipe>()){
-            recipeList.forEach { apiRecipe ->
-                savedRecipesList?.forEach lamb@{ savedRecipe ->
-                    if(apiRecipe.id == savedRecipe.id ) {
-                        return@lamb
-                    }
-                        if(recommendedRecipesList?.size!! > 10) {
-                            val recipe = recommendedRecipesList[0]
-                            recipe.recommended = false
-                            viewModel.updateRecipe(recipe)//Probably not working either
-                            recommendedRecipesList.remove(recipe)
-                            if(qRecommendedRecipes.contains(recipe)) {//Queue may be worthless at this point but helping with debug
-                                qRecommendedRecipes.remove(recipe)
+        if(viewModel.onHomeFlag) {
+            if (recipeList != emptyList<Recipe>()) {
+                recipeList.forEach { apiRecipe ->
+                    savedRecipesList?.forEach lamb@{ savedRecipe ->
+                        if (apiRecipe.title == savedRecipe.title && apiRecipe.time == savedRecipe.time) {
+                            savedRecipe.recommended = false
+                            viewModel.updateRecipe(savedRecipe)
+                            return@lamb
+                        } else {
+                            if (recommendedRecipesList?.size!! > 10) {
+                                val recipe = recommendedRecipesList[0]
+                                viewModel.deleteRecipe(recipe)
+                                recipe.recommended = false
+                                if (qRecommendedRecipes.contains(recipe)) {//Queue may be worthless at this point but helping with debug
+                                    qRecommendedRecipes.remove(recipe)
+                                }
                             }
+                            //Log.d("recommended", "p = ${apiRecipe.recommended}")
+                            apiRecipe.recommended = true
+                            viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
+                            qRecommendedRecipes.add(apiRecipe)
                         }
-                        //Log.d("recommended", "p = ${apiRecipe.recommended}")
-                        apiRecipe.recommended = true
-                        viewModel.updateRecipe(apiRecipe)//Not Updating
-                        qRecommendedRecipes.add(apiRecipe)
-
+                    }
                 }
             }
         }
-
+        viewModel.onHomeFlag = false
         recommendedRecipesList?.let {
             HomeScreen(
-                savedRecipesList = savedRecipesList,
+                savedRecipesList = savedRecipesList?.filter{!it.recommended},
                 recommendedIngredientsList = recommendedIngredientsList,
                 recommendedRecipesList = it,
                 onSelectRecipe =

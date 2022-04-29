@@ -20,9 +20,8 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract val ingredientListLiveData: LiveData<List<Ingredient>>
     abstract val ingredientLiveData: LiveData<Ingredient?>
     abstract val outputWorkerInfo: LiveData<WorkInfo>
-
     abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
-
+    abstract var onHomeFlag: Boolean
     abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipeUtensilList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipe(recipeId: UUID): LiveData<Recipe>?

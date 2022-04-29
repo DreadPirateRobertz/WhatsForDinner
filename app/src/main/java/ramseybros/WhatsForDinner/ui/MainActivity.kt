@@ -8,8 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,10 +16,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -31,7 +27,6 @@ import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerBottomBar
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerFAB
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerNavHost
 import ramseybros.WhatsForDinner.ui.navigation.WhatsForDinnerTopBar
-import ramseybros.WhatsForDinner.ui.screens.RecipeSearchScreen
 import ramseybros.WhatsForDinner.ui.theme.WhatsForDinnerTheme
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerFactory
@@ -99,7 +94,7 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                 },
                 bottomBar = {
                     if (checkRoute(navController = navController) != 2) {
-                        WhatsForDinnerBottomBar(navController = navController)
+                        WhatsForDinnerBottomBar(navController = navController, viewModel = model)
                     }
                 }
 
