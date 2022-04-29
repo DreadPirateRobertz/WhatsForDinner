@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.*
@@ -32,6 +33,13 @@ object HomeScreenSpec : IScreenSpec {
             listOf(RecipeGenerator.placeHolderIngredients())
         val recipeList = viewModel.getApiRecipeList()
         val qRecommendedRecipes: Queue<Recipe> = LinkedList()
+        recommendedRecipesList?.forEach {
+            Log.d("recommended", "r = ${it.recommended}")
+        }
+//        savedRecipesList?.forEach {
+//            Log.d("recommended", "l = ${it.recommended}")
+//        }
+
         if(recipeList != emptyList<Recipe>()){
             recipeList.forEach { apiRecipe ->
                 savedRecipesList?.forEach lamb@{ savedRecipe ->
@@ -47,6 +55,7 @@ object HomeScreenSpec : IScreenSpec {
                                 qRecommendedRecipes.remove(recipe)
                             }
                         }
+                        //Log.d("recommended", "p = ${apiRecipe.recommended}")
                         apiRecipe.recommended = true
                         viewModel.updateRecipe(apiRecipe)//Not Updating
                         qRecommendedRecipes.add(apiRecipe)
