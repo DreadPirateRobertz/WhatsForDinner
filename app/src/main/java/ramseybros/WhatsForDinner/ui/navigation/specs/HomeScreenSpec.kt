@@ -28,47 +28,54 @@ object HomeScreenSpec : IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
         val savedRecipesList: List<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
-        val recommendedRecipesList: MutableList<Recipe>? = viewModel.recommendedRecipeListLiveData.observeAsState().value
+        val recommendedRecipesList: MutableList<Recipe>? =
+            viewModel.recommendedRecipeListLiveData.observeAsState().value
         val recommendedIngredientsList: List<Ingredient> =
             listOf(RecipeGenerator.placeHolderIngredients())
         val recipeList = viewModel.getApiRecipeList()
-        val qRecommendedRecipes: Queue<Recipe> = LinkedList()
         recommendedRecipesList?.forEach {
             Log.d("recommended", "r = ${it.recommended}")
         }
 //        savedRecipesList?.forEach {
 //            Log.d("recommended", "l = ${it.recommended}")
 //        }
-        if(viewModel.onHomeFlag) {
-            if (recipeList != emptyList<Recipe>()) {
+        if (viewModel.onHomeFlag) {
+            if (recipeList != emptyList<Recipe>() && savedRecipesList != emptyList<Recipe>()) {
                 recipeList.forEach { apiRecipe ->
                     savedRecipesList?.forEach lamb@{ savedRecipe ->
                         if (apiRecipe.title == savedRecipe.title && apiRecipe.time == savedRecipe.time) {
                             savedRecipe.recommended = false
                             viewModel.updateRecipe(savedRecipe)
                             return@lamb
-                        } else {
-                            if (recommendedRecipesList?.size!! > 10) {
-                                val recipe = recommendedRecipesList[0]
-                                viewModel.deleteRecipe(recipe)
-                                recipe.recommended = false
-                                if (qRecommendedRecipes.contains(recipe)) {//Queue may be worthless at this point but helping with debug
-                                    qRecommendedRecipes.remove(recipe)
-                                }
-                            }
-                            //Log.d("recommended", "p = ${apiRecipe.recommended}")
-                            apiRecipe.recommended = true
-                            viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
-                            qRecommendedRecipes.add(apiRecipe)
                         }
+                        if (recommendedRecipesList?.size!! > 10) {
+                            val recipe = recommendedRecipesList[0]
+                            recipe.recommended = false
+                            viewModel.deleteRecipe(recipe)
+                        }
+                        //Log.d("recommended", "p = ${apiRecipe.recommended}")
+                        apiRecipe.recommended = true
+                        viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
                     }
+                }
+            }
+            else if (recipeList != emptyList<Recipe>() && savedRecipesList == emptyList<Recipe>()){
+                recipeList.forEach { apiRecipe ->
+                    if (recommendedRecipesList?.size!! > 10) {
+                        val recipe = recommendedRecipesList[0]
+                        recipe.recommended = false
+                        viewModel.deleteRecipe(recipe)
+                    }
+                    //Log.d("recommended", "p = ${apiRecipe.recommended}")
+                    apiRecipe.recommended = true
+                    viewModel.addRecipe(apiRecipe, emptyList(), emptyList())
                 }
             }
         }
         viewModel.onHomeFlag = false
         recommendedRecipesList?.let {
             HomeScreen(
-                savedRecipesList = savedRecipesList?.filter{!it.recommended},
+                savedRecipesList = savedRecipesList?.filter { !it.recommended },
                 recommendedIngredientsList = recommendedIngredientsList,
                 recommendedRecipesList = it,
                 onSelectRecipe =
