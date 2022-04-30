@@ -15,6 +15,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -63,6 +64,26 @@ fun RecipeSearchScreen(
     onRequestRecipe: (Recipe) -> Unit
 ) {
     val recipeList = viewModel.getApiRecipeList()
+    val recommendedList = viewModel.recommendedRecipeListLiveData.observeAsState().value
+    var fill = 10 - (if(recommendedList != null) recommendedList?.size else 0)
+    recipeList.forEach {
+        Log.d("recipe", "name ${fill} = ${it.title}")
+        if(recommendedList?.find{ r -> it.title==r.title && it.imageLink==r.imageLink && it.time==r.time}==null) {
+            if (fill > 0) {
+                val recipe = it
+                recipe.recommended = true
+                viewModel.addRecipe(recipe, emptyList(), emptyList())
+                fill--
+            } else {
+                val recipe = it
+                recipe.recommended = true
+                viewModel.addRecipe(recipe, emptyList(), emptyList())
+                val remove = recommendedList!![0]
+                viewModel.deleteRecipe(remove)
+            }
+        }
+    }
+
     Column(Modifier.fillMaxSize()) {
         Box(
             Modifier

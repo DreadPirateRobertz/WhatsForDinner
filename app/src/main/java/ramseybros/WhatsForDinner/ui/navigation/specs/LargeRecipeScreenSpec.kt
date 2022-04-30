@@ -56,6 +56,11 @@ object LargeRecipeScreenSpec : IScreenSpec {
                     recipe = it
                 }
             }
+            viewModel.recommendedRecipeListLiveData.observeAsState().value?.forEach {
+                if (ID == it.id.toString()) {
+                    recipe = it
+                }
+            }
         }
         var saveButtonFlag = true
         viewModel.recipeListLiveData.value?.filter{!it.recommended}?.forEach {

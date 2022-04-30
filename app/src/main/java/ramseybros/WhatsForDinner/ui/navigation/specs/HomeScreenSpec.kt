@@ -29,10 +29,10 @@ object HomeScreenSpec : IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
         val savedRecipesList: MutableList<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
-        val apiRecipeList = viewModel.getApiRecipeList()
 
-        val recommendedRecipesList: MutableList<Recipe>? =
-            viewModel.buildRecommendedRecipeList(viewModel, apiRecipeList, savedRecipesList)
+        val recommendedRecipesList: MutableList<Recipe>? = viewModel.recommendedRecipeListLiveData.observeAsState().value
+
+
         viewModel.onHomeFlag = false
         recommendedRecipesList?.let {
             HomeScreen(
