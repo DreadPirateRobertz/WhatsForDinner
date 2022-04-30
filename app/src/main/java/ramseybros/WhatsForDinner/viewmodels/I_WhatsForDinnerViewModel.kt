@@ -40,4 +40,5 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun askSpeechInput(context: Context)
     abstract fun updateRecipe(recipe: Recipe)
     abstract fun updateRecipeNOTRecommended(recipeId: UUID)
+    abstract fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?)
 }

@@ -274,6 +274,28 @@ class WhatsForDinnerViewModel(
             ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
         }
     }
+
+    override fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?){
+        val apiRecipeList = getApiRecipeList()
+        var fill = 10 - (recommendedRecipesList?.size ?: 0)
+        apiRecipeList.forEach {
+            Log.d("recipe", "name ${fill} = ${it.title}")
+            if (recommendedRecipesList?.find { r -> it.title == r.title && it.imageLink == r.imageLink && it.time == r.time } == null) {
+                if (fill > 0) {
+                    val recipe = it
+                    recipe.recommended = true
+                    addRecipe(recipe, emptyList(), emptyList())
+                    fill--
+                } else {
+                    val recipe = it
+                    recipe.recommended = true
+                    addRecipe(recipe, emptyList(), emptyList())
+                    val remove = recommendedRecipesList!![0]
+                    deleteRecipe(remove)
+                }
+            }
+        }
+    }
 }
 
 

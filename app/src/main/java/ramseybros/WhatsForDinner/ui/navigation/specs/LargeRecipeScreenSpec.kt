@@ -63,14 +63,13 @@ object LargeRecipeScreenSpec : IScreenSpec {
             }
         }
         var saveButtonFlag = true
-        viewModel.recipeListLiveData.value?.filter{!it.recommended}?.forEach {
+        viewModel.recipeListLiveData.observeAsState().value?.forEach {
             if(recipe.title == it.title &&
                 recipe.time == it.time &&
                 recipe.imageLink == it.imageLink) {
                 saveButtonFlag = false
                 recipe = it
             }
-
         }
 
         LargeRecipeView(

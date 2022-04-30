@@ -136,6 +136,7 @@ fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onDelete: (R
                     tint = colorResource(id = R.color.teal_200)
 
                 )
+
             }
         } else {
             IconButton(onClick = { onDelete(recipe) }) {
