@@ -51,7 +51,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
         if(fromSearch == true) recipe = viewModel.getApiRecipeLiveData().value!!
 
         else {
-            viewModel.recipeListLiveData.observeAsState().value?.forEach {
+            viewModel.savedRecipeListLiveData.observeAsState().value?.forEach {
                 if (ID == it.id.toString()) {
                     recipe = it
                 }
@@ -63,7 +63,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
             }
         }
         var saveButtonFlag = true
-        viewModel.recipeListLiveData.observeAsState().value?.forEach {
+        viewModel.savedRecipeListLiveData.observeAsState().value?.forEach {
             if(recipe.title == it.title &&
                 recipe.time == it.time &&
                 recipe.imageLink == it.imageLink) {

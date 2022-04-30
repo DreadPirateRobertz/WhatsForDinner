@@ -1,17 +1,12 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation.*
-import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.ui.screens.HomeScreen
-import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.R
-import java.util.*
 
 object HomeScreenSpec : IScreenSpec {
     override val route: String
@@ -28,7 +23,7 @@ object HomeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val savedRecipesList: MutableList<Recipe>? = viewModel.recipeListLiveData.observeAsState().value
+        val savedRecipesList: MutableList<Recipe>? = viewModel.savedRecipeListLiveData.observeAsState().value
 
         val recommendedRecipesList: MutableList<Recipe>? = viewModel.recommendedRecipeListLiveData.observeAsState().value
 

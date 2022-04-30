@@ -14,7 +14,7 @@ import ramseybros.WhatsForDinner.data.*
 import java.util.*
 
 abstract class I_WhatsForDinnerViewModel : ViewModel() {
-    abstract val recipeListLiveData: LiveData<MutableList<Recipe>>
+    abstract val savedRecipeListLiveData: LiveData<MutableList<Recipe>>
     abstract val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>>
     abstract val recipeLiveData: LiveData<Recipe?>
     abstract val ingredientListLiveData: LiveData<List<Ingredient>>

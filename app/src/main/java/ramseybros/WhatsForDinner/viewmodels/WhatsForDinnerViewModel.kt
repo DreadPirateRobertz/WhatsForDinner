@@ -10,7 +10,6 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
@@ -24,7 +23,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.Secrets
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
@@ -57,7 +55,7 @@ class WhatsForDinnerViewModel(
     private val _ingredientIdLiveData =
         MutableLiveData<String>()
 
-    override val recipeListLiveData = whatsForDinnerRepository.getRecipes()
+    override val savedRecipeListLiveData = whatsForDinnerRepository.getSavedRecipes()
 
     override val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>> = whatsForDinnerRepository.getRecommendedRecipes()
 
@@ -279,7 +277,7 @@ class WhatsForDinnerViewModel(
         val apiRecipeList = getApiRecipeList()
         var fill = 10 - (recommendedRecipesList?.size ?: 0)
         apiRecipeList.forEach {
-            Log.d("recipe", "name ${fill} = ${it.title}")
+            Log.d("apirecipe", "name $fill = ${it.title}")
             if (recommendedRecipesList?.find { r -> it.title == r.title && it.imageLink == r.imageLink && it.time == r.time } == null) {
                 if (fill > 0) {
                     val recipe = it
