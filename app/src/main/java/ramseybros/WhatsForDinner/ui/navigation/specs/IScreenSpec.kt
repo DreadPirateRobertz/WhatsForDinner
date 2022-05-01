@@ -283,12 +283,10 @@ sealed interface IScreenSpec {
                         popUpTo(ShoppingListScreenSpec.route)
                     }
                 }
-                //TODO: else -> Add to Shopping list
             }
 
         ) {
             val context: Context = LocalContext.current
-            val currentRoute = navBackStackEntry?.destination?.route
             if (navBackStackEntry?.destination?.route != ShoppingListScreenSpec.route && navBackStackEntry?.destination?.route != LargeRecipeScreenSpec.route) {
                 Icon(
                     imageVector = Icons.Filled.ShoppingCart,
@@ -297,12 +295,23 @@ sealed interface IScreenSpec {
             } else {
                 var icon: Painter
                 var clicked by remember{mutableStateOf(false)}
+                var clickCount by remember{mutableStateOf(0)}
                 IconButton(onClick = {//PlaceHolder
-                    Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
                     clicked = true
+                    clickCount++
+                    if(clickCount ==1) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    if(clickCount > 1){
+                        navController.navigate(ShoppingListScreenSpec.navigateTo())
+                        {
+                            launchSingleTop = true
+                            popUpTo(ShoppingListScreenSpec.route)
+                            clickCount = 0
+                        }
+                    }
+
 
                 }) {
-                    if(clicked){//TODO: NOT WORKING AS INTDENDED
+                    if(clicked){
                         icon = painterResource(id = R.drawable.ic_baseline_shopping_cart_24)
                     }
                     else {
