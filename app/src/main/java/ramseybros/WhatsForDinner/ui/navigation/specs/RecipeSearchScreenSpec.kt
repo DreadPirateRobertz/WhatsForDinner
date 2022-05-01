@@ -61,26 +61,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
 //                }
 //            }
 //        }
-        fun onRequestList() {
-            coroutineScope.launch {
-                var str: String = ""
-                Log.d(LOG_TAG, "0 " + str)
-                viewModel.RecipeSearchModelState.collect {
-                    if (str == "") {
-                        str = it.searchText
-                        Log.d(LOG_TAG, "2 " + str)
-                        val apiData =
-                            withContext(Dispatchers.IO) { viewModel.makeApiListRequest(str) }
-                        withContext(Dispatchers.IO) {
-                            viewModel.parseListJSON(
-                                apiData,
-                                viewModel
-                            )
-                        } //updates snapshotstatelist in viewModel, no need to return
-                    }
-                }
-            }
-        }
+
         val recommendedRecipesList = viewModel.recommendedRecipeListLiveData.observeAsState().value
         viewModel.buildRecommendedRecipeList(recommendedRecipesList = recommendedRecipesList)
         RecipeSearchScreen(

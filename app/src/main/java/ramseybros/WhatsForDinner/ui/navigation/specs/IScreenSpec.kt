@@ -1,5 +1,7 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
@@ -10,6 +12,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -271,7 +275,7 @@ sealed interface IScreenSpec {
             contentColor = colorResource(id = R.color.teal_200),
             backgroundColor = color,
             onClick = {
-                if (navBackStackEntry?.destination?.route != "ShoppingList" && navBackStackEntry?.destination?.route != "LargeRecipeScreen") {
+                if (navBackStackEntry?.destination?.route != ShoppingListScreenSpec.route && navBackStackEntry?.destination?.route != LargeRecipeScreenSpec.route) {
                     //Current form will not let you nav from LargeRecipeScreen to Shopping list, will fix
                     navController.navigate(ShoppingListScreenSpec.navigateTo())
                     {
@@ -283,17 +287,32 @@ sealed interface IScreenSpec {
             }
 
         ) {
-            if (navBackStackEntry?.destination?.route != "ShoppingList" && navBackStackEntry?.destination?.route != "LargeRecipeScreen") {
+            val context: Context = LocalContext.current
+            val currentRoute = navBackStackEntry?.destination?.route
+            if (navBackStackEntry?.destination?.route != ShoppingListScreenSpec.route && navBackStackEntry?.destination?.route != LargeRecipeScreenSpec.route) {
                 Icon(
                     imageVector = Icons.Filled.ShoppingCart,
                     contentDescription = null
                 )
             } else {
-                Icon( //TODO: Will have to do a separate OnClick for adding an item to list
-                    painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                    contentDescription = null
-                )
+                var icon: Painter
+                var clicked by remember{mutableStateOf(false)}
+                IconButton(onClick = {//PlaceHolder
+                    Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    clicked = true
 
+                }) {
+                    if(clicked){//TODO: NOT WORKING AS INTDENDED
+                        icon = painterResource(id = R.drawable.ic_baseline_shopping_cart_24)
+                    }
+                    else {
+                        icon = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24)
+                    }
+                    Icon(
+                        painter = icon,
+                        contentDescription = null
+                    )
+                }
             }
         }
     }

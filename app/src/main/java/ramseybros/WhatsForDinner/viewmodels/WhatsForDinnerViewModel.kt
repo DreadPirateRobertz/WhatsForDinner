@@ -275,7 +275,7 @@ class WhatsForDinnerViewModel(
 
     override fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?){
         val apiRecipeList = getApiRecipeList()
-        var fill = 10 - (recommendedRecipesList?.size ?: 0)
+        var fill = 30 - (recommendedRecipesList?.size ?: 0)
         apiRecipeList.forEach {
             Log.d("apirecipe", "name $fill = ${it.title}")
             if (recommendedRecipesList?.find { r -> it.title == r.title && it.imageLink == r.imageLink && it.time == r.time } == null) {

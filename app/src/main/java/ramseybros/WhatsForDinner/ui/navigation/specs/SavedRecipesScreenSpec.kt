@@ -30,10 +30,8 @@ object SavedRecipesScreenSpec : IScreenSpec {
             onSelectRecipe = { recipe ->
                 viewModel.setRecipeIdLiveData(recipe.id)
                 navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
-
             }
         )
-
     }
 
     @Composable
