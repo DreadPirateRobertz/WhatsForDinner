@@ -291,7 +291,7 @@ sealed interface IScreenSpec {
                 var clickCount by remember{mutableStateOf(0)}
                 IconButton(onClick = {
                     clicked = true
-                    clickCount++               //PlaceHolder
+                    clickCount++               //PlaceHolder //Where putting in ingredients to the shopping list on lRSS and SLSS
                     if(clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
                     else if(clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
                     if(clickCount > 1 && navBackStackEntry.destination.route != ShoppingListScreenSpec.route){
