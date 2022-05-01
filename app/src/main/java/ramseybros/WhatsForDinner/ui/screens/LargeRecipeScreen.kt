@@ -45,7 +45,7 @@ fun LargeRecipeView(
     ingredientList: List<String>, utensilList: List<String>,
     onSave: (Recipe) -> Unit, onDelete: (Recipe) -> Unit, onBack: () -> Unit
 ) {
-    //TODO: Make this look good in Landscape
+
     val configuration = LocalConfiguration.current
     var headerWeight = .8f
     when(configuration.orientation){

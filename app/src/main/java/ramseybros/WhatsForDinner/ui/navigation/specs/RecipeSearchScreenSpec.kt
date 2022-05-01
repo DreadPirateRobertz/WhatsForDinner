@@ -120,12 +120,11 @@ object RecipeSearchScreenSpec : IScreenSpec {
         }
         SearchBar(
             searchText = x.value.searchText,
-            stringResource(id = R.string.placeholder_search_bar),
-            { viewModel.onSearchTextChanged(it) },
-            { viewModel.onClearText() },
-            {onRequestList()},
-            {},
-            viewModel)
+            placeholderText = stringResource(id = R.string.placeholder_search_bar),
+            onSearchTextChanged ={ viewModel.onSearchTextChanged(it) },
+            onClearClick ={ viewModel.onClearText() },
+            onDone = {onRequestList()},
+            viewModel = viewModel)
     }
 
     @OptIn(ExperimentalComposeUiApi::class)

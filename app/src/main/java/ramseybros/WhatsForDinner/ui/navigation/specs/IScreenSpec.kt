@@ -201,7 +201,6 @@ sealed interface IScreenSpec {
                 BottomNavigation(
                     backgroundColor = bgColor,
                     modifier = Modifier.fillMaxSize(),
-
                     ) {
                     val items = listOf(
                         NavigationItem.SavedRecipes,
@@ -210,10 +209,6 @@ sealed interface IScreenSpec {
                         NavigationItem.Home,
                         NavigationItem.RecipeSearch,
                     )
-                    //                                        )
-                    var selectedIndex by remember {
-                        mutableStateOf(0)
-                    }
                     val currentRoute = navBackStackEntry?.destination?.route
                     items.forEachIndexed { index, navItem ->
                         if (index != 2) {
@@ -259,9 +254,7 @@ sealed interface IScreenSpec {
                             )
                         }
                     }
-
                 }
-
             }
         }
     }
@@ -293,29 +286,32 @@ sealed interface IScreenSpec {
                     contentDescription = null
                 )
             } else {
-                var icon: Painter
+                var icon = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24)
                 var clicked by remember{mutableStateOf(false)}
                 var clickCount by remember{mutableStateOf(0)}
-                IconButton(onClick = {//PlaceHolder
+                IconButton(onClick = {
                     clicked = true
-                    clickCount++
-                    if(clickCount ==1) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
-                    if(clickCount > 1){
+                    clickCount++               //PlaceHolder
+                    if(clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    else if(clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    if(clickCount > 1 && navBackStackEntry.destination.route != ShoppingListScreenSpec.route){
                         navController.navigate(ShoppingListScreenSpec.navigateTo())
                         {
                             launchSingleTop = true
                             popUpTo(ShoppingListScreenSpec.route)
                             clickCount = 0
+                            clicked = false
                         }
                     }
 
 
                 }) {
-                    if(clicked){
-                        icon = painterResource(id = R.drawable.ic_baseline_shopping_cart_24)
-                    }
-                    else {
-                        icon = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24)
+                    if(navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
+                        if (clicked) {
+                            icon = painterResource(id = R.drawable.ic_baseline_shopping_cart_24)
+                        } else {
+                            icon = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24)
+                        }
                     }
                     Icon(
                         painter = icon,
