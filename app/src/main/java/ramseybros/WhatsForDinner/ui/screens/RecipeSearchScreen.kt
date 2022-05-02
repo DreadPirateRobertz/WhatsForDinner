@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -37,7 +38,7 @@ fun RecipeSearchScreen(
                     Log.d(LOG_TAG, "apiRecipeList is empty")
                 } else {
                     Log.d(LOG_TAG, "apiRecipeList has size ${apiRecipeList.size}")
-                    LazyColumn(){
+                    LazyColumn(state = rememberLazyListState()){
                         items(apiRecipeList) {
                             SmallRecipeView(recipe = it) {onRequestRecipe(it)}
                         }

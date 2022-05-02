@@ -23,6 +23,7 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.Ingredient
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
@@ -94,7 +95,7 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: L
             Column(Modifier.fillMaxSize()) {
                 SavedRecipesSection()
                 if (savedRecipesList != null) {
-                    LazyColumn {
+                    LazyColumn(state = rememberLazyListState()) {
                         items(savedRecipesList) {
                             Card(
                                 modifier = Modifier
@@ -191,7 +192,7 @@ private fun RecommendedRecipeRow(
             Column(Modifier.fillMaxSize()) {
                 RecommendedRecipesSection()
                 if (recommendedRecipesList != emptyList<Recipe>()) {
-                    LazyColumn() {
+                    LazyColumn(state = rememberLazyListState()) {
                         items(recommendedRecipesList) {
                             Card(
                                 modifier = Modifier
