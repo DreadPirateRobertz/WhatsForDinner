@@ -1,5 +1,6 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -60,6 +61,28 @@ fun RecipeText(recipeText: String) {
 }
 
 @Composable
+fun IngredientText(ingredientString: String) {
+    Log.d("RecipeInformationScreen.kt", "ingredientString: $ingredientString")
+    val list = ingredientString.split(",").toList()
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+    ) {
+        LazyColumn {
+            items(list.size) { index ->
+                if(index == 0) {
+                    Text(text = "Ingredients: ")
+                } else {
+                    Text("- ${list[index]}")
+                }
+            }
+        }
+    }
+
+}
+
+@Composable
 fun RecipeInformation(
     recipe: Recipe,
     inKitchenList: List<String>,
@@ -77,6 +100,7 @@ fun RecipeInformation(
 //            utensilList = utensilList
 //        )
 //        Spacer(Modifier.height(16.dp))
+        IngredientText(recipe.ingredientString)
         RecipeText(recipeText = recipe.recipeText)
     }
 }

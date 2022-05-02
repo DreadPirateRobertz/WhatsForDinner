@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
+import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.Secrets
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
@@ -172,7 +173,8 @@ class WhatsForDinnerViewModel(
                 difficulty = 0,
                 time = "Click for more",
                 recipeText = "Click for more", //TODO: use separate API call for these
-                searchId = recipeObject.getInt("id")
+                searchId = recipeObject.getInt("id"),
+                ingredientString = ""
             )
             Log.d(LOG_TAG, "Recipe $i: ${recipe.title}")
             val newApiData = makeApiRecipeRequest(recipe)
@@ -209,21 +211,26 @@ class WhatsForDinnerViewModel(
         recipe: Recipe,
         viewModel: I_WhatsForDinnerViewModel
     ): Boolean {
+        var ingredientString: String = ""
         Log.d(LOG_TAG, "parseRecipeJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
         Log.d(LOG_TAG, "apiData contains $apiData")
         val properties = JSONObject(apiData)
         recipe.recipeText = checkNotNull(properties.getString("instructions"))
         Log.d("Idk anymore", "recipeText = ${recipe.recipeText}")
-        val ingredientList = properties.getJSONArray("extendedIngredients")
-        for (i in (0 until ingredientList.length())) {
-            val ingredientInfo = ingredientList.getJSONObject(i)
-            val ingredient =
+        val ingredientListArray = properties.getJSONArray("extendedIngredients")
+        for (i in (0 until ingredientListArray.length())) {
+            val ingredientInfo = ingredientListArray.getJSONObject(i)
+            val ingredientObject =
                 ingredientInfo.getString("amount") + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString(
                     "name"
                 )
-            Log.d("ViewModel", "$ingredient")
+            ingredientString = "$ingredientString,$ingredientObject"
+            val ingredient = Ingredient(ingredientInfo.getString("name"),0, IngredientType.SPICE)
+            Log.d("ViewModel", ingredientObject)
+            //ingredientList?.add(ingredient)
         }
+        recipe.ingredientString = ingredientString //returns commma separated list of ingredients in a string
         recipe.time = properties.getString("readyInMinutes")
         return (recipe.recipeText != "null")
     }

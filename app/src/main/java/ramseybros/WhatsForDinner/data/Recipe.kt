@@ -14,7 +14,8 @@ class Recipe(
     var time: String,
     var recipeText: String,
     @PrimaryKey var id: UUID = UUID.randomUUID(),
-    var searchId: Int
+    var searchId: Int,
+    var ingredientString: String
 ) :
     Serializable {
 }
