@@ -29,8 +29,10 @@ import ramseybros.WhatsForDinner.Secrets
 import ramseybros.WhatsForDinner.data.*
 import ramseybros.WhatsForDinner.data.database.WhatsForDinnerRepository
 import ramseybros.WhatsForDinner.util.RecipeWorker
+import java.text.DecimalFormat
 
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class WhatsForDinnerViewModel(
@@ -212,6 +214,8 @@ class WhatsForDinnerViewModel(
         recipe: Recipe,
         viewModel: I_WhatsForDinnerViewModel
     ): Boolean {
+        val df2 = DecimalFormat("#.##")
+        val df0 = DecimalFormat("#")
         var ingredientString: String = ""
         Log.d(LOG_TAG, "parseRecipeJSON() function called")
         val recipeList = viewModel.getApiRecipeList()
@@ -222,10 +226,14 @@ class WhatsForDinnerViewModel(
         val ingredientListArray = properties.getJSONArray("extendedIngredients")
         for (i in (0 until ingredientListArray.length())) {
             val ingredientInfo = ingredientListArray.getJSONObject(i)
+            val amount = ingredientInfo.getDouble("amount")
+            val roundedAmount: String = if (amount % 1.0 <= 0.001) { //check if amount is a whole number or not
+                df0.format(amount).toString()
+            } else { // if not whole then rounds to 2 decimal places
+                df2.format(amount).toString()
+            }
             val ingredientObject =
-                ingredientInfo.getString("amount") + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString(
-                    "name"
-                )
+                roundedAmount + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString("name")
             ingredientString = "$ingredientString,$ingredientObject"
             val ingredient = Ingredient(ingredientInfo.getString("name"),0, IngredientType.SPICE)
             Log.d("ViewModel", ingredientObject)
