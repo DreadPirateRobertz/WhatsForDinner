@@ -116,8 +116,7 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: S
                 if (savedRecipesList.value.isNotEmpty()) {
                     val scope = rememberCoroutineScope()
                    LazyColumn(state = rememberLazyListState()) {
-
-                        items(savedRecipesList.value,{recipe->recipe.id}) { recipe->
+                        items(savedRecipesList.value,key = {recipe->recipe.id}) { recipe->
                             val dismissState = rememberDismissState(
                                 confirmStateChange = {
                                     when (it){
@@ -217,15 +216,8 @@ private fun DismissContent(
                     .padding(end = 8.dp),
                 textAlign = TextAlign.Center
             )
-
         }
     }
-
-//    if (dismissState.currentValue != DismissValue.Default) {
-//        LaunchedEffect(Unit) {
-//            dismissState.reset()
-//        }
-//    }
 }
 
 

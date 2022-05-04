@@ -5,6 +5,9 @@ import android.graphics.Paint
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.Toast
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,13 +44,21 @@ import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.data.Ingredient
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import kotlinx.coroutines.launch
 import ramseybros.WhatsForDinner.util.RecipeGenerator
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 
 @Composable
@@ -76,24 +87,17 @@ private fun SavedRecipesSection() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any) {
+private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any, dismissState: DismissState ) {
     //Clicking A recipe will take you to how to make it...
     val size = 100.dp
-//    val configuration = LocalConfiguration.current
-//    size = when(configuration.orientation) {
-//        Configuration.ORIENTATION_LANDSCAPE -> {
-//            150.dp
-//        }
-//        else -> {
-//            100.dp
-//        }
-//    }
-
+    val elevation = animateDpAsState(targetValue = if(dismissState.dismissDirection != null) 4.dp else 0.dp).value
         Box(modifier = Modifier.fillMaxWidth()) {
         Card(modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-            .clickable { onSelectRecipe(savedRecipe) }
+            .clickable { onSelectRecipe(savedRecipe) },
+            elevation = elevation
         ) {
             Row (Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
                 AsyncImage(
@@ -117,10 +121,12 @@ private fun SavedRecipeRow(savedRecipe: Recipe, onSelectRecipe: (Recipe) -> Any)
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SavedRecipesScreen(
-    savedRecipesList: List<Recipe>?,
+    savedRecipesList: MutableList<Recipe>?,
     onSelectRecipe: (Recipe) -> Any,
+    viewModel: I_WhatsForDinnerViewModel
 ) {
 
     Column(
@@ -131,9 +137,61 @@ fun SavedRecipesScreen(
 //        SavedRecipesSection()
         Box(Modifier.fillMaxSize()) {
             if (savedRecipesList != null) {
-                LazyColumn() {
-                    items(savedRecipesList) {
-                        SavedRecipeRow(savedRecipe = it, onSelectRecipe = onSelectRecipe)
+                val scope = rememberCoroutineScope()
+                LazyColumn(state = rememberLazyListState()) {
+                    items(savedRecipesList,key = {recipe->recipe.id}) { recipe->
+                        val dismissState = rememberDismissState(
+                            confirmStateChange = {
+                                when (it){
+                                    DismissValue.Default ->{}
+                                    DismissValue.DismissedToEnd ->{}
+                                    DismissValue.DismissedToStart ->{
+                                        savedRecipesList.remove(recipe)
+                                        scope.launch {
+                                            viewModel.deleteRecipe(recipe)
+                                        }
+                                    }
+                                }
+                                true
+                            }
+                        )
+
+                        SwipeToDismiss(
+                            state = dismissState,
+                            directions = setOf( DismissDirection.EndToStart),
+                            dismissThresholds = {FractionalThreshold(.3f)},
+                            background ={
+
+                                val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
+                                val color by animateColorAsState(
+                                    targetValue = when(dismissState.targetValue){
+                                        DismissValue.Default -> Color.Transparent
+                                        DismissValue.DismissedToEnd -> Color.Transparent
+                                        DismissValue.DismissedToStart -> Color.Red
+                                    }
+                                )
+                                val scale by animateFloatAsState(targetValue = if(dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
+                                val alignment = Alignment.CenterEnd
+
+                                Box(
+
+                                    modifier = Modifier
+                                        .fillMaxSize().background(color)
+                                        .padding(start = 12.dp, end = 12.dp),
+                                    contentAlignment = alignment
+                                )
+                                {
+                                    Icon(imageVector = Icons.Default.Delete, contentDescription = null, modifier = Modifier.scale(scale))
+                                }
+
+                            }, dismissContent = {
+
+                                SavedRecipeRow(savedRecipe = recipe, onSelectRecipe = onSelectRecipe, dismissState = dismissState)
+
+                            }
+
+                        )
+
                     }
                 }
             }
