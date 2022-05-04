@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.liveData
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,11 +60,15 @@ class WhatsForDinnerViewModel(
     private val _ingredientIdLiveData =
         MutableLiveData<String>()
 
+    private val _ingredientListToAdd = MutableLiveData<String>()
+
     override val savedRecipeListLiveData = whatsForDinnerRepository.getSavedRecipes()
 
     override val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>> = whatsForDinnerRepository.getRecommendedRecipes()
 
     override val ingredientListLiveData = whatsForDinnerRepository.getIngredients()
+
+    override val storeIngredientListLiveData: MutableLiveData<String> = MutableLiveData<String>("")
 
     override val recipeLiveData = Transformations.switchMap(_recipeIdLiveData) { recipeId ->
         whatsForDinnerRepository.getRecipe(recipeId)
@@ -73,6 +78,7 @@ class WhatsForDinnerViewModel(
         Transformations.switchMap(_ingredientIdLiveData) { ingredientId ->
             whatsForDinnerRepository.getIngredient(ingredientId)
         }
+
 
     override fun setRecipeIdLiveData(uuid: UUID) {
         _recipeIdLiveData.value = uuid
@@ -106,6 +112,42 @@ class WhatsForDinnerViewModel(
             whatsForDinnerRepository.addUtensilToList(RecipeUtensil(utensil, recipe.id))
         }
     }
+
+    override fun setIngredientsToAdd(string: String) {
+        _ingredientListToAdd.value = string
+    }
+
+    override fun addIngredientsToStore() {
+        if(_ingredientListToAdd.value != null) {
+            var addList =
+                if(_ingredientListToAdd.value!![0]==',')
+                    _ingredientListToAdd.value!!.substring(1)
+                else
+                    _ingredientListToAdd.value!!
+            var string: String = ""
+            for (char in addList) {
+                if(char==',') {
+                    Log.d("recipe",string)
+                    whatsForDinnerRepository.addIngredient(Ingredient(string, 0, IngredientType.DAIRY))
+                    string = ""
+                }
+                else string+=char
+            }
+            if(string != "") {
+                Log.d("recipe",string)
+                whatsForDinnerRepository.addIngredient(Ingredient(string, 0, IngredientType.DAIRY))
+            }
+        }
+    }
+
+    override fun clearIngredientsFromStore() {
+        whatsForDinnerRepository.deleteAllIngredients()
+    }
+
+    override fun deleteIngredient(ingredient: Ingredient) {
+        whatsForDinnerRepository.deleteIngredient(ingredient)
+    }
+
 
     override fun requestWebRecipes() {
         TODO("Not yet implemented")

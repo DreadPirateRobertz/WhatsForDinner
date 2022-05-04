@@ -1,6 +1,9 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import android.content.Context
+import android.util.Log
+
+
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -9,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,10 +72,11 @@ sealed interface IScreenSpec {
             )
         }
         @Composable
-        fun FAB(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+        fun FAB(navController: NavHostController, viewModel: I_WhatsForDinnerViewModel, navBackStackEntry: NavBackStackEntry?) {
             val route = navBackStackEntry?.destination?.route ?: ""
             if (route != "") allScreens[route]?.FAB_Content(
                 navController = navController,
+                viewModel = viewModel,
                 navBackStackEntry
             )
 
@@ -260,7 +265,7 @@ sealed interface IScreenSpec {
     }
 
     @Composable
-    private fun FAB_Content(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+    private fun FAB_Content(navController: NavHostController, viewModel: I_WhatsForDinnerViewModel, navBackStackEntry: NavBackStackEntry?) {
         var color: Color = Color.Black
         if (isSystemInDarkTheme()) color = colorLightSecondary
         FloatingActionButton(
@@ -292,8 +297,14 @@ sealed interface IScreenSpec {
                 IconButton(onClick = {
                     clicked = true
                     clickCount++               //PlaceHolder //Where putting in ingredients to the shopping list on lRSS and SLSS
-                    if(clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
-                    else if(clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    if(clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
+                        viewModel.addIngredientsToStore()
+                        Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    }
+                    else if(clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) {
+                        //I don't 100% no what to do here, I think its a search function????? - michael
+                        Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    }
                     if(clickCount > 1 && navBackStackEntry.destination.route != ShoppingListScreenSpec.route){
                         navController.navigate(ShoppingListScreenSpec.navigateTo())
                         {

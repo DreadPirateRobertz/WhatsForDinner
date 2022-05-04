@@ -19,6 +19,7 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract val recipeLiveData: LiveData<Recipe?>
     abstract val ingredientListLiveData: LiveData<List<Ingredient>>
     abstract val ingredientLiveData: LiveData<Ingredient?>
+    abstract val storeIngredientListLiveData: MutableLiveData<String>
     abstract val outputWorkerInfo: LiveData<WorkInfo>
     abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
     abstract var onHomeFlag: Boolean
@@ -29,6 +30,10 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun getApiRecipeLiveData(): MutableLiveData<Recipe>
     abstract fun setRecipeIdLiveData(recipeId: UUID)
     abstract fun addRecipe(recipe: Recipe, ingredients: List<Ingredient>, utensils: List<String>)
+    abstract fun setIngredientsToAdd(string: String)
+    abstract fun addIngredientsToStore()
+    abstract fun clearIngredientsFromStore()
+    abstract fun deleteIngredient(ingredient: Ingredient)
     abstract fun requestWebRecipes()
     abstract fun deleteRecipe(recipe: Recipe)
     abstract fun makeApiRecipeRequest(recipe: Recipe): String

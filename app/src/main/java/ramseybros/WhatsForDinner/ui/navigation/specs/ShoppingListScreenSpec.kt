@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -23,38 +24,12 @@ object ShoppingListScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        var headerList: List<String> = listOf(
-            "Ingredients",
-            "Utensils",
-            "Utensils",
-            "Utensils",
-            "Utensils",
-            "Utensils",
-            "Utensils",
-            "Ingredients"
-        )
-        var ingredientList: List<String> = listOf(
-            "Garlic",
-            "Kosher Salt",
-            "Paprika",
-            "Ground Black Pepper",
-            "Cream",
-            "Chicken Breast",
-            "Beef Stock",
-            "Rosemary"
-        )
-        var utensilList: List<String> = listOf("Spoon", "Whisk", "Pan")
-        var itemList: List<List<String>> = listOf(
-            ingredientList,
-            utensilList,
-            utensilList,
-            utensilList,
-            utensilList,
-            utensilList,
-            utensilList,
-            ingredientList
-        )
-        ShoppingList(itemList = itemList, headerList = headerList, {})
+        val ingredientList = viewModel.ingredientListLiveData.observeAsState().value
+        if (ingredientList != null) {
+            ShoppingList(ingredientList = ingredientList) {
+                viewModel.deleteIngredient(it)
+            }
+        }
     }
 
     @Composable

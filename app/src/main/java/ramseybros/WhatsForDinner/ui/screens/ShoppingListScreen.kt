@@ -3,8 +3,10 @@ package ramseybros.WhatsForDinner.ui.screens
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -23,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ramseybros.WhatsForDinner.R
+import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
 
 @Composable
@@ -49,57 +52,37 @@ fun SectionList(itemList: List<String>, header: String) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShoppingList(itemList: List<List<String>>, headerList: List<String>, addRecipe: () -> Unit) {
-        Column(Modifier.fillMaxSize()) {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-
-            ) {
-                LazyColumn() {
-                    items(itemList.size) {
-                        SectionList(itemList[it], headerList[it])
-                    }
+fun ShoppingList(ingredientList: List<Ingredient>, onDelete: (Ingredient) -> Unit) {
+    Column() {
+        LazyVerticalGrid(
+            cells = GridCells.Fixed(3),
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(ingredientList.size) { index ->
+                Box(
+                    Modifier
+                        .padding(4.dp)
+                        .border(2.dp, colorResource(id = R.color.light_blue))
+                        .clickable { onDelete(ingredientList[index]) }) {
+                    Text(
+                        text = ingredientList[index].name,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(4.dp)
+                    )
                 }
             }
         }
+    }
+
 }
 
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PreviewShoppingList() {
-    var headerList: List<String> = listOf(
-        "Ingredients",
-        "Utensils",
-        "Utensils",
-        "Utensils",
-        "Utensils",
-        "Utensils",
-        "Utensils",
-        "Ingredients"
-    )
-    var ingredientList: List<String> = listOf(
-        "Garlic",
-        "Kosher Salt",
-        "Paprika",
-        "Ground Black Pepper",
-        "Cream",
-        "Chicken Breast",
-        "Beef Stock",
-        "Rosemary"
-    )
-    var utensilList: List<String> = listOf("Spoon", "Whisk", "Pan")
-    var itemList: List<List<String>> = listOf(
-        ingredientList,
-        utensilList,
-        utensilList,
-        utensilList,
-        utensilList,
-        utensilList,
-        utensilList,
-        ingredientList
-    )
-    ShoppingList(itemList = itemList, headerList = headerList, {})
+    var ingredientList: List<Ingredient> = listOf()
+    ShoppingList(ingredientList = ingredientList, {})
 }
