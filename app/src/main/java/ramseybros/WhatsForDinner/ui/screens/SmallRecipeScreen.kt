@@ -1,10 +1,13 @@
 package ramseybros.WhatsForDinner.ui.screens
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.DismissState
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,15 +27,17 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
+fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit, dismissState: DismissState) {
     var size = 100.dp
-
+    val elevation = animateDpAsState(targetValue = if(dismissState.dismissDirection != null) 4.dp else 0.dp).value
     Box(Modifier.fillMaxWidth()) {
             Card(modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                 .fillMaxWidth()
-                .clickable { onClick() }
+                .clickable { onClick() },
+                elevation = elevation
 //                .border(2.dp, Color.Black, RoundedCornerShape(10))
             ) {
                 Row (Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
@@ -67,8 +72,8 @@ fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    SmallRecipeView(RecipeGenerator.singleRecipe()) {}
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun Preview() {
+//    SmallRecipeView(RecipeGenerator.singleRecipe()) {}
+//}

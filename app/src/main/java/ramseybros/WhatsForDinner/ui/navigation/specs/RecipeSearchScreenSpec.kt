@@ -65,6 +65,7 @@ object RecipeSearchScreenSpec : IScreenSpec {
         val recommendedRecipesList = viewModel.recommendedRecipeListLiveData.observeAsState().value
         viewModel.buildRecommendedRecipeList(recommendedRecipesList = recommendedRecipesList)
         RecipeSearchScreen(
+            viewModel = viewModel,
             apiRecipeList = viewModel.getApiRecipeList(),
             onRequestRecipe = fun(recipe: Recipe) {
                 coroutineScope.launch {

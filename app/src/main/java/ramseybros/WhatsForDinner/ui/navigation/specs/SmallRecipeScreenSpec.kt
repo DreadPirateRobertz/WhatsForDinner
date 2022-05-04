@@ -22,7 +22,7 @@ object SmallRecipeScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        SmallRecipeView(RecipeGenerator.singleRecipe()) {}
+//        SmallRecipeView(RecipeGenerator.singleRecipe(), {}, dismissState = )
     }
 
     override fun navigateTo(vararg args: String?): String {

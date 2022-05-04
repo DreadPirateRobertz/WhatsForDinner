@@ -281,7 +281,6 @@ private fun RecommendedRecipeRow(
                 if (recommendedRecipesList != emptyList<Recipe>()) {
                     val scope = rememberCoroutineScope()
                     LazyColumn(state = rememberLazyListState()) {
-
                         items(recommendedRecipesList,{recipe->recipe.id}) { recipe->
                             val dismissState = rememberDismissState(
                                 confirmStateChange = {
@@ -345,9 +344,7 @@ private fun RecommendedRecipeRow(
                                     DismissContent(onSelectRecipe = onSelectRecipe, recipe = recipe , size = size, dismissState = dismissState)
 
                                 }
-
                             )
-
                         }
                     }
                 }
