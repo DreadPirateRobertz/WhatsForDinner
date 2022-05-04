@@ -69,6 +69,11 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
             whatsForDinnerDao.addUtensilToList(recipeIngredient = recipeIngredient)
         }
     }
+
+    fun getTestRec() = whatsForDinnerDao.getTestSaved()
+
+
+
     fun getRecommendedRecipes(): LiveData<MutableList<Recipe>> = whatsForDinnerDao.getRecommendedRecipes()
     fun getSavedRecipes(): LiveData<MutableList<Recipe>> = whatsForDinnerDao.getSavedRecipes()
     fun getRecipe(id: UUID): LiveData<Recipe>? = whatsForDinnerDao.getRecipe(id)

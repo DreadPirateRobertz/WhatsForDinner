@@ -57,6 +57,13 @@ class WhatsForDinnerViewModel(
     private val _ingredientIdLiveData =
         MutableLiveData<String>()
 
+
+    override val test: LiveData<SnapshotStateList<Recipe>> = Transformations.switchMap(whatsForDinnerRepository.getTestRec())
+    {
+       MutableLiveData(it.toMutableStateList())
+    }
+
+
     override val savedRecipeListLiveData = whatsForDinnerRepository.getSavedRecipes()
 
     override val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>> = whatsForDinnerRepository.getRecommendedRecipes()
