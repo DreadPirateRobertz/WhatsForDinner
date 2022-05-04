@@ -32,10 +32,8 @@ object HomeScreenSpec : IScreenSpec {
         val savedRecipesList = viewModel.test.observeAsState(mutableStateListOf())
         val recommendedRecipesList = viewModel.recommendedRecipeListLiveData.observeAsState().value
 
-        viewModel.onHomeFlag = false
 
 
-        viewModel.onHomeFlag = false
         recommendedRecipesList?.let {
             HomeScreen(
                 viewModel = viewModel,

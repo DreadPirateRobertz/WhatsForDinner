@@ -47,6 +47,7 @@ import coil.request.ImageRequest
 import kotlinx.coroutines.launch
 import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
+import java.util.*
 
 @Composable
 private fun SectionHeader(title: String) {
@@ -153,12 +154,13 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: S
                                     Box(
 
                                         modifier = Modifier
-                                            .fillMaxSize().background(color)
+                                            .fillMaxSize()
+                                            .background(color)
                                             .padding(start = 12.dp, end = 12.dp),
                                         contentAlignment = alignment
                                     )
                                     {
-                                        Icon(imageVector = Icons.Default.Delete, contentDescription = null, modifier = Modifier.scale(scale))
+                                        Icon(painter = painterResource(id = R.drawable.ic_baseline_delete_sweep_24), tint = colorResource(R.color.teal_200),contentDescription = null, modifier = Modifier.scale(scale))
                                     }
 
                                 }, dismissContent = {
@@ -185,7 +187,6 @@ private fun DismissContent(
     size: Dp,
     dismissState: DismissState
 )  {
-
     val elevation = animateDpAsState(targetValue = if(dismissState.dismissDirection != null) 4.dp else 0.dp).value
     Card(
         modifier = Modifier
@@ -320,8 +321,8 @@ private fun RecommendedRecipeRow(
                                         }
                                     )
                                     val icon = when(direction){
-                                        DismissDirection.StartToEnd -> Icons.Default.Star
-                                        DismissDirection.EndToStart -> Icons.Default.Delete
+                                        DismissDirection.StartToEnd -> painterResource(R.drawable.ic_baseline_star_24)
+                                        DismissDirection.EndToStart -> painterResource(R.drawable.ic_baseline_delete_sweep_24)
                                     }
                                     val scale by animateFloatAsState(targetValue = if(dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
                                     val alignment = when(direction){
@@ -332,12 +333,13 @@ private fun RecommendedRecipeRow(
                                     Box(
 
                                         modifier = Modifier
-                                            .fillMaxSize().background(color)
+                                            .fillMaxSize()
+                                            .background(color)
                                             .padding(start = 12.dp, end = 12.dp),
                                         contentAlignment = alignment
                                     )
                                     {
-                                        Icon(imageVector = icon, contentDescription = null, modifier = Modifier.scale(scale))
+                                        Icon(painter = icon, contentDescription = null, modifier = Modifier.scale(scale),tint = colorResource(R.color.teal_200) )
                                     }
 
                                 }, dismissContent = {

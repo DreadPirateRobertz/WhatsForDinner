@@ -181,7 +181,7 @@ fun SavedRecipesScreen(
                                     contentAlignment = alignment
                                 )
                                 {
-                                    Icon(imageVector = Icons.Default.Delete, contentDescription = null, modifier = Modifier.scale(scale))
+                                    Icon(painter = painterResource(id = R.drawable.ic_baseline_delete_sweep_24), contentDescription = null, modifier = Modifier.scale(scale),tint = colorResource(R.color.teal_200))
                                 }
 
                             }, dismissContent = {
