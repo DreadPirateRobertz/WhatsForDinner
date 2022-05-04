@@ -64,8 +64,9 @@ fun ShoppingList(ingredientList: List<Ingredient>, onDelete: (Ingredient) -> Uni
                 Box(
                     Modifier
                         .padding(4.dp)
-                        .border(2.dp, colorResource(id = R.color.light_blue))
-                        .clickable { onDelete(ingredientList[index]) }) {
+                        .border(2.dp, colorResource(id = R.color.light_blue),shape = RoundedCornerShape(5))
+                        .clickable { onDelete(ingredientList[index]) }
+                        .height(72.dp)) {
                     Text(
                         text = ingredientList[index].name,
                         fontSize = 16.sp,
