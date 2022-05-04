@@ -113,4 +113,10 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
             whatsForDinnerDao.deleteIngredientFromRecipe(ingredientName, recipeId)
         }
     }
+
+    fun deleteAllIngredients() {
+        executor.execute {
+            whatsForDinnerDao.deleteAllIngredients()
+        }
+    }
 }

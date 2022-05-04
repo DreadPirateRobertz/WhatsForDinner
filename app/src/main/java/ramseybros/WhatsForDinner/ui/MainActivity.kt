@@ -73,7 +73,7 @@ private fun MainActivityContent(model: I_WhatsForDinnerViewModel) {
                 floatingActionButton = {
 //                    if (checkRoute(navController = navController) != 1)
                     if (checkRoute(navController = navController) != 2) {
-                        WhatsForDinnerFAB(navController = navController)
+                        WhatsForDinnerFAB(navController = navController, viewModel = model)
                     }
                 },
                 isFloatingActionButtonDocked = true,

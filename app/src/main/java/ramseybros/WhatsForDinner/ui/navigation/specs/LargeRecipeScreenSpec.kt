@@ -62,6 +62,8 @@ object LargeRecipeScreenSpec : IScreenSpec {
                 }
             }
         }
+        viewModel.setIngredientsToAdd(recipe.ingredientString)
+
         var saveButtonFlag = true
         viewModel.savedRecipeListLiveData.observeAsState().value?.forEach {
             if(recipe.title == it.title &&

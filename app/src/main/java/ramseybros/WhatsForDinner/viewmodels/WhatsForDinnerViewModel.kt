@@ -57,6 +57,8 @@ class WhatsForDinnerViewModel(
     private val _ingredientIdLiveData =
         MutableLiveData<String>()
 
+    private val _ingredientListToAdd = MutableLiveData<String>()
+
 
     override val test: LiveData<SnapshotStateList<Recipe>> = Transformations.switchMap(whatsForDinnerRepository.getTestRec())
     {
@@ -110,6 +112,41 @@ class WhatsForDinnerViewModel(
         for (utensil in utensils) {
             whatsForDinnerRepository.addUtensilToList(RecipeUtensil(utensil, recipe.id))
         }
+    }
+
+    override fun setIngredientsToAdd(string: String) {
+        _ingredientListToAdd.value = string
+    }
+
+    override fun addIngredientsToStore() {
+        if(_ingredientListToAdd.value != null) {
+            var addList =
+                if(_ingredientListToAdd.value!![0]==',')
+                    _ingredientListToAdd.value!!.substring(1)
+                else
+                    _ingredientListToAdd.value!!
+            var string: String = ""
+            for (char in addList) {
+                if(char==',') {
+                    Log.d("recipe",string)
+                    whatsForDinnerRepository.addIngredient(Ingredient(string, 0, IngredientType.DAIRY))
+                    string = ""
+                }
+                else string+=char
+            }
+            if(string != "") {
+                Log.d("recipe",string)
+                whatsForDinnerRepository.addIngredient(Ingredient(string, 0, IngredientType.DAIRY))
+            }
+        }
+    }
+
+    override fun clearIngredientsFromStore() {
+        whatsForDinnerRepository.deleteAllIngredients()
+    }
+
+    override fun deleteIngredient(ingredient: Ingredient) {
+        whatsForDinnerRepository.deleteIngredient(ingredient)
     }
 
     override fun requestWebRecipes() {

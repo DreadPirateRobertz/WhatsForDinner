@@ -28,4 +28,5 @@
     <string name="cook_time">Hora de Cocinar: %1$sm</string>
     <string name="placeholder_search_bar">Buscar por Ingredientes</string>
     <string name="google_search_prompt">Viaje al Deleite Gastronómico Seres Aquí</string>
+    <string name="add_ingredient_to_cart_label">Agregar Ingrediente al Carrito</string>
 </resources>

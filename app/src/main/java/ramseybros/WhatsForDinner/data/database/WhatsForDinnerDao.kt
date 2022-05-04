@@ -78,4 +78,6 @@ interface WhatsForDinnerDao {
     @Query("DELETE FROM recipe_ingredient_list_xref WHERE ingredientName=(:ingredientName) AND recipeId=(:recipeId)")
     fun deleteIngredientFromRecipe(ingredientName: String, recipeId: UUID)
 
+    @Query("DELETE FROM ingredient")
+    fun deleteAllIngredients()
 }

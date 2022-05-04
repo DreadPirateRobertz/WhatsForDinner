@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
@@ -68,11 +69,16 @@ sealed interface IScreenSpec {
             )
         }
         @Composable
-        fun FAB(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+        fun FAB(
+            navController: NavHostController,
+            navBackStackEntry: NavBackStackEntry?,
+            viewModel: I_WhatsForDinnerViewModel
+        ) {
             val route = navBackStackEntry?.destination?.route ?: ""
             if (route != "") allScreens[route]?.FAB_Content(
                 navController = navController,
-                navBackStackEntry
+                navBackStackEntry,
+                viewModel = viewModel
             )
 
         }
@@ -260,7 +266,7 @@ sealed interface IScreenSpec {
     }
 
     @Composable
-    private fun FAB_Content(navController: NavHostController, navBackStackEntry: NavBackStackEntry?) {
+    private fun FAB_Content(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, viewModel: I_WhatsForDinnerViewModel) {
         var color: Color = Color.Black
         if (isSystemInDarkTheme()) color = colorLightSecondary
         FloatingActionButton(
@@ -289,11 +295,24 @@ sealed interface IScreenSpec {
                 var icon = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24)
                 var clicked by remember{mutableStateOf(false)}
                 var clickCount by remember{mutableStateOf(0)}
+                var textExpanded by remember{mutableStateOf(false)}
+                var addText by remember{mutableStateOf("")}
                 IconButton(onClick = {
                     clicked = true
                     clickCount++               //PlaceHolder //Where putting in ingredients to the shopping list on lRSS and SLSS
-                    if(clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
-                    else if(clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    if(clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
+                        viewModel.addIngredientsToStore()
+                        Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                    }
+                    else if(clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) {
+                        Log.d("recipe",addText)
+                        if(textExpanded && addText != "") {
+                            viewModel.setIngredientsToAdd(addText)
+                            viewModel.addIngredientsToStore()
+                            Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                            textExpanded = false
+                        } else textExpanded = true
+                    }
                     if(clickCount > 1 && navBackStackEntry.destination.route != ShoppingListScreenSpec.route){
                         navController.navigate(ShoppingListScreenSpec.navigateTo())
                         {
@@ -318,6 +337,31 @@ sealed interface IScreenSpec {
                         contentDescription = null
                     )
                 }
+
+                DropdownMenu(
+                    expanded = textExpanded,
+                    onDismissRequest = { textExpanded = false },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    OutlinedTextField(
+                        value = addText,
+                        onValueChange = { addText = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) }
+                    )
+                    IconButton(modifier = Modifier.fillMaxWidth(1.0f), onClick = {
+                        viewModel.setIngredientsToAdd(addText)
+                        viewModel.addIngredientsToStore()
+                        Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT)
+                            .show()
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                            contentDescription = null
+                        )
+                    }
+                }
+
             }
         }
     }
