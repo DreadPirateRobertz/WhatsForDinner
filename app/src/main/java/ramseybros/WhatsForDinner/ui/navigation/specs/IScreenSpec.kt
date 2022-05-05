@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -23,8 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -282,6 +288,7 @@ sealed interface IScreenSpec {
         }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun FAB_Content(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, viewModel: I_WhatsForDinnerViewModel) {
         var color: Color = Color.Black
@@ -314,6 +321,7 @@ sealed interface IScreenSpec {
                 var clickCount by remember{mutableStateOf(0)}
                 var textExpanded by remember{mutableStateOf(false)}
                 var addText by remember{mutableStateOf("")}
+                var textList = remember{mutableStateListOf<String>()}
                 IconButton(onClick = {
                     clicked = true
                     clickCount++               //PlaceHolder //Where putting in ingredients to the shopping list on lRSS and SLSS
@@ -355,28 +363,112 @@ sealed interface IScreenSpec {
                     )
                 }
 
-                DropdownMenu(
-                    expanded = textExpanded,
-                    onDismissRequest = { textExpanded = false },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    OutlinedTextField(
-                        value = addText,
-                        onValueChange = { addText = it },
-                        modifier = Modifier.fillMaxWidth(),
-                        label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) }
-                    )
-                    IconButton(modifier = Modifier.fillMaxWidth(1.0f), onClick = {
-                        viewModel.setIngredientsToAdd(addText)
+                fun onSubmit() {
+                    textList.forEach {
+                        viewModel.setIngredientsToAdd(it)
                         viewModel.addIngredientsToStore()
-                        Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT)
-                            .show()
-                    }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                            contentDescription = null
-                        )
                     }
+                    textExpanded = false
+                    Toast.makeText(
+                        context,
+                        "Added to Shopping List",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+                fun onClick() {
+                    if(addText != "") {
+                        textList.add(addText)
+                    }
+                }
+                if(textExpanded) {
+                    Popup(
+                        alignment = Alignment.BottomCenter,
+                        offset = IntOffset(0, 0),
+                        onDismissRequest = { textExpanded = false },
+                        properties = PopupProperties(focusable = true),
+                        content = {
+                            Column(
+                                Modifier
+                                    .fillMaxHeight(0.75f)
+                                    .fillMaxWidth(0.90f)
+                                    .border(
+                                        2.dp,
+                                        colorResource(R.color.light_blue),
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .background(
+                                        color = colorResource(R.color.white),
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(8.dp)
+                            )
+                            {
+                                OutlinedTextField(
+                                    value = addText,
+                                    onValueChange = {
+                                        if(it.contains('\n')) {
+                                            onClick()
+                                            addText = ""
+                                        } else {
+                                            addText = it
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) },
+                                    trailingIcon = {
+                                        IconButton(onClick = { onClick()}) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.ic_baseline_data_saver_on_24),
+                                                contentDescription = null
+                                            )
+                                        }
+                                    }
+                                )
+                                LazyVerticalGrid(
+                                    cells = GridCells.Fixed(2),
+                                    contentPadding = PaddingValues(7.dp),
+                                    modifier = Modifier.weight(0.8f)
+                                ) {
+                                    items(textList.size) { index ->
+                                        Box(
+                                            Modifier
+                                                .padding(4.dp)
+                                                .border(
+                                                    2.dp,
+                                                    colorResource(id = R.color.light_blue),
+                                                    shape = RoundedCornerShape(5)
+                                                )
+                                                .clickable {
+                                                    textList.remove(textList[index])
+                                                }
+                                                .height(72.dp)) {
+                                            Text(
+                                                text = textList[index],
+                                                fontSize = 16.sp,
+                                                textAlign = TextAlign.Center,
+                                                modifier = Modifier.padding(4.dp),
+                                                color = colorResource(id = R.color.black)
+                                            )
+                                        }
+                                    }
+                                }
+                                Box(modifier = Modifier
+                                    .weight(0.1f)
+                                    .fillMaxWidth()) {
+                                    IconButton(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        onClick = { onSubmit() }) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                                            contentDescription = null
+                                        )
+                                    }
+                                }
+                            }
+
+                        }
+                    )
                 }
 
             }
