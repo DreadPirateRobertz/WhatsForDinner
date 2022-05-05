@@ -48,4 +48,5 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
 
     abstract val test: LiveData<SnapshotStateList<Recipe>>
 
+    abstract val test2: LiveData<SnapshotStateList<Recipe>>
 }

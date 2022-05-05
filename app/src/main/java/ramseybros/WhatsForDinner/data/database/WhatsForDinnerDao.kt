@@ -22,6 +22,8 @@ interface WhatsForDinnerDao {
     @Query("SELECT * FROM recipe WHERE recommended = 0")
     fun getTestSaved(): LiveData<MutableList<Recipe>>
 
+    @Query("SELECT * FROM recipe WHERE recommended = 1")
+    fun getTestRecommended(): LiveData<MutableList<Recipe>>
 
     @Query("SELECT * FROM recipe WHERE recipe.recommended = 1")
     fun getRecommendedRecipes(): LiveData<MutableList<Recipe>>

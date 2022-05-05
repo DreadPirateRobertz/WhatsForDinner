@@ -19,7 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
@@ -29,9 +28,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,7 +41,6 @@ import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
-import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import java.util.*
 
@@ -257,7 +252,7 @@ private fun RecommendedIngredientRow(
 @Composable
 private fun RecommendedRecipeRow(
     onSelectRecipe: (Recipe) -> Any,
-    recommendedRecipesList: MutableList<Recipe>,
+    recommendedRecipesList: State<SnapshotStateList<Recipe>>,
     viewModel: I_WhatsForDinnerViewModel
 ) {
     //Clicking A recipe will take you to how to make it...
@@ -279,16 +274,16 @@ private fun RecommendedRecipeRow(
         ) {
             Column(Modifier.fillMaxSize()) {
                 RecommendedRecipesSection()
-                if (recommendedRecipesList != emptyList<Recipe>()) {
+                if (recommendedRecipesList.value.isNotEmpty()) {
                     val scope = rememberCoroutineScope()
                     LazyColumn(state = rememberLazyListState()) {
-                        items(recommendedRecipesList,{recipe->recipe.id}) { recipe->
+                        items(recommendedRecipesList.value,{recipe->recipe.id}) { recipe->
                             val dismissState = rememberDismissState(
                                 confirmStateChange = {
                                     when (it){
                                         DismissValue.Default ->{}
                                         DismissValue.DismissedToEnd ->{
-                                            recommendedRecipesList.remove(recipe)
+                                            recommendedRecipesList.value.remove(recipe)
                                             recipe.recommended = false
                                             scope.launch{
                                                 viewModel.addRecipe(recipe, emptyList(), emptyList())
@@ -296,7 +291,7 @@ private fun RecommendedRecipeRow(
 
                                         }
                                         DismissValue.DismissedToStart ->{
-                                            recommendedRecipesList.remove(recipe)
+                                            recommendedRecipesList.value.remove(recipe)
                                             scope.launch {
                                                 viewModel.deleteRecipe(recipe)
                                             }
@@ -359,7 +354,7 @@ private fun RecommendedRecipeRow(
 fun HomeScreen(
     savedRecipesList: State<SnapshotStateList<Recipe>>,
     recommendedIngredientsList: List<Ingredient>?,
-    recommendedRecipesList: MutableList<Recipe>,
+    recommendedRecipesList: State<SnapshotStateList<Recipe>>,
     onSelectRecipe: (Recipe) -> Any,
     onSelectIngredient: (Ingredient) -> Any,
     viewModel: I_WhatsForDinnerViewModel

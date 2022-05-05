@@ -10,7 +10,6 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
@@ -61,9 +60,15 @@ class WhatsForDinnerViewModel(
     private val _ingredientListToAdd = MutableLiveData<String>()
 
 
-    override val test: LiveData<SnapshotStateList<Recipe>> = Transformations.switchMap(whatsForDinnerRepository.getTestRec())
+    override val test: LiveData<SnapshotStateList<Recipe>> = Transformations.switchMap(whatsForDinnerRepository.getTestSaved())
     {
        MutableLiveData(it.toMutableStateList())
+    }
+
+
+    override val test2: LiveData<SnapshotStateList<Recipe>> = Transformations.switchMap(whatsForDinnerRepository.getTestRec())
+    {
+        MutableLiveData(it.toMutableStateList())
     }
 
 

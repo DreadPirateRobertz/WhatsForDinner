@@ -4,13 +4,10 @@ import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.navigation.*
 import ramseybros.WhatsForDinner.ui.screens.HomeScreen
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.R
-import ramseybros.WhatsForDinner.data.Recipe
 
 object HomeScreenSpec : IScreenSpec {
     override val route: String
@@ -30,23 +27,21 @@ object HomeScreenSpec : IScreenSpec {
     ) {
 
         val savedRecipesList = viewModel.test.observeAsState(mutableStateListOf())
-        val recommendedRecipesList = viewModel.recommendedRecipeListLiveData.observeAsState().value
+        val recommendedRecipesList = viewModel.test2.observeAsState(mutableStateListOf())
 
 
 
-        recommendedRecipesList?.let {
             HomeScreen(
                 viewModel = viewModel,
                 savedRecipesList = savedRecipesList,
                 recommendedIngredientsList = emptyList(),
-                recommendedRecipesList = it,
+                recommendedRecipesList = recommendedRecipesList,
                 onSelectIngredient = {},
                 onSelectRecipe =
                 { recipe ->
                     navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
                 }
             )
-        }
     }
 
 
