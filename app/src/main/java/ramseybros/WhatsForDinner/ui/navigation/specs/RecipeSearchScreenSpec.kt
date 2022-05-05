@@ -53,14 +53,14 @@ object RecipeSearchScreenSpec : IScreenSpec {
         val coroutineScope = rememberCoroutineScope()
 
         //ASYNC CODE
-        //        fun onRequestList() {
-//            coroutineScope.launch {
-//                viewModel.RecipeSearchModelState.collect{
-//                    val apiData = withContext(Dispatchers.IO) { viewModel.makeApiListRequest(it.searchText) }
-//                    withContext(Dispatchers.IO) { viewModel.parseListJSON(apiData, viewModel) } //updates snapshotstatelist in viewModel, no need to return
-//                }
-//            }
-//        }
+                fun onRequestList() {
+            coroutineScope.launch {
+                viewModel.RecipeSearchModelState.collect{
+                    val apiData = withContext(Dispatchers.IO) { viewModel.makeApiListRequest(it.searchText) }
+                    withContext(Dispatchers.IO) { viewModel.parseListJSON(apiData, viewModel) } //updates snapshotstatelist in viewModel, no need to return
+                }
+            }
+        }
 
         val recommendedRecipesList = viewModel.recommendedRecipeListLiveData.observeAsState().value
         viewModel.buildRecommendedRecipeList(recommendedRecipesList = recommendedRecipesList)
