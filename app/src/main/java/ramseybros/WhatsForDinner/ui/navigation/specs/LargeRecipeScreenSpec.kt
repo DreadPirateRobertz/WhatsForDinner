@@ -1,8 +1,10 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -39,6 +41,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
         return route
     }
 
+    @SuppressLint("UnrememberedMutableState")
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
@@ -48,10 +51,17 @@ object LargeRecipeScreenSpec : IScreenSpec {
         val ingredientList = emptyList<Ingredient>()
         val utensilList = emptyList<String>()
         Log.d("ramseybros", ID)
+
+
+        val savedRecipesList = viewModel.savedRecipeListLiveData.observeAsState().value
+        val testSavedRecipesList = viewModel.test.observeAsState().value  //Using the SnapShotState Saved Recipes list
+                                                                        //Swiping from API List was causing it not to fill the traditional
+                                                                        //Saved Recipes List
+
         if(fromSearch == true) recipe = viewModel.getApiRecipeLiveData().value!!
 
         else {
-            viewModel.savedRecipeListLiveData.observeAsState().value?.forEach {
+            testSavedRecipesList?.forEach {
                 if (ID == it.id.toString()) {
                     recipe = it
                 }
@@ -65,7 +75,8 @@ object LargeRecipeScreenSpec : IScreenSpec {
         viewModel.setIngredientsToAdd(recipe.ingredientString)
 
         var saveButtonFlag = true
-        viewModel.savedRecipeListLiveData.observeAsState().value?.forEach {
+
+        testSavedRecipesList?.forEach {
             if(recipe.title == it.title &&
                 recipe.time == it.time &&
                 recipe.imageLink == it.imageLink) {

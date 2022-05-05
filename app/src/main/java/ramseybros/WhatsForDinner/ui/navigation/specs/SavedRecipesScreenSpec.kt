@@ -23,7 +23,7 @@ object SavedRecipesScreenSpec : IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
 
-        val savedRecipesList: MutableList<Recipe>? = viewModel.savedRecipeListLiveData.observeAsState().value
+        val savedRecipesList: MutableList<Recipe>? = viewModel.test.observeAsState().value
 
         SavedRecipesScreen(
             viewModel = viewModel,
