@@ -331,7 +331,6 @@ private fun RecommendedRecipeRow(
                                     }
 
                                     Box(
-
                                         modifier = Modifier
                                             .fillMaxSize()
                                             .background(color)

@@ -29,4 +29,9 @@
     <string name="placeholder_search_bar">Buscar por Ingredientes</string>
     <string name="google_search_prompt">Viaje al Deleite Gastronómico Seres Aquí</string>
     <string name="add_ingredient_to_cart_label">Agregar Ingrediente al Carrito</string>
+    <string name="nav_title_saved">Salvado</string>
+    <string name="nav_title_recommended">Recomendado</string>
+    <string name="nav_title_pantry">Despensa</string>
+    <string name="nav_title_home">Casa</string>
+    <string name="nav_title_search">Búsqueda</string>
 </resources>

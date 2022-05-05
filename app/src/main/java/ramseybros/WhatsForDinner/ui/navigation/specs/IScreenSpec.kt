@@ -1,6 +1,7 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
 import android.content.Context
+import android.content.res.Configuration
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -55,8 +57,6 @@ sealed interface IScreenSpec {
                 navBackStackEntry,
                 viewModel = viewModel
             )
-
-
         }
 
         @Composable
@@ -203,14 +203,16 @@ sealed interface IScreenSpec {
                 CornerSize(percent = 50)),
             backgroundColor = bgColor
         ) {
-            Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
+
+
                 BottomNavigation(
                     backgroundColor = bgColor,
                     modifier = Modifier.fillMaxSize(),
-                    ) {
+                ) {
                     val items = listOf(
                         NavigationItem.SavedRecipes,
-                        NavigationItem.Kitchen,
+                        NavigationItem.RecommendedRecipes,
                         NavigationItem.Blank,
                         NavigationItem.Home,
                         NavigationItem.RecipeSearch,
@@ -223,7 +225,8 @@ sealed interface IScreenSpec {
                                 selectedContentColor = color,
                                 unselectedContentColor = color.copy(.6f),
                                 onClick = {
-                                    if(navItem.route == HomeScreenSpec.route) viewModel.onHomeFlag = true
+                                    if (navItem.route == HomeScreenSpec.route) viewModel.onHomeFlag =
+                                        true
                                     navController.navigate(navItem.route) {
                                         popUpTo(navItem.route) {
                                             //savestate = true was disabling buttons
@@ -235,17 +238,31 @@ sealed interface IScreenSpec {
                                     }
                                 },
                                 icon = {
-                                    Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
-                                        Icon(
-                                            painter = painterResource(id = navItem.icon),
-                                            contentDescription = navItem.title)
-                                    }
+
+
+                                    Icon(
+                                        painter = painterResource(id = navItem.icon),
+                                        contentDescription = stringResource(id = navItem.title)
+                                    )
+
+                                    Spacer(Modifier.weight(.1f))
                                 },
                                 label = {
+                                    val configuration = LocalConfiguration.current
+                                    when(configuration.orientation){
+                                        Configuration.ORIENTATION_PORTRAIT->{
+                                            if(navItem.title == R.string.nav_title_recommended) navItem.title = R.string.nav_title_recommended_abbreviated
+                                        }
+                                        Configuration.ORIENTATION_LANDSCAPE->{
+                                            if(navItem.title == R.string.nav_title_recommended_abbreviated) navItem.title = R.string.nav_title_recommended
+                                        }
+                                    }
+
+
                                     Text(
                                         fontWeight = FontWeight.ExtraBold,
                                         fontSize = 12.sp,
-                                        text = navItem.title
+                                        text = stringResource(id = navItem.title)
                                     )
                                 },
                                 alwaysShowLabel = false

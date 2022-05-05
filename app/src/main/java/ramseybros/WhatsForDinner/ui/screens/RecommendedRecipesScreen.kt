@@ -1,17 +1,11 @@
 package ramseybros.WhatsForDinner.ui.screens
 
-import android.content.res.Configuration
-import android.graphics.Paint
-import android.widget.ImageView
-import android.widget.ScrollView
-import android.widget.Toast
+
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,45 +13,28 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Recipe
-import ramseybros.WhatsForDinner.data.Ingredient
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
-import ramseybros.WhatsForDinner.util.RecipeGenerator
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 
@@ -90,8 +67,8 @@ private fun SavedRecipesSection() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun SavedRecipeRow(
-    savedRecipe: Recipe,
+private fun RecommendedRecipeRow(
+    recommendedRecipe: Recipe,
     onSelectRecipe: (Recipe) -> Any,
     dismissState: DismissState
 ) {
@@ -103,7 +80,7 @@ private fun SavedRecipeRow(
         Card(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-                .clickable { onSelectRecipe(savedRecipe) },
+                .clickable { onSelectRecipe(recommendedRecipe) },
             elevation = elevation
         ) {
             Row(
@@ -113,7 +90,7 @@ private fun SavedRecipeRow(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(savedRecipe.imageLink)
+                        .data(recommendedRecipe.imageLink)
                         .crossfade(true)
                         .build(),
                     placeholder = painterResource(R.drawable.pot_image),
@@ -128,7 +105,7 @@ private fun SavedRecipeRow(
                 )
                 Text(
                     fontSize = 16.sp,
-                    text = savedRecipe.title,
+                    text = recommendedRecipe.title,
                     modifier = Modifier
                         .padding(4.dp)
                         .weight(1f),
@@ -141,8 +118,8 @@ private fun SavedRecipeRow(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SavedRecipesScreen(
-    savedRecipesList: MutableList<Recipe>?,
+fun RecommendedRecipesScreen(
+    recommendedRecipesList: MutableList<Recipe>?,
     onSelectRecipe: (Recipe) -> Any,
     viewModel: I_WhatsForDinnerViewModel
 ) {
@@ -154,17 +131,23 @@ fun SavedRecipesScreen(
     {
 //        SavedRecipesSection()
         Box(Modifier.fillMaxSize()) {
-            if (savedRecipesList != null) {
+            if (recommendedRecipesList != null) {
                 val scope = rememberCoroutineScope()
                 LazyColumn(state = rememberLazyListState()) {
-                    items(savedRecipesList, key = { recipe -> recipe.id }) { recipe ->
+                    items(recommendedRecipesList, key = { recipe -> recipe.id }) { recipe ->
                         val dismissState = rememberDismissState(
                             confirmStateChange = {
                                 when (it) {
                                     DismissValue.Default -> {}
-                                    DismissValue.DismissedToEnd -> {}
+                                    DismissValue.DismissedToEnd ->{
+                                        recommendedRecipesList.remove(recipe)
+                                        recipe.recommended = false
+                                        scope.launch{
+                                            viewModel.addRecipe(recipe, emptyList(), emptyList())
+                                        }
+                                    }
                                     DismissValue.DismissedToStart -> {
-                                        savedRecipesList.remove(recipe)
+                                        recommendedRecipesList.remove(recipe)
                                         scope.launch {
                                             viewModel.deleteRecipe(recipe)
                                         }
@@ -176,7 +159,7 @@ fun SavedRecipesScreen(
 
                         SwipeToDismiss(
                             state = dismissState,
-                            directions = setOf(DismissDirection.EndToStart),
+                            directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
                             dismissThresholds = { FractionalThreshold(.3f) },
                             background = {
 
@@ -185,15 +168,20 @@ fun SavedRecipesScreen(
                                 val color by animateColorAsState(
                                     targetValue = when (dismissState.targetValue) {
                                         DismissValue.Default -> Color.Transparent
-                                        DismissValue.DismissedToEnd -> Color.Transparent
+                                        DismissValue.DismissedToEnd -> Color.Green
                                         DismissValue.DismissedToStart -> Color.Red
                                     }
                                 )
+                                val icon = when(direction){
+                                    DismissDirection.StartToEnd -> painterResource(R.drawable.ic_baseline_star_24)
+                                    DismissDirection.EndToStart -> painterResource(R.drawable.ic_baseline_delete_sweep_24)
+                                }
                                 val scale by animateFloatAsState(targetValue = if (dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
-                                val alignment = Alignment.CenterEnd
-
+                                val alignment = when(direction){
+                                    DismissDirection.StartToEnd -> Alignment.CenterStart
+                                    DismissDirection.EndToStart -> Alignment.CenterEnd
+                                }
                                 Box(
-
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .background(color)
@@ -201,18 +189,13 @@ fun SavedRecipesScreen(
                                     contentAlignment = alignment
                                 )
                                 {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_baseline_delete_sweep_24),
-                                        contentDescription = null,
-                                        modifier = Modifier.scale(scale),
-                                        tint = colorResource(R.color.teal_200)
-                                    )
+                                    Icon(painter = icon, contentDescription = null, modifier = Modifier.scale(scale),tint = colorResource(R.color.teal_200) )
                                 }
 
                             }, dismissContent = {
 
-                                SavedRecipeRow(
-                                    savedRecipe = recipe,
+                                RecommendedRecipeRow(
+                                    recommendedRecipe = recipe,
                                     onSelectRecipe = onSelectRecipe,
                                     dismissState = dismissState
                                 )
