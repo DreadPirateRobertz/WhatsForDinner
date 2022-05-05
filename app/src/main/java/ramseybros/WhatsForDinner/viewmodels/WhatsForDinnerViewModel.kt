@@ -281,6 +281,18 @@ class WhatsForDinnerViewModel(
         }
         recipe.ingredientString = ingredientString //returns commma separated list of ingredients in a string
         recipe.time = properties.getString("readyInMinutes")
+        var textString = ""
+        for (index in (0 until recipe.recipeText.length)) {
+            if (recipe.recipeText[index] == ' ' && recipe.recipeText[index+1] != ' ') {
+                textString += recipe.recipeText[index].toString()
+            } else if (recipe.recipeText[index] != ' ') {
+                textString += recipe.recipeText[index].toString()
+            }
+        }
+        if (textString.contains("Directions")) {
+            textString = textString.subSequence(11,textString.length).toString()
+        }
+        recipe.recipeText = textString
         return (recipe.recipeText != "null")
     }
 
