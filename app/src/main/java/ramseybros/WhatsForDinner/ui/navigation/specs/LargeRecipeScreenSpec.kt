@@ -58,6 +58,8 @@ object LargeRecipeScreenSpec : IScreenSpec {
                                                                         //Swiping from API List was causing it not to fill the traditional
                                                                         //Saved Recipes List
 
+        val testRecommendedRecipesList = viewModel.test2.observeAsState().value
+
         if(fromSearch == true) recipe = viewModel.getApiRecipeLiveData().value!!
 
         else {
@@ -66,7 +68,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
                     recipe = it
                 }
             }
-            viewModel.recommendedRecipeListLiveData.observeAsState().value?.forEach {
+           testRecommendedRecipesList?.forEach {
                 if (ID == it.id.toString()) {
                     recipe = it
                 }
