@@ -36,8 +36,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.NavigationItem
-import ramseybros.WhatsForDinner.ui.theme.colorDarkSecondary
-import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
+import ramseybros.WhatsForDinner.ui.theme.*
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 
@@ -381,6 +380,8 @@ sealed interface IScreenSpec {
                         textList.add(addText)
                     }
                 }
+                var colors = listOf(colorResource(id = R.color.white), colorLightPrimary, colorLightSecondary, Color.DarkGray)
+                if(isSystemInDarkTheme()) colors = listOf(colorDarkBackground, colorDarkPrimary, colorDarkSecondary, Color.White)
                 if(textExpanded) {
                     Popup(
                         alignment = Alignment.BottomCenter,
@@ -394,11 +395,11 @@ sealed interface IScreenSpec {
                                     .fillMaxWidth(0.90f)
                                     .border(
                                         2.dp,
-                                        colorResource(R.color.light_blue),
+                                        colors[2],
                                         RoundedCornerShape(8.dp)
                                     )
                                     .background(
-                                        color = colorResource(R.color.white),
+                                        color = colors[0],
                                         RoundedCornerShape(8.dp)
                                     )
                                     .padding(8.dp)
@@ -414,16 +415,26 @@ sealed interface IScreenSpec {
                                             addText = it
                                         }
                                     },
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(colors[0]),
                                     label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) },
                                     trailingIcon = {
                                         IconButton(onClick = { onClick()}) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.ic_baseline_data_saver_on_24),
-                                                contentDescription = null
+                                                contentDescription = null,
+                                                tint = colorResource(id = R.color.teal_200)
                                             )
                                         }
-                                    }
+                                    },
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        focusedIndicatorColor = colors[3],
+                                        unfocusedIndicatorColor = Color.Transparent,
+                                        backgroundColor = colors[3],
+                                        cursorColor = colorResource(id = R.color.teal_200),
+                                        textColor = colors[3]
+                                    ),
                                 )
                                 LazyVerticalGrid(
                                     cells = GridCells.Fixed(2),
@@ -436,7 +447,7 @@ sealed interface IScreenSpec {
                                                 .padding(4.dp)
                                                 .border(
                                                     2.dp,
-                                                    colorResource(id = R.color.light_blue),
+                                                    colors[3],
                                                     shape = RoundedCornerShape(5)
                                                 )
                                                 .clickable {
@@ -448,7 +459,7 @@ sealed interface IScreenSpec {
                                                 fontSize = 16.sp,
                                                 textAlign = TextAlign.Center,
                                                 modifier = Modifier.padding(4.dp),
-                                                color = colorResource(id = R.color.black)
+                                                color = colors[3]
                                             )
                                         }
                                     }
