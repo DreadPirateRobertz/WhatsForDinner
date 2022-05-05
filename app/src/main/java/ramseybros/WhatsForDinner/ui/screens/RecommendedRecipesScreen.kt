@@ -28,8 +28,10 @@ import ramseybros.WhatsForDinner.data.Recipe
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
@@ -119,7 +121,7 @@ private fun RecommendedRecipeRow(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecommendedRecipesScreen(
-    recommendedRecipesList: MutableList<Recipe>?,
+    recommendedRecipesList: State<SnapshotStateList<Recipe>>,
     onSelectRecipe: (Recipe) -> Any,
     viewModel: I_WhatsForDinnerViewModel
 ) {
@@ -131,23 +133,23 @@ fun RecommendedRecipesScreen(
     {
 //        SavedRecipesSection()
         Box(Modifier.fillMaxSize()) {
-            if (recommendedRecipesList != null) {
+            if (recommendedRecipesList.value.isNotEmpty()) {
                 val scope = rememberCoroutineScope()
                 LazyColumn(state = rememberLazyListState()) {
-                    items(recommendedRecipesList, key = { recipe -> recipe.id }) { recipe ->
+                    items(recommendedRecipesList.value, key = { recipe -> recipe.id }) { recipe ->
                         val dismissState = rememberDismissState(
                             confirmStateChange = {
                                 when (it) {
                                     DismissValue.Default -> {}
                                     DismissValue.DismissedToEnd ->{
-                                        recommendedRecipesList.remove(recipe)
+                                        recommendedRecipesList.value.remove(recipe)
                                         recipe.recommended = false
                                         scope.launch{
                                             viewModel.addRecipe(recipe, emptyList(), emptyList())
                                         }
                                     }
                                     DismissValue.DismissedToStart -> {
-                                        recommendedRecipesList.remove(recipe)
+                                        recommendedRecipesList.value.remove(recipe)
                                         scope.launch {
                                             viewModel.deleteRecipe(recipe)
                                         }

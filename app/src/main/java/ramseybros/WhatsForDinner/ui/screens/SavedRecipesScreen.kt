@@ -12,7 +12,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -25,7 +24,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.RectangleShape
@@ -48,8 +46,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -142,7 +140,7 @@ private fun SavedRecipeRow(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SavedRecipesScreen(
-    savedRecipesList: MutableList<Recipe>?,
+    savedRecipesList: State<SnapshotStateList<Recipe>>,
     onSelectRecipe: (Recipe) -> Any,
     viewModel: I_WhatsForDinnerViewModel
 ) {
@@ -154,17 +152,17 @@ fun SavedRecipesScreen(
     {
 //        SavedRecipesSection()
         Box(Modifier.fillMaxSize()) {
-            if (savedRecipesList != null) {
+            if (savedRecipesList.value.isNotEmpty()) {
                 val scope = rememberCoroutineScope()
                 LazyColumn(state = rememberLazyListState()) {
-                    items(savedRecipesList, key = { recipe -> recipe.id }) { recipe ->
+                    items(savedRecipesList.value, key = { recipe -> recipe.id }) { recipe ->
                         val dismissState = rememberDismissState(
                             confirmStateChange = {
                                 when (it) {
                                     DismissValue.Default -> {}
                                     DismissValue.DismissedToEnd -> {}
                                     DismissValue.DismissedToStart -> {
-                                        savedRecipesList.remove(recipe)
+                                        savedRecipesList.value.remove(recipe)
                                         scope.launch {
                                             viewModel.deleteRecipe(recipe)
                                         }

@@ -1,7 +1,9 @@
 package ramseybros.WhatsForDinner.ui.navigation.specs
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -17,16 +19,18 @@ object RecommendedRecipesScreenSpec: IScreenSpec {
     override val title: Int
         get() = R.string.recommended_recipes_header
 
+    @SuppressLint("UnrememberedMutableState")
     @Composable
     override fun Content(
         viewModel: I_WhatsForDinnerViewModel,
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val recommndedRecipesList = viewModel.recommendedRecipeListLiveData.observeAsState().value
+        val recommndedRecipesList = viewModel.test2.observeAsState(
+            mutableStateListOf())
         RecommendedRecipesScreen(
             recommendedRecipesList = recommndedRecipesList,
-            onSelectRecipe = {recipe->
+            onSelectRecipe = { recipe->
                 viewModel.setRecipeIdLiveData(recipe.id)
                 navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
             },
