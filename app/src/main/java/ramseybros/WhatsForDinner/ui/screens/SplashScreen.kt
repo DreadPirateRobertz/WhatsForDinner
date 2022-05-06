@@ -49,7 +49,8 @@ fun SplashScreen(navController: NavController) {
                 durationMillis = 800,
                 easing = {
                     OvershootInterpolator(10f).getInterpolation(it)
-                },)
+                },
+            )
         )
         delay(2500L)
         navController.popBackStack()
@@ -113,14 +114,16 @@ fun SplashScreen(navController: NavController) {
     }
 
     // Image
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
         Column(
             modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if(!isSystemInDarkTheme()) {
+            if (!isSystemInDarkTheme()) {
                 Text(
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.Cursive,
@@ -149,7 +152,7 @@ fun SplashScreen(navController: NavController) {
 }
 
 @Composable
-private fun CustomLinearProgressBar(){
+private fun CustomLinearProgressBar() {
     Column(
         modifier = Modifier
             .padding(start = 12.dp, end = 12.dp)

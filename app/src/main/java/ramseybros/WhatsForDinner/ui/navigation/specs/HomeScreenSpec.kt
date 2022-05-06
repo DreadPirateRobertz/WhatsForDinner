@@ -31,19 +31,18 @@ object HomeScreenSpec : IScreenSpec {
 
 
 
-            HomeScreen(
-                viewModel = viewModel,
-                savedRecipesList = savedRecipesList,
-                recommendedIngredientsList = emptyList(),
-                recommendedRecipesList = recommendedRecipesList,
-                onSelectIngredient = {},
-                onSelectRecipe =
-                { recipe ->
-                    navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
-                }
-            )
+        HomeScreen(
+            viewModel = viewModel,
+            savedRecipesList = savedRecipesList,
+            recommendedIngredientsList = emptyList(),
+            recommendedRecipesList = recommendedRecipesList,
+            onSelectIngredient = {},
+            onSelectRecipe =
+            { recipe ->
+                navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
+            }
+        )
     }
-
 
 
     @Composable

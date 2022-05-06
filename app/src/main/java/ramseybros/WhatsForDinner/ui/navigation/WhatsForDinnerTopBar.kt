@@ -8,7 +8,7 @@ import ramseybros.WhatsForDinner.ui.navigation.specs.IScreenSpec
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 @Composable
-fun WhatsForDinnerTopBar(navController: NavHostController, viewModel: I_WhatsForDinnerViewModel){
+fun WhatsForDinnerTopBar(navController: NavHostController, viewModel: I_WhatsForDinnerViewModel) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     IScreenSpec.TopBar(
         navController = navController,

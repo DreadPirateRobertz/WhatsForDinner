@@ -36,8 +36,17 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun requestWebRecipes()
     abstract fun deleteRecipe(recipe: Recipe)
     abstract fun makeApiRecipeRequest(recipe: Recipe): String
-    abstract fun parseRecipeJSON(apiData: String, recipe: Recipe, viewModel: I_WhatsForDinnerViewModel): Boolean
-    abstract fun parseListJSON(apiData: String, viewModel: I_WhatsForDinnerViewModel): SnapshotStateList<Recipe>
+    abstract fun parseRecipeJSON(
+        apiData: String,
+        recipe: Recipe,
+        viewModel: I_WhatsForDinnerViewModel
+    ): Boolean
+
+    abstract fun parseListJSON(
+        apiData: String,
+        viewModel: I_WhatsForDinnerViewModel
+    ): SnapshotStateList<Recipe>
+
     abstract fun makeApiListRequest(string: String): String
     abstract fun onSearchTextChanged(changedSearchText: String)
     abstract fun onClearText()
@@ -45,8 +54,6 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun updateRecipe(recipe: Recipe)
     abstract fun updateRecipeNOTRecommended(recipeId: UUID)
     abstract fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?)
-
     abstract val test: LiveData<SnapshotStateList<Recipe>>
-
     abstract val test2: LiveData<SnapshotStateList<Recipe>>
 }

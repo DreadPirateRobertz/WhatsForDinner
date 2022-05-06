@@ -11,7 +11,7 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.ui.screens.RecommendedRecipesScreen
 import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
-object RecommendedRecipesScreenSpec: IScreenSpec {
+object RecommendedRecipesScreenSpec : IScreenSpec {
     override val route: String
         get() = "RecommendedRecipesScreen"
     override val arguments: List<NamedNavArgument>
@@ -27,14 +27,16 @@ object RecommendedRecipesScreenSpec: IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
         val recommndedRecipesList = viewModel.test2.observeAsState(
-            mutableStateListOf())
+            mutableStateListOf()
+        )
         RecommendedRecipesScreen(
             recommendedRecipesList = recommndedRecipesList,
-            onSelectRecipe = { recipe->
+            onSelectRecipe = { recipe ->
                 viewModel.setRecipeIdLiveData(recipe.id)
                 navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))
             },
-            viewModel = viewModel)
+            viewModel = viewModel
+        )
     }
 
     @Composable
@@ -46,6 +48,6 @@ object RecommendedRecipesScreenSpec: IScreenSpec {
     }
 
     override fun navigateTo(vararg args: String?): String {
-       return route
+        return route
     }
 }

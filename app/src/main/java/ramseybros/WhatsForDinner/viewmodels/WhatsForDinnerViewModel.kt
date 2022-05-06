@@ -60,21 +60,24 @@ class WhatsForDinnerViewModel(
     private val _ingredientListToAdd = MutableLiveData<String>()
 
 
-    override val test: LiveData<SnapshotStateList<Recipe>> = Transformations.switchMap(whatsForDinnerRepository.getTestSaved())
-    {
-       MutableLiveData(it.toMutableStateList())
-    }
+    override val test: LiveData<SnapshotStateList<Recipe>> =
+        Transformations.switchMap(whatsForDinnerRepository.getTestSaved())
+        {
+            MutableLiveData(it.toMutableStateList())
+        }
 
 
-    override val test2: LiveData<SnapshotStateList<Recipe>> = Transformations.switchMap(whatsForDinnerRepository.getTestRec())
-    {
-        MutableLiveData(it.toMutableStateList())
-    }
+    override val test2: LiveData<SnapshotStateList<Recipe>> =
+        Transformations.switchMap(whatsForDinnerRepository.getTestRec())
+        {
+            MutableLiveData(it.toMutableStateList())
+        }
 
 
     override val savedRecipeListLiveData = whatsForDinnerRepository.getSavedRecipes()
 
-    override val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>> = whatsForDinnerRepository.getRecommendedRecipes()
+    override val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>> =
+        whatsForDinnerRepository.getRecommendedRecipes()
 
     override val ingredientListLiveData = whatsForDinnerRepository.getIngredients()
 
@@ -125,23 +128,28 @@ class WhatsForDinnerViewModel(
     }
 
     override fun addIngredientsToStore() {
-        if(_ingredientListToAdd.value != null) {
+        if (_ingredientListToAdd.value != null) {
             var addList =
-                if(_ingredientListToAdd.value!![0]==',')
+                if (_ingredientListToAdd.value!![0] == ',')
                     _ingredientListToAdd.value!!.substring(1)
                 else
                     _ingredientListToAdd.value!!
             var string: String = ""
             for (char in addList) {
-                if(char==',') {
-                    Log.d("recipe",string)
-                    whatsForDinnerRepository.addIngredient(Ingredient(string, 0, IngredientType.DAIRY))
+                if (char == ',') {
+                    Log.d("recipe", string)
+                    whatsForDinnerRepository.addIngredient(
+                        Ingredient(
+                            string,
+                            0,
+                            IngredientType.DAIRY
+                        )
+                    )
                     string = ""
-                }
-                else string+=char
+                } else string += char
             }
-            if(string != "") {
-                Log.d("recipe",string)
+            if (string != "") {
+                Log.d("recipe", string)
                 whatsForDinnerRepository.addIngredient(Ingredient(string, 0, IngredientType.DAIRY))
             }
         }
@@ -165,13 +173,13 @@ class WhatsForDinnerViewModel(
         whatsForDinnerRepository.deleteRecipe(recipe)
     }
 
-    override fun updateRecipe(recipe: Recipe){
+    override fun updateRecipe(recipe: Recipe) {
         whatsForDinnerRepository.updateRecipe(recipe)
     }
-    override fun updateRecipeNOTRecommended(recipeId: UUID){
+
+    override fun updateRecipeNOTRecommended(recipeId: UUID) {
         whatsForDinnerRepository.updateRecipeNOTRecommended(recipeId)
     }
-
 
     override fun makeApiListRequest(string: String): String {
         Log.d(LOG_TAG, "makeApiListRequest() function called")
@@ -274,28 +282,32 @@ class WhatsForDinnerViewModel(
         for (i in (0 until ingredientListArray.length())) {
             val ingredientInfo = ingredientListArray.getJSONObject(i)
             val amount = ingredientInfo.getDouble("amount")
-            val roundedAmount: String = if (amount % 1.0 <= 0.001) { //check if amount is a whole number or not
-                df0.format(amount).toString()
-            } else { // if not whole then rounds to 2 decimal places
-                df2.format(amount).toString()
-            }
+            val roundedAmount: String =
+                if (amount % 1.0 <= 0.001) { //check if amount is a whole number or not
+                    df0.format(amount).toString()
+                } else { // if not whole then rounds to 2 decimal places
+                    df2.format(amount).toString()
+                }
             val ingredientObject =
-                roundedAmount + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString("name")
+                roundedAmount + " " + ingredientInfo.getString("unit") + " " + ingredientInfo.getString(
+                    "name"
+                )
             ingredientString = "$ingredientString,$ingredientObject"
             Log.d("ViewModel", ingredientObject)
         }
-        recipe.ingredientString = ingredientString //returns commma separated list of ingredients in a string
+        recipe.ingredientString =
+            ingredientString //returns commma separated list of ingredients in a string
         recipe.time = properties.getString("readyInMinutes")
         var textString = ""
         for (index in (0 until recipe.recipeText.length)) {
-            if (recipe.recipeText[index] == ' ' && recipe.recipeText[index+1] != ' ') {
+            if (recipe.recipeText[index] == ' ' && recipe.recipeText[index + 1] != ' ') {
                 textString += recipe.recipeText[index].toString()
             } else if (recipe.recipeText[index] != ' ') {
                 textString += recipe.recipeText[index].toString()
             }
         }
         if (textString.contains("Directions")) {
-            textString = textString.subSequence(11,textString.length).toString()
+            textString = textString.subSequence(11, textString.length).toString()
         }
         recipe.recipeText = textString
         return (recipe.recipeText != "null")
@@ -325,7 +337,6 @@ class WhatsForDinnerViewModel(
         searchText.value = ""
     }
 
-  
     override fun askSpeechInput(context: Context) {
         if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
@@ -346,14 +357,14 @@ class WhatsForDinnerViewModel(
         }
     }
 
-    override fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?){
+    override fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?) {
         val apiRecipeList = getApiRecipeList()
         val savedRecipeList = savedRecipeListLiveData.value
         var fill = 30 - (recommendedRecipesList?.size ?: 0)
         apiRecipeList.forEach {
             Log.d("apirecipe", "name $fill = ${it.title}")
             if (recommendedRecipesList?.find { r -> it.title == r.title && it.imageLink == r.imageLink && it.time == r.time } == null
-                && savedRecipeList?.find{ r -> it.title == r.title && it.imageLink == r.imageLink && it.time == r.time } == null) {
+                && savedRecipeList?.find { r -> it.title == r.title && it.imageLink == r.imageLink && it.time == r.time } == null) {
                 if (fill > 0) {
                     val recipe = it
                     recipe.recommended = true

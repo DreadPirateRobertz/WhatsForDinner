@@ -13,8 +13,8 @@ import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 import ramseybros.WhatsForDinner.viewmodels.WhatsForDinnerViewModel
 import java.net.URL
 
-class RecipeWorker(context: Context, workerParams: WorkerParameters)
-    : Worker(context, workerParams) {
+class RecipeWorker(context: Context, workerParams: WorkerParameters) :
+    Worker(context, workerParams) {
     companion object {
         const val UNIQUE_WORK_NAME = "WhatsForDinner_API_REQUEST"
         const val LOG_TAG = "ramseybros.RecipeWorker"
@@ -23,6 +23,7 @@ class RecipeWorker(context: Context, workerParams: WorkerParameters)
             .Builder(RecipeWorker::class.java)
             .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
             .build()
+
         fun getApiData(outputData: Data) = outputData.getString(PROGRESS)
     }
 
@@ -48,7 +49,7 @@ class RecipeWorker(context: Context, workerParams: WorkerParameters)
         if (apiData != null) {
             while (apiData!!.isNotEmpty()) {
                 if (apiData.length < 10000) {
-                    substr = apiData.subSequence(0, apiData.length-1).toString()
+                    substr = apiData.subSequence(0, apiData.length - 1).toString()
                     apiData = substr
                 } else {
                     substr = apiData.subSequence(0, 9999).toString()

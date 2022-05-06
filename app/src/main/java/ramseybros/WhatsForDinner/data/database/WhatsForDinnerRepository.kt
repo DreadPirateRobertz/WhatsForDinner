@@ -74,7 +74,9 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
 
     fun getTestRec() = whatsForDinnerDao.getTestRecommended()
 
-    fun getRecommendedRecipes(): LiveData<MutableList<Recipe>> = whatsForDinnerDao.getRecommendedRecipes()
+    fun getRecommendedRecipes(): LiveData<MutableList<Recipe>> =
+        whatsForDinnerDao.getRecommendedRecipes()
+
     fun getSavedRecipes(): LiveData<MutableList<Recipe>> = whatsForDinnerDao.getSavedRecipes()
     fun getRecipe(id: UUID): LiveData<Recipe>? = whatsForDinnerDao.getRecipe(id)
     fun getIngredients(): LiveData<List<Ingredient>> = whatsForDinnerDao.getIngredients()
@@ -84,6 +86,7 @@ class WhatsForDinnerRepository private constructor(private val whatsForDinnerDao
             whatsForDinnerDao.deleteRecipe(recipe)
         }
     }
+
     fun deleteIngredient(ingredient: Ingredient) {
         executor.execute {
             whatsForDinnerDao.deleteIngredient(ingredient)

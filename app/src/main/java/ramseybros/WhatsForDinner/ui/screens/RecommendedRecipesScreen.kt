@@ -141,10 +141,10 @@ fun RecommendedRecipesScreen(
                             confirmStateChange = {
                                 when (it) {
                                     DismissValue.Default -> {}
-                                    DismissValue.DismissedToEnd ->{
+                                    DismissValue.DismissedToEnd -> {
                                         recommendedRecipesList.value.remove(recipe)
                                         recipe.recommended = false
-                                        scope.launch{
+                                        scope.launch {
                                             viewModel.addRecipe(recipe, emptyList(), emptyList())
                                         }
                                     }
@@ -161,7 +161,10 @@ fun RecommendedRecipesScreen(
 
                         SwipeToDismiss(
                             state = dismissState,
-                            directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
+                            directions = setOf(
+                                DismissDirection.EndToStart,
+                                DismissDirection.StartToEnd
+                            ),
                             dismissThresholds = { FractionalThreshold(.3f) },
                             background = {
 
@@ -174,12 +177,12 @@ fun RecommendedRecipesScreen(
                                         DismissValue.DismissedToStart -> Color.Red
                                     }
                                 )
-                                val icon = when(direction){
+                                val icon = when (direction) {
                                     DismissDirection.StartToEnd -> painterResource(R.drawable.ic_baseline_star_24)
                                     DismissDirection.EndToStart -> painterResource(R.drawable.ic_baseline_delete_sweep_24)
                                 }
                                 val scale by animateFloatAsState(targetValue = if (dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
-                                val alignment = when(direction){
+                                val alignment = when (direction) {
                                     DismissDirection.StartToEnd -> Alignment.CenterStart
                                     DismissDirection.EndToStart -> Alignment.CenterEnd
                                 }
@@ -191,7 +194,12 @@ fun RecommendedRecipesScreen(
                                     contentAlignment = alignment
                                 )
                                 {
-                                    Icon(painter = icon, contentDescription = null, modifier = Modifier.scale(scale),tint = colorResource(R.color.teal_200) )
+                                    Icon(
+                                        painter = icon,
+                                        contentDescription = null,
+                                        modifier = Modifier.scale(scale),
+                                        tint = colorResource(R.color.teal_200)
+                                    )
                                 }
 
                             }, dismissContent = {

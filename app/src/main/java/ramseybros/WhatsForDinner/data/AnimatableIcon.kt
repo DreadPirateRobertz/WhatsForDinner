@@ -22,6 +22,7 @@ import ramseybros.WhatsForDinner.R
 private val ICON_SIZE = 24.dp
 private val COLOR_NORMAL = Color(0xffEDEFF4)
 private val COLOR_SELECTED = Color(0xff496DE2)
+
 @Composable
 fun AnimatableIcon(
     icon: Int,

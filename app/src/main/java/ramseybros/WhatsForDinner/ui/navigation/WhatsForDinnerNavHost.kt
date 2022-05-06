@@ -23,16 +23,21 @@ fun WhatsForDinnerNavHost(
     paddingValues: PaddingValues
 ) {
     val configuration = LocalConfiguration.current
-    var paddingBottom : Dp = paddingValues.calculateBottomPadding()
+    var paddingBottom: Dp = paddingValues.calculateBottomPadding()
     var paddingTop = paddingValues.calculateTopPadding()
     var paddingStart = paddingValues.calculateStartPadding(LayoutDirection.Ltr)
     var paddingEnd = paddingValues.calculateEndPadding(LayoutDirection.Ltr)
 
-    if(configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
-         paddingTop = 0.dp
+    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        paddingTop = 0.dp
     }
     Column(
-        Modifier.padding(top = paddingTop, bottom = paddingBottom, start = paddingStart, end = paddingEnd)
+        Modifier.padding(
+            top = paddingTop,
+            bottom = paddingBottom,
+            start = paddingStart,
+            end = paddingEnd
+        )
     ) {
 
 

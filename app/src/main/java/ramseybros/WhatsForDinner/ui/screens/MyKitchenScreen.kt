@@ -27,9 +27,11 @@ import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.data.IngredientType
 import ramseybros.WhatsForDinner.util.IngredientListGenerator
+
 @Composable
 private fun SectionHeader(title: String) {
-    Column(        horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
@@ -51,15 +53,13 @@ fun MyKitchen(onClick: () -> Unit) {
             Modifier
                 .fillMaxWidth()
         )
-            LazyColumn() {
-                items(10) {
-                    IngredientRow {}
-                }
+        LazyColumn() {
+            items(10) {
+                IngredientRow {}
             }
         }
     }
-
-
+}
 
 
 @Composable

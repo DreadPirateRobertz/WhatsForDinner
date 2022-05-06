@@ -37,7 +37,8 @@ object RecipeGenerator {
         var title = "Garlic Lorem Ipsum"
         var time = "17 hours"
         var searchId = (Math.random() % 100).toInt()
-        var ingredientString = "1 tsp sugar,1 lb chicken,a head of lettuce,pinch of pepper,pinch of salt,a bottle of hot sauce"
+        var ingredientString =
+            "1 tsp sugar,1 lb chicken,a head of lettuce,pinch of pepper,pinch of salt,a bottle of hot sauce"
         //ListItems(ingredientList = ingredientList, utensilList = utensilList, inKitchenList = inKitchenList)
         //RecipeText(recipeText = recipeText)
         var recipe: Recipe = Recipe(

@@ -46,9 +46,9 @@ class MainActivity : ComponentActivity() {
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 102 && resultCode == Activity.RESULT_OK){
+        if (requestCode == 102 && resultCode == Activity.RESULT_OK) {
             val result = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             viewModel.onSearchTextChanged(result?.get(0).toString())
         }
@@ -131,20 +131,25 @@ fun checkRoute(navController: NavHostController): Int {
 }
 
 @Composable
-private fun AskSpeechInput(context: Context){
-    if(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+private fun AskSpeechInput(context: Context) {
+    if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             !SpeechRecognizer.isOnDeviceRecognitionAvailable(context)// Works if API is 31 and >
         } else {
             !SpeechRecognizer.isRecognitionAvailable(context)  //Remote
         }
-    ){
+    ) {
         Toast.makeText(context, "Speech Unavailable", Toast.LENGTH_SHORT).show()
-    }
-    else{
+    } else {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH
+        )
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "This will allow this app to recognize your speech")
+        intent.putExtra(
+            RecognizerIntent.EXTRA_PROMPT,
+            "This will allow this app to recognize your speech"
+        )
 
         ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
     }

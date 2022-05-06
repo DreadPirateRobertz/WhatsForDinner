@@ -36,7 +36,8 @@ fun ListItems(
         LazyColumn(
             Modifier
                 .weight(1.0f)
-                .padding(4.dp)) {
+                .padding(4.dp)
+        ) {
             items(ingredientList.size) {
                 if (ingredientList[it] in inKitchenList) {
                     Text(ingredientList[it])
@@ -48,7 +49,8 @@ fun ListItems(
         LazyColumn(
             Modifier
                 .weight(1.0f)
-                .padding(4.dp)) {
+                .padding(4.dp)
+        ) {
             items(utensilList.size) {
                 if (utensilList[it] in inKitchenList) {
                     Text(utensilList[it])
@@ -72,8 +74,8 @@ fun IngredientText(ingredientString: String) {
 
     Column(Modifier.fillMaxSize(), Arrangement.Center, Alignment.CenterHorizontally) {
         list.forEachIndexed { index, string ->
-            if(index == 0) {}
-            else Text(text ="- ${list[index]}", textAlign = TextAlign.Center)
+            if (index == 0) {
+            } else Text(text = "- ${list[index]}", textAlign = TextAlign.Center)
         }
     }
 }
@@ -87,28 +89,32 @@ fun RecipeInformation(
 ) {
     val configuration = LocalConfiguration.current
 
-    when(configuration.orientation){
+    when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
             Row(
                 Modifier
                     .fillMaxSize()
                     .padding(4.dp)
 //
-            ){
+            ) {
 
                 Column(
                     Modifier
                         .weight(1f)
-                        .verticalScroll(rememberScrollState())) {
+                        .verticalScroll(rememberScrollState())
+                ) {
                     IngredientText(recipe.ingredientString)
                 }
-                Divider(color = colorResource(id = R.color.teal_200),  modifier = Modifier
-                    .fillMaxHeight()
-                    .width(1.dp))
+                Divider(
+                    color = colorResource(id = R.color.teal_200), modifier = Modifier
+                        .fillMaxHeight()
+                        .width(1.dp)
+                )
                 Column(
                     Modifier
                         .weight(1.5f)
-                        .verticalScroll(rememberScrollState())) {
+                        .verticalScroll(rememberScrollState())
+                ) {
                     RecipeText(recipeText = recipe.recipeText)
                 }
             }
@@ -117,12 +123,18 @@ fun RecipeInformation(
             Column(
                 Modifier
                     .padding(4.dp)
-                    ) {
-                Column(Modifier.verticalScroll(rememberScrollState()).weight(1f)) {
+            ) {
+                Column(
+                    Modifier
+                        .verticalScroll(rememberScrollState())
+                        .weight(1f)) {
                     IngredientText(recipe.ingredientString)
                 }
-                    Divider(color = colorResource(id = R.color.teal_200), thickness = 1.dp)
-                Column(Modifier.verticalScroll(rememberScrollState()).weight(1.5f)) {
+                Divider(color = colorResource(id = R.color.teal_200), thickness = 1.dp)
+                Column(
+                    Modifier
+                        .verticalScroll(rememberScrollState())
+                        .weight(1.5f)) {
                     RecipeText(recipeText = recipe.recipeText)
                 }
             }

@@ -84,20 +84,23 @@ private fun RecommendedIngredientsSection() {
 }
 
 
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: State<SnapshotStateList<Recipe>>, viewModel: I_WhatsForDinnerViewModel) {
+private fun SavedRecipesRow(
+    onSelectRecipe: (Recipe) -> Any,
+    savedRecipesList: State<SnapshotStateList<Recipe>>,
+    viewModel: I_WhatsForDinnerViewModel
+) {
 
     //Clicking A recipe will take you to how to make it...
     val configuration = LocalConfiguration.current
     var padding = 16.dp
     var size = 0.dp
-    size = when(configuration.orientation){
+    size = when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
             50.dp
         }
-        else ->{
+        else -> {
             75.dp
         }
     }
@@ -111,14 +114,14 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: S
                 SavedRecipesSection()
                 if (savedRecipesList.value.isNotEmpty()) {
                     val scope = rememberCoroutineScope()
-                   LazyColumn(state = rememberLazyListState()) {
-                        items(savedRecipesList.value,key = {recipe->recipe.id}) { recipe->
+                    LazyColumn(state = rememberLazyListState()) {
+                        items(savedRecipesList.value, key = { recipe -> recipe.id }) { recipe ->
                             val dismissState = rememberDismissState(
                                 confirmStateChange = {
-                                    when (it){
-                                        DismissValue.Default ->{}
-                                        DismissValue.DismissedToEnd ->{}
-                                        DismissValue.DismissedToStart ->{
+                                    when (it) {
+                                        DismissValue.Default -> {}
+                                        DismissValue.DismissedToEnd -> {}
+                                        DismissValue.DismissedToStart -> {
                                             savedRecipesList.value.remove(recipe)
                                             scope.launch {
                                                 viewModel.deleteRecipe(recipe)
@@ -131,19 +134,20 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: S
 
                             SwipeToDismiss(
                                 state = dismissState,
-                                directions = setOf( DismissDirection.EndToStart),
-                                dismissThresholds = {FractionalThreshold(.3f)},
-                                background ={
+                                directions = setOf(DismissDirection.EndToStart),
+                                dismissThresholds = { FractionalThreshold(.3f) },
+                                background = {
 
-                                    val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
+                                    val direction =
+                                        dismissState.dismissDirection ?: return@SwipeToDismiss
                                     val color by animateColorAsState(
-                                        targetValue = when(dismissState.targetValue){
+                                        targetValue = when (dismissState.targetValue) {
                                             DismissValue.Default -> Color.Transparent
                                             DismissValue.DismissedToEnd -> Color.Transparent
                                             DismissValue.DismissedToStart -> Color.Red
                                         }
                                     )
-                                    val scale by animateFloatAsState(targetValue = if(dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
+                                    val scale by animateFloatAsState(targetValue = if (dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
                                     val alignment = Alignment.CenterEnd
 
                                     Box(
@@ -155,11 +159,21 @@ private fun SavedRecipesRow(onSelectRecipe: (Recipe) -> Any, savedRecipesList: S
                                         contentAlignment = alignment
                                     )
                                     {
-                                        Icon(painter = painterResource(id = R.drawable.ic_baseline_delete_sweep_24), tint = colorResource(R.color.teal_200),contentDescription = null, modifier = Modifier.scale(scale))
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_baseline_delete_sweep_24),
+                                            tint = colorResource(R.color.teal_200),
+                                            contentDescription = null,
+                                            modifier = Modifier.scale(scale)
+                                        )
                                     }
 
                                 }, dismissContent = {
-                                    DismissContent(onSelectRecipe = onSelectRecipe, recipe = recipe , size = size, dismissState = dismissState)
+                                    DismissContent(
+                                        onSelectRecipe = onSelectRecipe,
+                                        recipe = recipe,
+                                        size = size,
+                                        dismissState = dismissState
+                                    )
 
                                 }
 
@@ -181,14 +195,15 @@ private fun DismissContent(
     recipe: Recipe,
     size: Dp,
     dismissState: DismissState
-)  {
-    val elevation = animateDpAsState(targetValue = if(dismissState.dismissDirection != null) 4.dp else 0.dp).value
+) {
+    val elevation =
+        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 0.dp).value
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 8.dp)
             .clickable { onSelectRecipe(recipe) },
-            elevation = elevation
+        elevation = elevation
     ) {
         Row() {
             AsyncImage(
@@ -215,7 +230,6 @@ private fun DismissContent(
         }
     }
 }
-
 
 
 @Composable
@@ -259,11 +273,11 @@ private fun RecommendedRecipeRow(
     val configuration = LocalConfiguration.current
     var padding = 16.dp
     var size = 0.dp
-    size = when(configuration.orientation){
+    size = when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
             50.dp
         }
-        else ->{
+        else -> {
             75.dp
         }
     }
@@ -277,20 +291,24 @@ private fun RecommendedRecipeRow(
                 if (recommendedRecipesList.value.isNotEmpty()) {
                     val scope = rememberCoroutineScope()
                     LazyColumn(state = rememberLazyListState()) {
-                        items(recommendedRecipesList.value,{recipe->recipe.id}) { recipe->
+                        items(recommendedRecipesList.value, { recipe -> recipe.id }) { recipe ->
                             val dismissState = rememberDismissState(
                                 confirmStateChange = {
-                                    when (it){
-                                        DismissValue.Default ->{}
-                                        DismissValue.DismissedToEnd ->{
+                                    when (it) {
+                                        DismissValue.Default -> {}
+                                        DismissValue.DismissedToEnd -> {
                                             recommendedRecipesList.value.remove(recipe)
                                             recipe.recommended = false
-                                            scope.launch{
-                                                viewModel.addRecipe(recipe, emptyList(), emptyList())
+                                            scope.launch {
+                                                viewModel.addRecipe(
+                                                    recipe,
+                                                    emptyList(),
+                                                    emptyList()
+                                                )
                                             }
 
                                         }
-                                        DismissValue.DismissedToStart ->{
+                                        DismissValue.DismissedToStart -> {
                                             recommendedRecipesList.value.remove(recipe)
                                             scope.launch {
                                                 viewModel.deleteRecipe(recipe)
@@ -303,24 +321,28 @@ private fun RecommendedRecipeRow(
 
                             SwipeToDismiss(
                                 state = dismissState,
-                                directions = setOf( DismissDirection.EndToStart, DismissDirection.StartToEnd),
-                                dismissThresholds = {FractionalThreshold(.3f)},
-                                background ={
+                                directions = setOf(
+                                    DismissDirection.EndToStart,
+                                    DismissDirection.StartToEnd
+                                ),
+                                dismissThresholds = { FractionalThreshold(.3f) },
+                                background = {
 
-                                    val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
+                                    val direction =
+                                        dismissState.dismissDirection ?: return@SwipeToDismiss
                                     val color by animateColorAsState(
-                                        targetValue = when(dismissState.targetValue){
+                                        targetValue = when (dismissState.targetValue) {
                                             DismissValue.Default -> Color.Transparent
                                             DismissValue.DismissedToEnd -> Color.Green
                                             DismissValue.DismissedToStart -> Color.Red
                                         }
                                     )
-                                    val icon = when(direction){
+                                    val icon = when (direction) {
                                         DismissDirection.StartToEnd -> painterResource(R.drawable.ic_baseline_star_24)
                                         DismissDirection.EndToStart -> painterResource(R.drawable.ic_baseline_delete_sweep_24)
                                     }
-                                    val scale by animateFloatAsState(targetValue = if(dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
-                                    val alignment = when(direction){
+                                    val scale by animateFloatAsState(targetValue = if (dismissState.targetValue == DismissValue.Default) 0.8f else 1.2f)
+                                    val alignment = when (direction) {
                                         DismissDirection.StartToEnd -> Alignment.CenterStart
                                         DismissDirection.EndToStart -> Alignment.CenterEnd
                                     }
@@ -333,11 +355,21 @@ private fun RecommendedRecipeRow(
                                         contentAlignment = alignment
                                     )
                                     {
-                                        Icon(painter = icon, contentDescription = null, modifier = Modifier.scale(scale),tint = colorResource(R.color.teal_200) )
+                                        Icon(
+                                            painter = icon,
+                                            contentDescription = null,
+                                            modifier = Modifier.scale(scale),
+                                            tint = colorResource(R.color.teal_200)
+                                        )
                                     }
 
                                 }, dismissContent = {
-                                    DismissContent(onSelectRecipe = onSelectRecipe, recipe = recipe , size = size, dismissState = dismissState)
+                                    DismissContent(
+                                        onSelectRecipe = onSelectRecipe,
+                                        recipe = recipe,
+                                        size = size,
+                                        dismissState = dismissState
+                                    )
 
                                 }
                             )
@@ -360,17 +392,16 @@ fun HomeScreen(
     viewModel: I_WhatsForDinnerViewModel
 ) {
     val configuration = LocalConfiguration.current
-    when(configuration.orientation){
+    when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
 //                    .padding(top = 8.dp, bottom = 60.dp)
-                  /*  .verticalScroll(rememberScrollState())*/
-                ,
+                /*  .verticalScroll(rememberScrollState())*/,
 
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Row(
                 )
                 {
@@ -402,13 +433,12 @@ fun HomeScreen(
                 }
             }
         }
-        else ->{
+        else -> {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
 //                    .padding(top = 8.dp, bottom = 8.dp)
-                    .verticalScroll(rememberScrollState())
-                ,
+                    .verticalScroll(rememberScrollState()),
 
                 horizontalAlignment = Alignment.CenterHorizontally
             )

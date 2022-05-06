@@ -48,8 +48,8 @@ fun LargeRecipeView(
 
     val configuration = LocalConfiguration.current
     var headerWeight = .8f
-    when(configuration.orientation){
-        Configuration.ORIENTATION_LANDSCAPE ->{
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
             headerWeight = .4f
         }
     }
@@ -58,15 +58,17 @@ fun LargeRecipeView(
         Box(
             Modifier
                 .fillMaxWidth()
-                .weight(headerWeight)) {
+                .weight(headerWeight)
+        ) {
             LargeViewRecipeHeader(recipe = recipe)
         }
         var weight = 1f
-        if(!saveButtonFlag) weight = 1.2f
+        if (!saveButtonFlag) weight = 1.2f
         Box(
             Modifier
                 .fillMaxWidth()
-                .weight(weight)) {
+                .weight(weight)
+        ) {
             RecipeInformation(
                 recipe = recipe,
                 inKitchenList = inKitchenList,
@@ -76,8 +78,15 @@ fun LargeRecipeView(
         }
         Box(
             Modifier
-                .weight(0.15f)) {
-            LargeViewRecipeFooter(recipe = recipe, onSave = onSave, onDelete = onDelete, onBack = onBack, saveButtonFlag = saveButtonFlag)
+                .weight(0.15f)
+        ) {
+            LargeViewRecipeFooter(
+                recipe = recipe,
+                onSave = onSave,
+                onDelete = onDelete,
+                onBack = onBack,
+                saveButtonFlag = saveButtonFlag
+            )
         }
         Spacer(Modifier.weight(.05f))
     }
@@ -103,7 +112,7 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
             }
         }
         val configuration = LocalConfiguration.current
-        if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(recipe.imageLink)
@@ -126,8 +135,14 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
 }
 
 @Composable
-fun LargeViewRecipeFooter(recipe: Recipe, onSave: (Recipe) -> Unit, onDelete: (Recipe) -> Unit, onBack: () -> Unit, saveButtonFlag: Boolean) {
-    Column(horizontalAlignment = Alignment.Start,) {
+fun LargeViewRecipeFooter(
+    recipe: Recipe,
+    onSave: (Recipe) -> Unit,
+    onDelete: (Recipe) -> Unit,
+    onBack: () -> Unit,
+    saveButtonFlag: Boolean
+) {
+    Column(horizontalAlignment = Alignment.Start) {
         if (saveButtonFlag) {
             IconButton(onClick = { onSave(recipe) }) {
                 Icon(

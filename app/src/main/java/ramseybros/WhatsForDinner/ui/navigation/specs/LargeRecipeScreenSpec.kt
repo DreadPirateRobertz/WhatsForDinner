@@ -31,11 +31,10 @@ object LargeRecipeScreenSpec : IScreenSpec {
 
 
     override fun navigateTo(vararg args: String?): String {
-        if(args[0] == "search"){
+        if (args[0] == "search") {
             fromSearch = true
-        }
-        else{
-           ID = args[0].toString()
+        } else {
+            ID = args[0].toString()
             fromSearch = false
         }
         return route
@@ -54,21 +53,21 @@ object LargeRecipeScreenSpec : IScreenSpec {
 
 
         val savedRecipesList = viewModel.savedRecipeListLiveData.observeAsState().value
-        val testSavedRecipesList = viewModel.test.observeAsState().value  //Using the SnapShotState Saved Recipes list
-                                                                        //Swiping from API List was causing it not to fill the traditional
-                                                                        //Saved Recipes List
+        val testSavedRecipesList =
+            viewModel.test.observeAsState().value  //Using the SnapShotState Saved Recipes list
+        //Swiping from API List was causing it not to fill the traditional
+        //Saved Recipes List
 
         val testRecommendedRecipesList = viewModel.test2.observeAsState().value
 
-        if(fromSearch == true) recipe = viewModel.getApiRecipeLiveData().value!!
-
+        if (fromSearch == true) recipe = viewModel.getApiRecipeLiveData().value!!
         else {
             testSavedRecipesList?.forEach {
                 if (ID == it.id.toString()) {
                     recipe = it
                 }
             }
-           testRecommendedRecipesList?.forEach {
+            testRecommendedRecipesList?.forEach {
                 if (ID == it.id.toString()) {
                     recipe = it
                 }
@@ -79,9 +78,10 @@ object LargeRecipeScreenSpec : IScreenSpec {
         var saveButtonFlag = true
 
         testSavedRecipesList?.forEach {
-            if(recipe.title == it.title &&
+            if (recipe.title == it.title &&
                 recipe.time == it.time &&
-                recipe.imageLink == it.imageLink) {
+                recipe.imageLink == it.imageLink
+            ) {
                 saveButtonFlag = false
                 recipe = it
             }
@@ -91,8 +91,9 @@ object LargeRecipeScreenSpec : IScreenSpec {
             saveButtonFlag = saveButtonFlag,
             recipe = recipe,
             onSave = {
-                if(it.recommended) it.recommended = false
-                viewModel.addRecipe(it,ingredientList,utensilList)},
+                if (it.recommended) it.recommended = false
+                viewModel.addRecipe(it, ingredientList, utensilList)
+            },
             onDelete = {
                 viewModel.deleteRecipe(recipe = recipe)
                 navController.popBackStack()

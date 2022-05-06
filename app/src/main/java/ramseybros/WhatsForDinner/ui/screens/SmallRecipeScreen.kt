@@ -31,41 +31,47 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 @Composable
 fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit, dismissState: DismissState) {
     var size = 100.dp
-    val elevation = animateDpAsState(targetValue = if(dismissState.dismissDirection != null) 4.dp else 0.dp).value
+    val elevation =
+        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 0.dp).value
     Box(Modifier.fillMaxWidth()) {
-            Card(modifier = Modifier
+        Card(
+            modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                 .fillMaxWidth()
                 .clickable { onClick() },
-                elevation = elevation
+            elevation = elevation
 //                .border(2.dp, Color.Black, RoundedCornerShape(10))
+        ) {
+            Row(
+                Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Row (Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceAround){
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(recipe.imageLink)
-                            .crossfade(true)
-                            .build(),
-                        placeholder = painterResource(R.drawable.pot_image),
-                        contentDescription = "recipe image",
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(10))
-                            .align(Alignment.CenterVertically)
-                            .padding(4.dp)
-                            .size(size)
-                            .weight(1.5f)
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(recipe.imageLink)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.pot_image),
+                    contentDescription = "recipe image",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10))
+                        .align(Alignment.CenterVertically)
+                        .padding(4.dp)
+                        .size(size)
+                        .weight(1.5f)
 
-                    )
-                    Text(
-                        text = recipe.title,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .align(Alignment.CenterVertically)
-                            .weight(1f)
-                    )
-                }
+                )
+                Text(
+                    text = recipe.title,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .align(Alignment.CenterVertically)
+                        .weight(1f)
+                )
+            }
 //            }
         }
     }

@@ -65,7 +65,11 @@ sealed interface IScreenSpec {
         }
 
         @Composable
-        fun BottomBar(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, viewModel: I_WhatsForDinnerViewModel) {
+        fun BottomBar(
+            navController: NavHostController,
+            navBackStackEntry: NavBackStackEntry?,
+            viewModel: I_WhatsForDinnerViewModel
+        ) {
             val route = navBackStackEntry?.destination?.route ?: ""
             if (route != "") allScreens[route]?.BottomAppBarContent(
                 navController = navController,
@@ -73,6 +77,7 @@ sealed interface IScreenSpec {
                 viewModel
             )
         }
+
         @Composable
         fun FAB(
             navController: NavHostController,
@@ -107,7 +112,6 @@ sealed interface IScreenSpec {
 //                }
 //            }
 //        }
-
 
 
     }
@@ -205,10 +209,15 @@ sealed interface IScreenSpec {
         }
         BottomAppBar(            // Defaults to null, that is, No cutout
             cutoutShape = MaterialTheme.shapes.small.copy(
-                CornerSize(percent = 50)),
+                CornerSize(percent = 50)
+            ),
             backgroundColor = bgColor
         ) {
-            Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
+            Row(
+                Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
 
 
                 BottomNavigation(
@@ -254,12 +263,14 @@ sealed interface IScreenSpec {
                                 },
                                 label = {
                                     val configuration = LocalConfiguration.current
-                                    when(configuration.orientation){
-                                        Configuration.ORIENTATION_PORTRAIT->{
-                                            if(navItem.title == R.string.nav_title_recommended) navItem.title = R.string.nav_title_recommended_abbreviated
+                                    when (configuration.orientation) {
+                                        Configuration.ORIENTATION_PORTRAIT -> {
+                                            if (navItem.title == R.string.nav_title_recommended) navItem.title =
+                                                R.string.nav_title_recommended_abbreviated
                                         }
-                                        Configuration.ORIENTATION_LANDSCAPE->{
-                                            if(navItem.title == R.string.nav_title_recommended_abbreviated) navItem.title = R.string.nav_title_recommended
+                                        Configuration.ORIENTATION_LANDSCAPE -> {
+                                            if (navItem.title == R.string.nav_title_recommended_abbreviated) navItem.title =
+                                                R.string.nav_title_recommended
                                         }
                                     }
 
@@ -289,7 +300,11 @@ sealed interface IScreenSpec {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun FAB_Content(navController: NavHostController, navBackStackEntry: NavBackStackEntry?, viewModel: I_WhatsForDinnerViewModel) {
+    private fun FAB_Content(
+        navController: NavHostController,
+        navBackStackEntry: NavBackStackEntry?,
+        viewModel: I_WhatsForDinnerViewModel
+    ) {
         var color: Color = Color.Black
         if (isSystemInDarkTheme()) color = colorLightSecondary
         FloatingActionButton(
@@ -316,28 +331,28 @@ sealed interface IScreenSpec {
                 )
             } else {
                 var icon = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24)
-                var clicked by remember{mutableStateOf(false)}
-                var clickCount by remember{mutableStateOf(0)}
-                var textExpanded by remember{mutableStateOf(false)}
-                var addText by remember{mutableStateOf("")}
-                var textList = remember{mutableStateListOf<String>()}
+                var clicked by remember { mutableStateOf(false) }
+                var clickCount by remember { mutableStateOf(0) }
+                var textExpanded by remember { mutableStateOf(false) }
+                var addText by remember { mutableStateOf("") }
+                var textList = remember { mutableStateListOf<String>() }
                 IconButton(onClick = {
                     clicked = true
                     clickCount++               //PlaceHolder //Where putting in ingredients to the shopping list on lRSS and SLSS
-                    if(clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
+                    if (clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
                         viewModel.addIngredientsToStore()
                         Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
-                    }
-                    else if(clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) {
-                        Log.d("recipe",addText)
-                        if(textExpanded && addText != "") {
+                    } else if (clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) {
+                        Log.d("recipe", addText)
+                        if (textExpanded && addText != "") {
                             viewModel.setIngredientsToAdd(addText)
                             viewModel.addIngredientsToStore()
-                            Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT)
+                                .show()
                             textExpanded = false
                         } else textExpanded = true
                     }
-                    if(clickCount > 1 && navBackStackEntry.destination.route != ShoppingListScreenSpec.route){
+                    if (clickCount > 1 && navBackStackEntry.destination.route != ShoppingListScreenSpec.route) {
                         navController.navigate(ShoppingListScreenSpec.navigateTo())
                         {
                             launchSingleTop = true
@@ -349,7 +364,7 @@ sealed interface IScreenSpec {
 
 
                 }) {
-                    if(navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
+                    if (navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
                         if (clicked) {
                             icon = painterResource(id = R.drawable.ic_baseline_shopping_cart_24)
                         } else {
@@ -375,14 +390,22 @@ sealed interface IScreenSpec {
                     )
                         .show()
                 }
+
                 fun onClick() {
-                    if(addText != "") {
+                    if (addText != "") {
                         textList.add(addText)
                     }
                 }
-                var colors = listOf(colorResource(id = R.color.white), colorLightPrimary, colorLightSecondary, Color.DarkGray)
-                if(isSystemInDarkTheme()) colors = listOf(colorDarkBackground, colorDarkPrimary, colorDarkSecondary, Color.White)
-                if(textExpanded) {
+
+                var colors = listOf(
+                    colorResource(id = R.color.white),
+                    colorLightPrimary,
+                    colorLightSecondary,
+                    Color.DarkGray
+                )
+                if (isSystemInDarkTheme()) colors =
+                    listOf(colorDarkBackground, colorDarkPrimary, colorDarkSecondary, Color.White)
+                if (textExpanded) {
                     Popup(
                         alignment = Alignment.BottomCenter,
                         offset = IntOffset(0, 0),
@@ -408,7 +431,7 @@ sealed interface IScreenSpec {
                                 OutlinedTextField(
                                     value = addText,
                                     onValueChange = {
-                                        if(it.contains('\n')) {
+                                        if (it.contains('\n')) {
                                             onClick()
                                             addText = ""
                                         } else {
@@ -420,7 +443,7 @@ sealed interface IScreenSpec {
                                         .background(colors[0]),
                                     label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) },
                                     trailingIcon = {
-                                        IconButton(onClick = { onClick()}) {
+                                        IconButton(onClick = { onClick() }) {
                                             Icon(
                                                 painter = painterResource(id = R.drawable.ic_baseline_data_saver_on_24),
                                                 contentDescription = null,
@@ -464,9 +487,11 @@ sealed interface IScreenSpec {
                                         }
                                     }
                                 }
-                                Box(modifier = Modifier
-                                    .weight(0.1f)
-                                    .fillMaxWidth()) {
+                                Box(
+                                    modifier = Modifier
+                                        .weight(0.1f)
+                                        .fillMaxWidth()
+                                ) {
                                     IconButton(
                                         modifier = Modifier.fillMaxWidth(),
                                         onClick = { onSubmit() }) {
@@ -481,7 +506,6 @@ sealed interface IScreenSpec {
                         }
                     )
                 }
-
             }
         }
     }
