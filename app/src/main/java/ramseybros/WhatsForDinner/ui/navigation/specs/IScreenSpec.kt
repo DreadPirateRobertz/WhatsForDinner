@@ -150,7 +150,7 @@ sealed interface IScreenSpec {
                         CompositionLocalProvider(
                             LocalContentAlpha provides ContentAlpha.high,
                         ) {
-                            Column() {
+                            Column {
                                 Text(
                                     fontWeight = FontWeight.ExtraBold,
                                     fontSize = 30.sp,

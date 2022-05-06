@@ -79,9 +79,7 @@ private fun SectionHeader(title: String) {
 
 @Composable
 private fun SavedRecipesSection() {
-    Column(
-
-    ) {
+    Column {
         SectionHeader(title = stringResource(id = R.string.saved_recipes_header))
     }
 }

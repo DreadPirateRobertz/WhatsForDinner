@@ -7,5 +7,4 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "ingredient")
 class Ingredient(@PrimaryKey val name: String, val image: Int, val type: IngredientType) :
-    Serializable {
-}
+    Serializable

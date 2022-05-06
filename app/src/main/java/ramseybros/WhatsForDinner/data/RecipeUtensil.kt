@@ -18,5 +18,4 @@ import java.util.*
         )
     )
 )
-class RecipeUtensil(val name: String, val recipeId: UUID) {
-}
+class RecipeUtensil(val name: String, val recipeId: UUID)

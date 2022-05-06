@@ -53,7 +53,7 @@ fun MyKitchen(onClick: () -> Unit) {
             Modifier
                 .fillMaxWidth()
         )
-        LazyColumn() {
+        LazyColumn {
             items(10) {
                 IngredientRow {}
             }
@@ -70,7 +70,7 @@ private fun IngredientRow(onClick: () -> Unit) {
     Spacer(
         Modifier.height(5.dp)
     )
-    LazyRow() {
+    LazyRow {
         items(list.size) {
             IngredientIcon(image = painterResource(list[it].image), text = list[it].name) {
             }

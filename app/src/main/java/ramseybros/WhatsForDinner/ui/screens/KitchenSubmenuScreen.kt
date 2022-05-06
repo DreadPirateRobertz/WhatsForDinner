@@ -23,7 +23,7 @@ import ramseybros.WhatsForDinner.R
 
 @Composable
 fun KitchenSectionList(itemList: List<String>, header: String) {
-    Column() {
+    Column {
         Text(header, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         LazyRow(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             items(itemList.size) {
@@ -47,7 +47,7 @@ fun KitchenSectionList(itemList: List<String>, header: String) {
 
 @Composable
 fun KitchenList(itemList: List<List<String>>, headerList: List<String>, addRecipe: () -> Unit) {
-    Column() {
+    Column {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,7 +58,7 @@ fun KitchenList(itemList: List<List<String>>, headerList: List<String>, addRecip
                 Text(stringResource(id = R.string.add_recipe_label))
             }
         }
-        LazyColumn() {
+        LazyColumn {
             items(itemList.size) {
                 KitchenSectionList(itemList[it], headerList[it])
             }
