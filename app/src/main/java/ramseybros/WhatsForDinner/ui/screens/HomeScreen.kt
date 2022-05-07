@@ -61,24 +61,21 @@ private fun SectionHeader(title: String) {
 
 @Composable
 private fun SavedRecipesSection() {
-    Column(
-    ) {
+    Column {
         SectionHeader(title = stringResource(id = R.string.saved_recipes_header))
     }
 }
 
 @Composable
 private fun RecommendedRecipesSection() {
-    Column(
-    ) {
+    Column {
         SectionHeader(title = stringResource(id = R.string.recommended_recipes_header))
     }
 }
 
 @Composable
 private fun RecommendedIngredientsSection() {
-    Column(
-    ) {
+    Column {
         SectionHeader(title = stringResource(id = R.string.recommended_ingredients_header))
     }
 }
@@ -205,7 +202,7 @@ private fun DismissContent(
             .clickable { onSelectRecipe(recipe) },
         elevation = elevation
     ) {
-        Row() {
+        Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(recipe.imageLink)

@@ -30,7 +30,7 @@ import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
 
 @Composable
 fun SectionList(itemList: List<String>, header: String) {
-    Column() {
+    Column {
         Text(header, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 24.sp)
         LazyRow(Modifier.padding(4.dp), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             items(itemList.size) {
@@ -55,7 +55,7 @@ fun SectionList(itemList: List<String>, header: String) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShoppingList(ingredientList: List<Ingredient>, onDelete: (Ingredient) -> Unit) {
-    Column() {
+    Column {
         LazyVerticalGrid(
             cells = GridCells.Fixed(2),
             contentPadding = PaddingValues(8.dp)

@@ -98,7 +98,7 @@ fun LargeRecipeView(
 fun LargeViewRecipeHeader(recipe: Recipe) {
 
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
-        Row() {
+        Row {
             Text(
                 recipe.title,
                 Modifier.weight(1.0f),
@@ -106,7 +106,7 @@ fun LargeViewRecipeHeader(recipe: Recipe) {
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
-            Column() {
+            Column {
                 Text(text = stringResource(id = R.string.difficulty, recipe.difficulty.toString()))
                 Text(text = stringResource(id = R.string.cook_time, recipe.time))
             }

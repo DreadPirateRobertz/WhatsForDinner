@@ -25,5 +25,4 @@ import java.util.*
         )
     )
 )
-class RecipeIngredientListXRef(var recipeId: UUID, var ingredientName: String) : Serializable {
-}
+class RecipeIngredientListXRef(var recipeId: UUID, var ingredientName: String) : Serializable

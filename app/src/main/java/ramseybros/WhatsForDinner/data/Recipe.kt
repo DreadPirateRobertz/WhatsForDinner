@@ -17,5 +17,4 @@ class Recipe(
     var searchId: Int,
     var ingredientString: String
 ) :
-    Serializable {
-}
+    Serializable
