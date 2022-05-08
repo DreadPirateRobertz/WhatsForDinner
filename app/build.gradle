@@ -8,14 +8,7 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        create("release"){
-            storeFile file('/home/darklord/WhatsForDinner.jks')
-            storePassword 'ramseyBros666'
-            keyAlias 'rb'
-            keyPassword 'ramseyBros666'
-        }
-    }
+
     compileSdk 32
     // Enable NDK build
     externalNativeBuild {
@@ -37,8 +30,7 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
+        release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
