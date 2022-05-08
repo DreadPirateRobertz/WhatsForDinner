@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../../layout/compose-model-1652046946028.xml" value="0.1" />
         <entry key="../../../../../layout/compose-model-1652047036055.xml" value="0.1" />
+        <entry key="../../../../../layout/compose-model-1652052052019.xml" value="0.1" />
         <entry key="../../../../layout/compose-model-1647367313030.xml" value="0.2905405405405405" />
         <entry key="../../../../layout/compose-model-1647368558543.xml" value="1.812274368231047" />
         <entry key="../../../../layout/compose-model-1647376467661.xml" value="0.2905405405405405" />
@@ -134,6 +135,7 @@
         <entry key="../../../../layout/compose-model-1651797374785.xml" value="0.26641414141414144" />
         <entry key="../../../../layout/compose-model-1651850055960.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.252" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_circle_regular_size.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_shopping_cart_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_blender_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_data_saver_on_24.xml" value="0.18" />

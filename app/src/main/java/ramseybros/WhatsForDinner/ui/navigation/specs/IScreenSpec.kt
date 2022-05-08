@@ -338,23 +338,22 @@ sealed interface IScreenSpec {
                 var textList = remember { mutableStateListOf<String>() }
                 IconButton(onClick = {
                     clicked = true
-                    clickCount++               //PlaceHolder //Where putting in ingredients to the shopping list on lRSS and SLSS
+                    clickCount++
                     if (clickCount == 1 && navBackStackEntry.destination.route == LargeRecipeScreenSpec.route) {
                         viewModel.addIngredientsToStore()
                         Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT).show()
                     } else if (clickCount > 0 && navBackStackEntry.destination.route == ShoppingListScreenSpec.route) {
                         Log.d("recipe", addText)
-                        if (textExpanded && addText != "") {
+                        textExpanded = if (textExpanded && addText != "") {
                             viewModel.setIngredientsToAdd(addText)
                             viewModel.addIngredientsToStore()
                             Toast.makeText(context, "Added to Shopping List", Toast.LENGTH_SHORT)
                                 .show()
-                            textExpanded = false
-                        } else textExpanded = true
+                            false
+                        } else true
                     }
                     if (clickCount > 1 && navBackStackEntry.destination.route != ShoppingListScreenSpec.route) {
-                        navController.navigate(ShoppingListScreenSpec.navigateTo())
-                        {
+                        navController.navigate(ShoppingListScreenSpec.navigateTo()) {
                             launchSingleTop = true
                             popUpTo(ShoppingListScreenSpec.route)
                             clickCount = 0
@@ -445,7 +444,7 @@ sealed interface IScreenSpec {
                                     trailingIcon = {
                                         IconButton(onClick = { onClick() }) {
                                             Icon(
-                                                painter = painterResource(id = R.drawable.ic_baseline_data_saver_on_24),
+                                                painter = painterResource(id = R.drawable.ic_baseline_add_circle_regular_size),
                                                 contentDescription = null,
                                                 tint = colorResource(id = R.color.teal_200)
                                             )
@@ -502,7 +501,6 @@ sealed interface IScreenSpec {
                                     }
                                 }
                             }
-
                         }
                     )
                 }
