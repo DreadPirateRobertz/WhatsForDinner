@@ -75,7 +75,7 @@ private fun RecommendedRecipeRow(
     //Clicking A recipe will take you to how to make it...
     val size = 100.dp
     val elevation =
-        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 0.dp).value
+        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 2.dp).value
     Box(modifier = Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier

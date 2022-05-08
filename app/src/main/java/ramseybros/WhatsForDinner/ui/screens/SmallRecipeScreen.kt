@@ -32,7 +32,7 @@ import ramseybros.WhatsForDinner.util.RecipeGenerator
 fun SmallRecipeView(recipe: Recipe, onClick: () -> Unit, dismissState: DismissState) {
     var size = 100.dp
     val elevation =
-        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 0.dp).value
+        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 2.dp).value
     Box(Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier

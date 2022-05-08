@@ -194,7 +194,7 @@ private fun DismissContent(
     dismissState: DismissState
 ) {
     val elevation =
-        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 0.dp).value
+        animateDpAsState(targetValue = if (dismissState.dismissDirection != null) 4.dp else 2.dp).value
     Card(
         modifier = Modifier
             .fillMaxWidth()
