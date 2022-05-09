@@ -393,6 +393,7 @@ sealed interface IScreenSpec {
                         viewModel.setIngredientsToAdd(it)
                         viewModel.addIngredientsToStore()
                     }
+                    textList.clear()
                     textExpanded = false
                     Toast.makeText(
                         context,
