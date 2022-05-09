@@ -457,7 +457,7 @@ sealed interface IScreenSpec {
                                             .focusRequester(focusRequester)
                                             .fillMaxWidth()
                                             .background(colors[0]),
-                                        label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) },
+                                        label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label), color = colorResource(R.color.teal_200)) },
                                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
                                         keyboardActions = KeyboardActions(
                                             onDone = {
