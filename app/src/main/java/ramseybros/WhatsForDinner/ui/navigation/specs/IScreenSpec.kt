@@ -461,6 +461,8 @@ sealed interface IScreenSpec {
                                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
                                         keyboardActions = KeyboardActions(
                                             onDone = {
+                                               onClick()
+                                                addText = ""
                                                 keyboardController?.hide()
                                             },
                                         ),
