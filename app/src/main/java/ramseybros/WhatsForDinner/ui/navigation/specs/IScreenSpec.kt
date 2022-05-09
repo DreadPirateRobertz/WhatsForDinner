@@ -477,7 +477,7 @@ sealed interface IScreenSpec {
                                             .focusRequester(focusRequester)
                                             .fillMaxWidth()
                                             .background(colors[0]),
-                                        label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label), color = colorResource(R.color.teal_200)) },
+                                        label = { Text(text = stringResource(id = R.string.add_items_to_Shopping_List_label), color = colorResource(R.color.teal_200)) },
                                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
                                         keyboardActions = KeyboardActions(
                                             onDone = {
@@ -521,13 +521,15 @@ sealed interface IScreenSpec {
                                 focus()
                                 LazyVerticalGrid(
                                     cells = GridCells.Fixed(2),
-                                    contentPadding = PaddingValues(7.dp),
+                                    contentPadding = PaddingValues(12.dp),
                                     modifier = Modifier.weight(0.8f)
                                 ) {
                                     items(textList.size) { index ->
-                                        Box(
+                                        Box(contentAlignment = Alignment.Center,
+                                            modifier =
                                             Modifier
                                                 .padding(4.dp)
+                                                .fillMaxWidth()
                                                 .border(
                                                     2.dp,
                                                     colors[3],
@@ -536,12 +538,11 @@ sealed interface IScreenSpec {
                                                 .clickable {
                                                     textList.remove(textList[index])
                                                 }
-                                                .height(72.dp)) {
+                                                .weight(1f)) {
                                             Text(
                                                 text = textList[index],
                                                 fontSize = 16.sp,
                                                 textAlign = TextAlign.Center,
-                                                modifier = Modifier.padding(4.dp),
                                                 color = colors[3]
                                             )
                                         }
