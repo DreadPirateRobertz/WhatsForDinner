@@ -430,9 +430,9 @@ sealed interface IScreenSpec {
 
                 var colors = listOf(
                     colorResource(id = R.color.white),
-                    colorLightPrimary,
-                    colorLightSecondary,
-                    Color.DarkGray
+                    colorDarkBackground,
+                    colorDarkPrimary,
+                    colorDarkSecondary
                 )
                 if (isSystemInDarkTheme()) colors =
                     listOf(colorDarkBackground, colorDarkPrimary, colorDarkSecondary, Color.White)
@@ -449,11 +449,11 @@ sealed interface IScreenSpec {
                                     .fillMaxWidth(0.90f)
                                     .border(
                                         2.dp,
-                                        colors[2],
+                                        colorResource(R.color.teal_200),
                                         RoundedCornerShape(8.dp)
                                     )
                                     .background(
-                                        color = colors[0],
+                                        color = Color.Black,
                                         RoundedCornerShape(8.dp)
                                     )
                                     .padding(8.dp)
@@ -476,7 +476,7 @@ sealed interface IScreenSpec {
                                         modifier = Modifier
                                             .focusRequester(focusRequester)
                                             .fillMaxWidth()
-                                            .background(colors[0]),
+                                            .background(color),
                                         label = { Text(text = stringResource(id = R.string.add_items_to_Shopping_List_label), color = colorResource(R.color.teal_200)) },
                                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
                                         keyboardActions = KeyboardActions(
@@ -506,11 +506,11 @@ sealed interface IScreenSpec {
                                             }
                                         },
                                         colors = TextFieldDefaults.textFieldColors(
-                                            focusedIndicatorColor = colors[3],
+                                            focusedIndicatorColor = Color.White,
                                             unfocusedIndicatorColor = Color.Transparent,
-                                            backgroundColor = colors[3],
+                                            backgroundColor = color,
                                             cursorColor = colorResource(id = R.color.teal_200),
-                                            textColor = colors[3]
+                                            textColor = Color.White
                                         ),
 
                                         )
@@ -543,7 +543,7 @@ sealed interface IScreenSpec {
                                                 text = textList[index],
                                                 fontSize = 16.sp,
                                                 textAlign = TextAlign.Center,
-                                                color = colors[3]
+                                                color = Color.White
                                             )
                                         }
                                     }
