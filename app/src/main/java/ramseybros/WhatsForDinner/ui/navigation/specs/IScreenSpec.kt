@@ -532,13 +532,13 @@ sealed interface IScreenSpec {
                                                 .fillMaxWidth()
                                                 .border(
                                                     2.dp,
-                                                    colors[3],
+                                                    colorResource(id = R.color.teal_200),
                                                     shape = RoundedCornerShape(5)
                                                 )
                                                 .clickable {
                                                     textList.remove(textList[index])
                                                 }
-                                                .weight(1f)) {
+                                                .weight(2f)) {
                                             Text(
                                                 text = textList[index],
                                                 fontSize = 16.sp,

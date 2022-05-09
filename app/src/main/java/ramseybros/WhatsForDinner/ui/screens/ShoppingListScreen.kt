@@ -69,8 +69,9 @@ fun ShoppingList(ingredientList: List<Ingredient>, onDelete: (Ingredient) -> Uni
                             colorResource(id = R.color.light_blue),
                             shape = RoundedCornerShape(5)
                         )
+                        .height(60.dp)
                         .clickable { onDelete(ingredientList[index]) }
-                        .height(72.dp)) {
+                        , contentAlignment = Alignment.Center) {
                     Text(
                         text = ingredientList[index].name,
                         fontSize = 16.sp,
