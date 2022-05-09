@@ -10,16 +10,26 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.mapSaver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -298,7 +308,7 @@ sealed interface IScreenSpec {
         }
     }
 
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
     @Composable
     private fun FAB_Content(
         navController: NavHostController,
@@ -331,11 +341,13 @@ sealed interface IScreenSpec {
                 )
             } else {
                 var icon = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24)
-                var clicked by remember { mutableStateOf(false) }
-                var clickCount by remember { mutableStateOf(0) }
-                var textExpanded by remember { mutableStateOf(false) }
-                var addText by remember { mutableStateOf("") }
-                var textList = remember { mutableStateListOf<String>() }
+                var clicked by rememberSaveable { mutableStateOf(false) }
+                var clickCount by rememberSaveable { mutableStateOf(0) }
+                var textExpanded by rememberSaveable { mutableStateOf(false) }
+                var addText by rememberSaveable { mutableStateOf("") }
+                var textList = rememberMutableStateListOf<String>()
+
+
                 IconButton(onClick = {
                     clicked = true
                     clickCount++
@@ -427,37 +439,64 @@ sealed interface IScreenSpec {
                                     .padding(8.dp)
                             )
                             {
-                                OutlinedTextField(
-                                    value = addText,
-                                    onValueChange = {
-                                        if (it.contains('\n')) {
-                                            onClick()
-                                            addText = ""
-                                        } else {
-                                            addText = it
-                                        }
-                                    },
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(colors[0]),
-                                    label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) },
-                                    trailingIcon = {
-                                        IconButton(onClick = { onClick() }) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.ic_baseline_add_circle_regular_size),
-                                                contentDescription = null,
-                                                tint = colorResource(id = R.color.teal_200)
-                                            )
-                                        }
-                                    },
-                                    colors = TextFieldDefaults.textFieldColors(
-                                        focusedIndicatorColor = colors[3],
-                                        unfocusedIndicatorColor = Color.Transparent,
-                                        backgroundColor = colors[3],
-                                        cursorColor = colorResource(id = R.color.teal_200),
-                                        textColor = colors[3]
-                                    ),
-                                )
+                                @Composable
+                                fun focus() {
+                                    val keyboardController = LocalSoftwareKeyboardController.current
+                                    val focusRequester = remember { FocusRequester() }
+                                    OutlinedTextField(
+                                        value = addText,
+                                        onValueChange = {
+                                            if (it.contains('\n')) {
+                                                onClick()
+                                                addText = ""
+                                            } else {
+                                                addText = it
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .focusRequester(focusRequester)
+                                            .fillMaxWidth()
+                                            .background(colors[0]),
+                                        label = { Text(text = stringResource(id = R.string.add_ingredient_to_cart_label)) },
+                                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+                                        keyboardActions = KeyboardActions(
+                                            onDone = {
+                                                keyboardController?.hide()
+                                            },
+                                        ),
+//                                        leadingIcon = {
+//                                            IconButton(onClick = { viewModel.askSpeechInput(context) }) {
+//                                                Icon(
+//                                                    painter = painterResource(id = R.drawable.ic_baseline_mic_24),
+//                                                    contentDescription = null,
+//                                                    tint = colorResource(id = R.color.teal_200)
+//                                                )
+//                                            }
+//                                        },
+                                        trailingIcon = {
+                                            IconButton(onClick = { onClick()
+                                            addText = ""}) {
+                                                Icon(
+                                                    painter = painterResource(id = R.drawable.ic_baseline_add_circle_regular_size),
+                                                    contentDescription = null,
+                                                    tint = colorResource(id = R.color.teal_200)
+                                                )
+                                            }
+                                        },
+                                        colors = TextFieldDefaults.textFieldColors(
+                                            focusedIndicatorColor = colors[3],
+                                            unfocusedIndicatorColor = Color.Transparent,
+                                            backgroundColor = colors[3],
+                                            cursorColor = colorResource(id = R.color.teal_200),
+                                            textColor = colors[3]
+                                        ),
+
+                                        )
+                                    LaunchedEffect(Unit) {
+                                        focusRequester.requestFocus()
+                                    }
+                                }
+                                focus()
                                 LazyVerticalGrid(
                                     cells = GridCells.Fixed(2),
                                     contentPadding = PaddingValues(7.dp),
@@ -508,5 +547,24 @@ sealed interface IScreenSpec {
         }
     }
 
+@Composable
+fun <T: Any> rememberMutableStateListOf(vararg elements: T): SnapshotStateList<T> {
+    return rememberSaveable(
+        saver = listSaver(
+            save = { stateList ->
+                if (stateList.isNotEmpty()) {
+                    val first = stateList.first()
+                    if (!canBeSaved(first)) {
+                        throw IllegalStateException("${first::class} cannot be saved. By default only types which can be stored in the Bundle class can be saved.")
+                    }
+                }
+                stateList.toList()
+            },
+            restore = { it.toMutableStateList() }
+        )
+    ) {
+        elements.toList().toMutableStateList()
+    }
+}
     fun navigateTo(vararg args: String?): String
 }
