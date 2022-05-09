@@ -404,7 +404,27 @@ sealed interface IScreenSpec {
 
                 fun onClick() {
                     if (addText != "") {
-                        textList.add(addText)
+                        if (addText.contains(",")) {
+                            val result = addText.split(",", ignoreCase = true).map { it.trim() }
+                            result.forEach lit@ {
+                                if(it == "" || it == " ")return@lit
+                                textList.add(it) }
+                        }
+                        else if (addText.contains(" ")) {
+                            val result = addText.split(" ", ignoreCase = true).map { it.trim() }
+                             result.forEach lit@{
+                                if(it == "" || it == " ")return@lit
+                                textList.add(it) }
+                        }
+                        else if(addText.contains(" ") && addText.contains(",")){
+                            val delim1 = ','
+                            val delim2 = ' '//Not perfect if they put a white space before comma it joins them
+                            val result = addText.split(delim1, delim2, ignoreCase = true).map { it.trim() }
+                            result.forEach lit@ {
+                                if(it == "" || it == " ")return@lit
+                                textList.add(it) }
+                        }
+                        else textList.add(addText)
                     }
                 }
 
