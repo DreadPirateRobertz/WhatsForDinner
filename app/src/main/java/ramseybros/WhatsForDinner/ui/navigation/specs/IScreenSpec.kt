@@ -403,100 +403,63 @@ sealed interface IScreenSpec {
                         .show()
                 }
 
-                fun onClick() {
-                    if (addText != "") {
-                        var result: List<String> = emptyList()
-                        if(addText.contains("\"")){
-                            result = if(addText.contains(",")){
-                                addText.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()).map { it.replace("\"", "").trim() }
-                            }else{
-                                addText.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()).map { it.replace("\"", "").trim() }
-                            }
-                        }
-                        else if (addText.contains(",")) {
-                            result = addText.split(",").map { it.trim() }
-                        }
-                        else if (addText.contains(" ")) {
-                            result = addText.split(" ").map { it.trim() }
-                        }
-                        else if(addText.contains(" ") && addText.contains(",")){
-                            val delim1 = ','
-                            val delim2 = ' '//Not perfect if they put a white space before comma it joins them
-                            result = addText.split(delim1, delim2).map { it.trim() }
-                        }
-                        if(result.isEmpty()){
-                            textList.add(addText)
-                            return
-                        }
-                        result.forEach lit@ {
-                            if(it.isBlank())return@lit
-                            textList.add(it) }
-                    }
-                }
 
-                var colors = listOf(
-                    colorResource(id = R.color.white),
-                    colorDarkBackground,
-                    colorDarkPrimary,
-                    colorDarkSecondary
-                )
-                if (isSystemInDarkTheme()) colors =
-                    listOf(colorDarkBackground, colorDarkPrimary, colorDarkSecondary, Color.White)
+
                 if (textExpanded) {
                     Popup(
                         alignment = Alignment.BottomCenter,
                         offset = IntOffset(0, 0),
                         onDismissRequest = { textExpanded = false },
-                        properties = PopupProperties(focusable = true),
-                        content = {
-                            Column(
-                                Modifier
-                                    .fillMaxHeight(0.75f)
-                                    .fillMaxWidth(0.90f)
-                                    .border(
-                                        2.dp,
-                                        colorResource(R.color.teal_200),
-                                        RoundedCornerShape(8.dp)
-                                    )
-                                    .background(
-                                        color = Color.Black,
-                                        RoundedCornerShape(8.dp)
-                                    )
-                                    .padding(8.dp)
-                            )
-                            {
-                                @Composable
-                                fun focus() {
-                                    val keyboardController = LocalSoftwareKeyboardController.current
-                                    val focusRequester = remember { FocusRequester() }
-                                    OutlinedTextField(
-                                        value = addText,
-                                        onValueChange = {
-                                            if (it.contains('\n')) {
-                                                onClick()
-                                                addText = ""
-                                            } else {
-                                                addText = it
-                                            }
+                        properties = PopupProperties(focusable = true)
+                    ) {
+                        Column(
+                            Modifier
+                                .fillMaxHeight(0.75f)
+                                .fillMaxWidth(0.90f)
+                                .border(
+                                    2.dp,
+                                    colorResource(R.color.teal_200),
+                                    RoundedCornerShape(8.dp)
+                                )
+                                .background(
+                                    color = Color.Black,
+                                    RoundedCornerShape(8.dp)
+                                )
+                                .padding(8.dp)
+                        )
+                        {
+                            @Composable
+                            fun focus() {
+                                val keyboardController = LocalSoftwareKeyboardController.current
+                                val focusRequester = remember { FocusRequester() }
+                                OutlinedTextField(
+                                    value = addText,
+                                    onValueChange = {
+                                        addText = if (it.contains('\n')) {
+                                            onClick(addText, textList)
+                                            ""
+                                        } else {
+                                            it
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .focusRequester(focusRequester)
+                                        .fillMaxWidth()
+                                        .background(color),
+                                    label = {
+                                        Text(
+                                            text = stringResource(id = R.string.add_items_to_Shopping_List_label),
+                                            color = colorResource(R.color.teal_200)
+                                        )
+                                    },
+                                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
+                                    keyboardActions = KeyboardActions(
+                                        onDone = {
+                                            onClick(addText, textList)
+                                            addText = ""
+                                            keyboardController?.hide()
                                         },
-                                        modifier = Modifier
-                                            .focusRequester(focusRequester)
-                                            .fillMaxWidth()
-                                            .background(color),
-                                        label = {
-                                            Text(
-                                                text = stringResource(id = R.string.add_items_to_Shopping_List_label),
-                                                color = colorResource(R.color.teal_200)
-                                            )
-                                        },
-                                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
-                                        keyboardActions = KeyboardActions(
-                                            onDone = {
-                                                onClick()
-                                                addText = ""
-                                                keyboardController?.hide()
-                                            },
-                                        ),
+                                    ),
 //                                        leadingIcon = {
 //                                            IconButton(onClick = { viewModel.askSpeechInput(context) }) {
 //                                                Icon(
@@ -506,80 +469,113 @@ sealed interface IScreenSpec {
 //                                                )
 //                                            }
 //                                        },
-                                        trailingIcon = {
-                                            IconButton(onClick = {
-                                                onClick()
-                                                addText = ""
-                                            }) {
-                                                Icon(
-                                                    painter = painterResource(id = R.drawable.ic_baseline_add_circle_regular_size),
-                                                    contentDescription = null,
-                                                    tint = colorResource(id = R.color.teal_200)
-                                                )
-                                            }
-                                        },
-                                        colors = TextFieldDefaults.textFieldColors(
-                                            focusedIndicatorColor = Color.White,
-                                            unfocusedIndicatorColor = Color.Transparent,
-                                            backgroundColor = color,
-                                            cursorColor = colorResource(id = R.color.teal_200),
-                                            textColor = Color.White
-                                        ),
-
-                                        )
-                                    LaunchedEffect(Unit) {
-                                        focusRequester.requestFocus()
-                                    }
-                                }
-                                focus()
-                                LazyVerticalGrid(
-                                    cells = GridCells.Fixed(2),
-                                    contentPadding = PaddingValues(12.dp),
-                                    modifier = Modifier.weight(0.8f)
-                                ) {
-                                    items(textList.size) { index ->
-                                        Box(contentAlignment = Alignment.Center,
-                                            modifier =
-                                            Modifier
-                                                .padding(4.dp)
-                                                .fillMaxWidth()
-                                                .border(
-                                                    2.dp,
-                                                    colorResource(id = R.color.teal_200),
-                                                    shape = RoundedCornerShape(5)
-                                                )
-                                                .clickable {
-                                                    textList.remove(textList[index])
-                                                }
-                                                .weight(2f)) {
-                                            Text(
-                                                text = textList[index],
-                                                fontSize = 16.sp,
-                                                textAlign = TextAlign.Center,
-                                                color = Color.White
+                                    trailingIcon = {
+                                        IconButton(onClick = {
+                                            onClick(addText, textList)
+                                            addText = ""
+                                        }) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.ic_baseline_add_circle_regular_size),
+                                                contentDescription = null,
+                                                tint = colorResource(id = R.color.teal_200)
                                             )
                                         }
-                                    }
+                                    },
+                                    colors = TextFieldDefaults.textFieldColors(
+                                        focusedIndicatorColor = Color.White,
+                                        unfocusedIndicatorColor = Color.Transparent,
+                                        backgroundColor = color,
+                                        cursorColor = colorResource(id = R.color.teal_200),
+                                        textColor = Color.White
+                                    ),
+
+                                    )
+                                LaunchedEffect(Unit) {
+                                    focusRequester.requestFocus()
                                 }
-                                Box(
-                                    modifier = Modifier
-                                        .weight(0.1f)
-                                        .fillMaxWidth()
-                                ) {
-                                    IconButton(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        onClick = { onSubmit() }) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
-                                            contentDescription = null
+                            }
+                            focus()
+                            LazyVerticalGrid(
+                                cells = GridCells.Fixed(2),
+                                contentPadding = PaddingValues(12.dp),
+                                modifier = Modifier.weight(0.8f)
+                            ) {
+                                items(textList.size) { index ->
+                                    Box(contentAlignment = Alignment.Center,
+                                        modifier =
+                                        Modifier
+                                            .padding(4.dp)
+                                            .fillMaxWidth()
+                                            .border(
+                                                2.dp,
+                                                colorResource(id = R.color.teal_200),
+                                                shape = RoundedCornerShape(5)
+                                            )
+                                            .clickable {
+                                                textList.remove(textList[index])
+                                            }
+                                            .weight(2f)) {
+                                        Text(
+                                            text = textList[index],
+                                            fontSize = 16.sp,
+                                            textAlign = TextAlign.Center,
+                                            color = Color.White
                                         )
                                     }
                                 }
                             }
+                            Box(
+                                modifier = Modifier
+                                    .weight(0.1f)
+                                    .fillMaxWidth()
+                            ) {
+                                IconButton(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onClick = { onSubmit() }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_baseline_add_shopping_cart_24),
+                                        contentDescription = null
+                                    )
+                                }
+                            }
                         }
-                    )
+                    }
                 }
             }
+        }
+    }
+
+    fun onClick(
+        addText: String,
+        textList: SnapshotStateList<String>
+    ) {
+        if (addText != "") {
+            var result: List<String> = emptyList()
+            if (addText.contains("\"")) {
+                result = if (addText.contains(",")) {
+                    addText.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex())
+                        .map { it.replace("\"", "").trim() }
+                } else {
+                    addText.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex())
+                        .map { it.replace("\"", "").trim() }
+                }
+            } else if (addText.contains(",")) {
+                result = addText.split(",").map { it.trim() }
+            } else if (addText.contains(" ")) {
+                result = addText.split(" ").map { it.trim() }
+            } else if (addText.contains(" ") && addText.contains(",")) {
+                val delim1 = ','
+                val delim2 = ' '//Not perfect if they put a white space before comma it joins them
+                result = addText.split(delim1, delim2).map { it.trim() }
+            }
+            if (result.isEmpty()) {
+                textList.add(addText)
+            }
+            result.forEach lit@{
+                if (it.isBlank()) return@lit
+                textList.add(it)
+            }
+
         }
     }
 
