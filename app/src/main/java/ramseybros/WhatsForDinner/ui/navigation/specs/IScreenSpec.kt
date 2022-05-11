@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -26,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -403,8 +401,6 @@ sealed interface IScreenSpec {
                         .show()
                 }
 
-
-
                 if (textExpanded) {
                     Popup(
                         alignment = Alignment.BottomCenter,
@@ -436,7 +432,7 @@ sealed interface IScreenSpec {
                                     value = addText,
                                     onValueChange = {
                                         addText = if (it.contains('\n')) {
-                                            onClick(addText, textList)
+                                            transform(addText, textList)
                                             ""
                                         } else {
                                             it
@@ -455,7 +451,7 @@ sealed interface IScreenSpec {
                                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
                                     keyboardActions = KeyboardActions(
                                         onDone = {
-                                            onClick(addText, textList)
+                                            transform(addText, textList)
                                             addText = ""
                                             keyboardController?.hide()
                                         },
@@ -471,7 +467,7 @@ sealed interface IScreenSpec {
 //                                        },
                                     trailingIcon = {
                                         IconButton(onClick = {
-                                            onClick(addText, textList)
+                                            transform(addText, textList)
                                             addText = ""
                                         }) {
                                             Icon(
@@ -545,7 +541,7 @@ sealed interface IScreenSpec {
         }
     }
 
-    fun onClick(
+    fun transform(
         addText: String,
         textList: SnapshotStateList<String>
     ) {
@@ -575,7 +571,6 @@ sealed interface IScreenSpec {
                 if (it.isBlank()) return@lit
                 textList.add(it)
             }
-
         }
     }
 
