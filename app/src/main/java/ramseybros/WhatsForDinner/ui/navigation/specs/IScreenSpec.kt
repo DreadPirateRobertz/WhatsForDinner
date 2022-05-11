@@ -566,6 +566,7 @@ sealed interface IScreenSpec {
             }
             if (result.isEmpty()) {
                 textList.add(addText)
+                return
             }
             result.forEach lit@{
                 if (it.isBlank()) return@lit
