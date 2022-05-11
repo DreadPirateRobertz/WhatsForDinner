@@ -54,6 +54,8 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun updateRecipe(recipe: Recipe)
     abstract fun updateRecipeNOTRecommended(recipeId: UUID)
     abstract fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?)
+    abstract fun deleteAllIngredients()
+
     abstract val test: LiveData<SnapshotStateList<Recipe>>
     abstract val test2: LiveData<SnapshotStateList<Recipe>>
 }

@@ -10,7 +10,12 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import ramseybros.WhatsForDinner.R
 import ramseybros.WhatsForDinner.data.Ingredient
 import ramseybros.WhatsForDinner.ui.theme.colorLightSecondary
+import ramseybros.WhatsForDinner.viewmodels.I_WhatsForDinnerViewModel
 
 @Composable
 fun SectionList(itemList: List<String>, header: String) {
@@ -54,9 +60,14 @@ fun SectionList(itemList: List<String>, header: String) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShoppingList(ingredientList: List<Ingredient>, onDelete: (Ingredient) -> Unit) {
-    Column {
+fun ShoppingList(
+    ingredientList: List<Ingredient>,
+    onDelete: (Ingredient) -> Unit,
+    viewModel: I_WhatsForDinnerViewModel
+) {
+    Column(Modifier.fillMaxSize()) {
         LazyVerticalGrid(
+            modifier = Modifier.weight(1f),
             cells = GridCells.Fixed(2),
             contentPadding = PaddingValues(8.dp)
         ) {
@@ -70,8 +81,8 @@ fun ShoppingList(ingredientList: List<Ingredient>, onDelete: (Ingredient) -> Uni
                             shape = RoundedCornerShape(5)
                         )
                         .height(60.dp)
-                        .clickable { onDelete(ingredientList[index]) }
-                        , contentAlignment = Alignment.Center) {
+                        .clickable { onDelete(ingredientList[index]) },
+                    contentAlignment = Alignment.Center) {
                     Text(
                         text = ingredientList[index].name,
                         fontSize = 16.sp,
@@ -81,13 +92,52 @@ fun ShoppingList(ingredientList: List<Ingredient>, onDelete: (Ingredient) -> Uni
                 }
             }
         }
+        Column(verticalArrangement = Arrangement.Bottom, modifier = Modifier.weight(.1f)) {
+            val showDialog = rememberSaveable { mutableStateOf(false) }
+            IconButton(onClick = { showDialog.value = true }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_delete_sweep_24),
+                    contentDescription = null,
+                    tint = colorResource(id = R.color.teal_200)
+                )
+            }
+            if (showDialog.value) {
+                AlertDialog(
+                    onDismissRequest = { showDialog.value = false },
+                    title = { Text("Delete Shopping List") },//TODO: MAKE into string resources
+                    text = { Text("Press Check to Delete All") },
+                    confirmButton = {
+                        IconButton(
+                            onClick = {
+                                viewModel.deleteAllIngredients()
+                                showDialog.value = false
+                            }) {
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = null,
+                                tint = Color.Green
+                            )
+                        }
+                    },
+                    dismissButton = {
+                        IconButton(onClick = { showDialog.value = false }) {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = null,
+                                tint = Color.Red
+                            )
+                        }
+                    },
+                )
+            }
+        }
     }
 }
 
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun PreviewShoppingList() {
-    var ingredientList: List<Ingredient> = listOf()
-    ShoppingList(ingredientList = ingredientList, {})
-}
+//@Preview(showSystemUi = true, showBackground = true)
+//@Composable
+//fun PreviewShoppingList() {
+//    var ingredientList: List<Ingredient> = listOf()
+//    ShoppingList(ingredientList = ingredientList, {})
+//}

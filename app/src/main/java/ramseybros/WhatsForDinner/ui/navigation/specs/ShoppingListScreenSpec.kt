@@ -30,9 +30,11 @@ object ShoppingListScreenSpec : IScreenSpec {
             ingredientList.forEach {
                 Log.d("recipe", it.name)
             }
-            ShoppingList(ingredientList = ingredientList) {
-                viewModel.deleteIngredient(it)
-            }
+            ShoppingList(
+                ingredientList = ingredientList,
+                viewModel = viewModel,
+                onDelete = { viewModel.deleteIngredient(it) }
+            )
         }
     }
 

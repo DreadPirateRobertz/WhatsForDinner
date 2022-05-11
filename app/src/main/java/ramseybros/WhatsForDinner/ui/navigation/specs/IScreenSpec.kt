@@ -345,7 +345,7 @@ sealed interface IScreenSpec {
                 var clickCount by rememberSaveable { mutableStateOf(0) }
                 var textExpanded by rememberSaveable { mutableStateOf(false) }
                 var addText by rememberSaveable { mutableStateOf("") }
-                var textList = rememberMutableStateListOf<String>()
+                val textList = rememberMutableStateListOf<String>()
 
 
                 IconButton(onClick = {
@@ -405,27 +405,32 @@ sealed interface IScreenSpec {
 
                 fun onClick() {
                     if (addText != "") {
-                        if (addText.contains(",")) {
-                            val result = addText.split(",", ignoreCase = true).map { it.trim() }
-                            result.forEach lit@ {
-                                if(it == "" || it == " ")return@lit
-                                textList.add(it) }
+                        var result: List<String> = emptyList()
+                        if(addText.contains("\"")){
+                            result = if(addText.contains(",")){
+                                addText.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()).map { it.replace("\"", "").trim() }
+                            }else{
+                                addText.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()).map { it.replace("\"", "").trim() }
+                            }
+                        }
+                        else if (addText.contains(",")) {
+                            result = addText.split(",").map { it.trim() }
                         }
                         else if (addText.contains(" ")) {
-                            val result = addText.split(" ", ignoreCase = true).map { it.trim() }
-                             result.forEach lit@{
-                                if(it == "" || it == " ")return@lit
-                                textList.add(it) }
+                            result = addText.split(" ").map { it.trim() }
                         }
                         else if(addText.contains(" ") && addText.contains(",")){
                             val delim1 = ','
                             val delim2 = ' '//Not perfect if they put a white space before comma it joins them
-                            val result = addText.split(delim1, delim2, ignoreCase = true).map { it.trim() }
-                            result.forEach lit@ {
-                                if(it == "" || it == " ")return@lit
-                                textList.add(it) }
+                            result = addText.split(delim1, delim2).map { it.trim() }
                         }
-                        else textList.add(addText)
+                        if(result.isEmpty()){
+                            textList.add(addText)
+                            return
+                        }
+                        result.forEach lit@ {
+                            if(it.isBlank())return@lit
+                            textList.add(it) }
                     }
                 }
 
@@ -478,11 +483,16 @@ sealed interface IScreenSpec {
                                             .focusRequester(focusRequester)
                                             .fillMaxWidth()
                                             .background(color),
-                                        label = { Text(text = stringResource(id = R.string.add_items_to_Shopping_List_label), color = colorResource(R.color.teal_200)) },
+                                        label = {
+                                            Text(
+                                                text = stringResource(id = R.string.add_items_to_Shopping_List_label),
+                                                color = colorResource(R.color.teal_200)
+                                            )
+                                        },
                                         keyboardOptions = KeyboardOptions.Default.copy(imeAction = androidx.compose.ui.text.input.ImeAction.Done),
                                         keyboardActions = KeyboardActions(
                                             onDone = {
-                                               onClick()
+                                                onClick()
                                                 addText = ""
                                                 keyboardController?.hide()
                                             },
@@ -497,8 +507,10 @@ sealed interface IScreenSpec {
 //                                            }
 //                                        },
                                         trailingIcon = {
-                                            IconButton(onClick = { onClick()
-                                            addText = ""}) {
+                                            IconButton(onClick = {
+                                                onClick()
+                                                addText = ""
+                                            }) {
                                                 Icon(
                                                     painter = painterResource(id = R.drawable.ic_baseline_add_circle_regular_size),
                                                     contentDescription = null,
@@ -571,24 +583,25 @@ sealed interface IScreenSpec {
         }
     }
 
-@Composable
-fun <T: Any> rememberMutableStateListOf(vararg elements: T): SnapshotStateList<T> {
-    return rememberSaveable(
-        saver = listSaver(
-            save = { stateList ->
-                if (stateList.isNotEmpty()) {
-                    val first = stateList.first()
-                    if (!canBeSaved(first)) {
-                        throw IllegalStateException("${first::class} cannot be saved. By default only types which can be stored in the Bundle class can be saved.")
+    @Composable
+    fun <T : Any> rememberMutableStateListOf(vararg elements: T): SnapshotStateList<T> {
+        return rememberSaveable(
+            saver = listSaver(
+                save = { stateList ->
+                    if (stateList.isNotEmpty()) {
+                        val first = stateList.first()
+                        if (!canBeSaved(first)) {
+                            throw IllegalStateException("${first::class} cannot be saved. By default only types which can be stored in the Bundle class can be saved.")
+                        }
                     }
-                }
-                stateList.toList()
-            },
-            restore = { it.toMutableStateList() }
-        )
-    ) {
-        elements.toList().toMutableStateList()
+                    stateList.toList()
+                },
+                restore = { it.toMutableStateList() }
+            )
+        ) {
+            elements.toList().toMutableStateList()
+        }
     }
-}
+
     fun navigateTo(vararg args: String?): String
 }

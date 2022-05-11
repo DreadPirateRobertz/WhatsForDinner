@@ -163,6 +163,9 @@ class WhatsForDinnerViewModel(
         whatsForDinnerRepository.deleteIngredient(ingredient)
     }
 
+    override fun deleteAllIngredients(){
+        whatsForDinnerRepository.deleteAllIngredients()
+    }
     override fun requestWebRecipes() {
         TODO("Not yet implemented")
     }
