@@ -62,8 +62,8 @@ object RecipeSearchScreenSpec : IScreenSpec {
 //            }
 //        }
 
-        val recommendedRecipesList = viewModel.recommendedRecipeListLiveData.observeAsState().value
-        viewModel.buildRecommendedRecipeList(recommendedRecipesList = recommendedRecipesList)
+        val recommendedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState().value
+        viewModel.BuildRecommendedRecipesList(recommendedRecipesList = recommendedRecipesList)
         RecipeSearchScreen(
             viewModel = viewModel,
             apiRecipeList = viewModel.getApiRecipeList(),

@@ -26,8 +26,8 @@ object HomeScreenSpec : IScreenSpec {
         backStackEntry: NavBackStackEntry
     ) {
 
-        val savedRecipesList = viewModel.test.observeAsState(mutableStateListOf())
-        val recommendedRecipesList = viewModel.test2.observeAsState(mutableStateListOf())
+        val savedRecipesList = viewModel.savedRecipesListLiveData.observeAsState(mutableStateListOf())
+        val recommendedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState(mutableStateListOf())
 
 
 

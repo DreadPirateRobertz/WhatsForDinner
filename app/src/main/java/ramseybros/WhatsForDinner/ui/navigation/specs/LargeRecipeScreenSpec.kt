@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -52,13 +51,13 @@ object LargeRecipeScreenSpec : IScreenSpec {
         Log.d("ramseybros", ID)
 
 
-        val savedRecipesList = viewModel.savedRecipeListLiveData.observeAsState().value
+        val savedRecipesList = viewModel.savedRecipesListLiveData.observeAsState().value
         val testSavedRecipesList =
-            viewModel.test.observeAsState().value  //Using the SnapShotState Saved Recipes list
+            viewModel.savedRecipesListLiveData.observeAsState().value  //Using the SnapShotState Saved Recipes list
         //Swiping from API List was causing it not to fill the traditional
         //Saved Recipes List
 
-        val testRecommendedRecipesList = viewModel.test2.observeAsState().value
+        val testRecommendedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState().value
 
         if (fromSearch == true) recipe = viewModel.getApiRecipeLiveData().value!!
         else {

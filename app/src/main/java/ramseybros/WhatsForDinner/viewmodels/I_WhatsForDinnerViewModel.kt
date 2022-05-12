@@ -14,14 +14,11 @@ import ramseybros.WhatsForDinner.data.*
 import java.util.*
 
 abstract class I_WhatsForDinnerViewModel : ViewModel() {
-    abstract val savedRecipeListLiveData: LiveData<MutableList<Recipe>>
-    abstract val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>>
     abstract val recipeLiveData: LiveData<Recipe?>
     abstract val ingredientListLiveData: LiveData<List<Ingredient>>
     abstract val ingredientLiveData: LiveData<Ingredient?>
     abstract val outputWorkerInfo: LiveData<WorkInfo>
     abstract val RecipeSearchModelState: Flow<RecipeSearchModelState>
-    abstract var onHomeFlag: Boolean
     abstract fun getRecipeIngredientList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipeUtensilList(recipeId: UUID): LiveData<List<String>>
     abstract fun getRecipe(recipeId: UUID): LiveData<Recipe>?
@@ -52,10 +49,9 @@ abstract class I_WhatsForDinnerViewModel : ViewModel() {
     abstract fun onClearText()
     abstract fun askSpeechInput(context: Context)
     abstract fun updateRecipe(recipe: Recipe)
-    abstract fun updateRecipeNOTRecommended(recipeId: UUID)
-    abstract fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?)
+    @Composable
+    abstract fun BuildRecommendedRecipesList(recommendedRecipesList: SnapshotStateList<Recipe>?)
     abstract fun deleteAllIngredients()
-
-    abstract val test: LiveData<SnapshotStateList<Recipe>>
-    abstract val test2: LiveData<SnapshotStateList<Recipe>>
+    abstract val savedRecipesListLiveData: LiveData<SnapshotStateList<Recipe>>
+    abstract val recommendedRecipesListLiveData: LiveData<SnapshotStateList<Recipe>>
 }

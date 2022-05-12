@@ -26,7 +26,7 @@ object RecommendedRecipesScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val recommndedRecipesList = viewModel.test2.observeAsState(
+        val recommndedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState(
             mutableStateListOf()
         )
         RecommendedRecipesScreen(

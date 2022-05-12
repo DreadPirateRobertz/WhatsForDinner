@@ -105,7 +105,7 @@ fun ShoppingList(
                 AlertDialog(
                     onDismissRequest = { showDialog.value = false },
                     title = { Text("Delete Shopping List") },//TODO: MAKE into string resources
-                    text = { Text("Press Check to Delete All") },
+                    text = { Text("Press Check to Delete ALL") },
                     confirmButton = {
                         IconButton(
                             onClick = {

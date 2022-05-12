@@ -10,6 +10,7 @@ import android.speech.SpeechRecognizer
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
@@ -43,7 +44,6 @@ class WhatsForDinnerViewModel(
     override val outputWorkerInfo: LiveData<WorkInfo> =
         workManager.getWorkInfoByIdLiveData(workRequest.id)
 
-    override var onHomeFlag: Boolean = true
 
     private val LOG_TAG = "ramseybros.RecipeSearchScreenSpec"
     private val _apiRecipeListLiveData = mutableStateListOf<Recipe>()
@@ -60,24 +60,19 @@ class WhatsForDinnerViewModel(
     private val _ingredientListToAdd = MutableLiveData<String>()
 
 
-    override val test: LiveData<SnapshotStateList<Recipe>> =
-        Transformations.switchMap(whatsForDinnerRepository.getTestSaved())
+    override val savedRecipesListLiveData: LiveData<SnapshotStateList<Recipe>> =
+        Transformations.switchMap(whatsForDinnerRepository.getSavedRecipes())
         {
             MutableLiveData(it.toMutableStateList())
         }
 
 
-    override val test2: LiveData<SnapshotStateList<Recipe>> =
-        Transformations.switchMap(whatsForDinnerRepository.getTestRec())
+    override val recommendedRecipesListLiveData: LiveData<SnapshotStateList<Recipe>> =
+        Transformations.switchMap(whatsForDinnerRepository.getRecommendedRecipes())
         {
             MutableLiveData(it.toMutableStateList())
         }
 
-
-    override val savedRecipeListLiveData = whatsForDinnerRepository.getSavedRecipes()
-
-    override val recommendedRecipeListLiveData: LiveData<MutableList<Recipe>> =
-        whatsForDinnerRepository.getRecommendedRecipes()
 
     override val ingredientListLiveData = whatsForDinnerRepository.getIngredients()
 
@@ -129,7 +124,7 @@ class WhatsForDinnerViewModel(
 
     override fun addIngredientsToStore() {
         if (_ingredientListToAdd.value != null) {
-            var addList =
+            val addList =
                 if (_ingredientListToAdd.value!![0] == ',')
                     _ingredientListToAdd.value!!.substring(1)
                 else
@@ -178,10 +173,6 @@ class WhatsForDinnerViewModel(
 
     override fun updateRecipe(recipe: Recipe) {
         whatsForDinnerRepository.updateRecipe(recipe)
-    }
-
-    override fun updateRecipeNOTRecommended(recipeId: UUID) {
-        whatsForDinnerRepository.updateRecipeNOTRecommended(recipeId)
     }
 
     override fun makeApiListRequest(string: String): String {
@@ -359,10 +350,10 @@ class WhatsForDinnerViewModel(
             ActivityCompat.startActivityForResult(context as Activity, intent, 102, null)
         }
     }
-
-    override fun buildRecommendedRecipeList(recommendedRecipesList: MutableList<Recipe>?) {
+    @Composable
+    override fun BuildRecommendedRecipesList(recommendedRecipesList: SnapshotStateList<Recipe>?) {
         val apiRecipeList = getApiRecipeList()
-        val savedRecipeList = savedRecipeListLiveData.value
+        val savedRecipeList= savedRecipesListLiveData.observeAsState().value
         var fill = 30 - (recommendedRecipesList?.size ?: 0)
         apiRecipeList.forEach {
             Log.d("apirecipe", "name $fill = ${it.title}")
@@ -377,8 +368,10 @@ class WhatsForDinnerViewModel(
                     val recipe = it
                     recipe.recommended = true
                     addRecipe(recipe, emptyList(), emptyList())
-                    val remove = recommendedRecipesList!![0]
-                    deleteRecipe(remove)
+                    val remove = recommendedRecipesList?.get(0)
+                    if (remove != null) {
+                        deleteRecipe(remove)
+                    }
                 }
             }
         }

@@ -247,8 +247,6 @@ sealed interface IScreenSpec {
                                 selectedContentColor = color,
                                 unselectedContentColor = color.copy(.6f),
                                 onClick = {
-                                    if (navItem.route == HomeScreenSpec.route) viewModel.onHomeFlag =
-                                        true
                                     navController.navigate(navItem.route) {
                                         popUpTo(navItem.route) {
                                             //savestate = true was disabling buttons
@@ -260,8 +258,6 @@ sealed interface IScreenSpec {
                                     }
                                 },
                                 icon = {
-
-
                                     Icon(
                                         painter = painterResource(id = navItem.icon),
                                         contentDescription = stringResource(id = navItem.title)
