@@ -26,11 +26,11 @@ object RecommendedRecipesScreenSpec : IScreenSpec {
         navController: NavHostController,
         backStackEntry: NavBackStackEntry
     ) {
-        val recommndedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState(
+        val recommendedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState(
             mutableStateListOf()
         )
         RecommendedRecipesScreen(
-            recommendedRecipesList = recommndedRecipesList,
+            recommendedRecipesList = recommendedRecipesList,
             onSelectRecipe = { recipe ->
                 viewModel.setRecipeIdLiveData(recipe.id)
                 navController.navigate(LargeRecipeScreenSpec.navigateTo(recipe.id.toString()))

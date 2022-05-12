@@ -51,22 +51,21 @@ object LargeRecipeScreenSpec : IScreenSpec {
         Log.d("ramseybros", ID)
 
 
-        val savedRecipesList = viewModel.savedRecipesListLiveData.observeAsState().value
-        val testSavedRecipesList =
+        val savedRecipesList =
             viewModel.savedRecipesListLiveData.observeAsState().value  //Using the SnapShotState Saved Recipes list
         //Swiping from API List was causing it not to fill the traditional
         //Saved Recipes List
 
-        val testRecommendedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState().value
+        val recommendedRecipesList = viewModel.recommendedRecipesListLiveData.observeAsState().value
 
         if (fromSearch == true) recipe = viewModel.getApiRecipeLiveData().value!!
         else {
-            testSavedRecipesList?.forEach {
+            savedRecipesList?.forEach {
                 if (ID == it.id.toString()) {
                     recipe = it
                 }
             }
-            testRecommendedRecipesList?.forEach {
+            recommendedRecipesList?.forEach {
                 if (ID == it.id.toString()) {
                     recipe = it
                 }
@@ -76,7 +75,7 @@ object LargeRecipeScreenSpec : IScreenSpec {
 
         var saveButtonFlag = true
 
-        testSavedRecipesList?.forEach {
+        savedRecipesList?.forEach {
             if (recipe.title == it.title &&
                 recipe.time == it.time &&
                 recipe.imageLink == it.imageLink
