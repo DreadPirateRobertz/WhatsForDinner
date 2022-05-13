@@ -52,7 +52,7 @@ fun SplashScreen(navController: NavController) {
                 },
             )
         )
-        delay(2500L)
+        delay(750L)
         navController.popBackStack()
         navController.navigate(HomeScreenSpec.navigateTo())
     }
